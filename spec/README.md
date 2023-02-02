@@ -1,20 +1,21 @@
-# OfficialApplicationName Specification
+# MediatorManager Specification
 
 ### ServiceList
-- [OfficialApplicationName+services](./OfficialApplicationName+services.yaml)
+- [MediatorManager+services](./MediatorManager+services.yaml)
 
 ### ProfileList and ProfileInstanceList
-- [OfficialApplicationName+profiles](./OfficialApplicationName+profiles.yaml)
-- [OfficialApplicationName+profileInstances](./OfficialApplicationName+profileInstances.yaml)
+- [MediatorManager+profiles](./MediatorManager+profiles.yaml)
+- [MediatorManager+profileInstances](./MediatorManager+profileInstances.yaml)
 
 ### ForwardingList
-- [OfficialApplicationName+forwardings](./OfficialApplicationName+forwardings.yaml)
+- [MediatorManager+forwardings](./MediatorManager+forwardings.yaml)
 
 ### Open API specification (Swagger)
-- [OfficialApplicationName](./OfficialApplicationName.yaml)
+- [MediatorManager](./MediatorManager.yaml)
 
 ### CONFIGfile (JSON)
-- [OfficialApplicationName+config](./OfficialApplicationName+config.json)
+- [MediatorManager+config](./MediatorManager+config.json)
 
 ### Comments
 ./.
+
