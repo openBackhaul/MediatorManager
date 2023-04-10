@@ -43,22 +43,21 @@ servers:
           uuid: xx-1-0-0-op-s-bs-004
         - operation-name: /docs
           uuid: xx-1-0-0-op-s-bs-005
-      individual:
-        ## TODO: Add Services specific to this application
+      individual: /v1/create-service-list
   http-server:
-    own-application-name: ## TODO: Add OwnApplicationName
-    own-release-number: ## TODO: Add OwnReleaseNumber (e.g. 1.0.0)
+    own-application-name: MediatorManager
+    own-release-number: 1.0.0
     uuid: xx-1-0-0-http-s-000
   tcp-server:
     - description: Without TLS layer
       local-protocol: http
-      own-ip-address: ## TODO: Add OwnIpAddress
-      own-tcp-port: ## TODO: Add OwnTcpPort
+      own-ip-address: 1.1.4.6
+      own-tcp-port: 4007
       uuid: xx-1-0-0-tcp-s-000
     - description: With TLS layer
       local-protocol: https
-      own-ip-address: ## TODO: Add OwnIpAddress
-      own-tcp-port: ## TODO: Add OwnTcpPort
+      own-ip-address: 1.2.4.7
+      own-tcp-port: 4207
       uuid: xx-1-0-0-tcp-s-001
 
 
@@ -75,16 +74,16 @@ clients:
       uuid: xx-1-0-0-tcp-c-es-1-0-0-000
     elasticsearch-client:
       uuid: xx-1-0-0-es-c-es-1-0-0-000
-      index-alias: ## TODO: Add IndexAlias
+      index-alias: xx-1-0-0-es-c-es-1-0-0-000
 
   - http-client:
       application-name: OldRelease
-      release-number: ## TODO: Add Number of Release to be substituted (e.g. 1.0.0)
+      release-number: 1.0.0
       uuid: xx-1-0-0-http-c-or-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: ## TODO: Add IpAddress of Release to be substituted
-      tcp-port: ## TODO: Add TcpPort of Release to be substituted
+      ip-address: 1.1.4.7
+      tcp-port: 4007
       uuid: xx-1-0-0-tcp-c-or-1-0-0-000
     operation-clients:
       own-oam:
@@ -98,18 +97,17 @@ clients:
 
   - http-client:
       application-name: NewRelease
-      release-number: ## TODO: Add Number of substituting Release (e.g. 1.0.1)
+      release-number: 1.0.1
       uuid: xx-1-0-0-http-c-nr-1-0-0-000
     tcp-client:
       remote-protocol: http
-      ip-address: ## TODO: Add IpAddress of substituting Release
-      tcp-port: ## TODO: Add TcpPort of substituting Release
+      ip-address: 1.1.4.7
+      tcp-port: 4007
       uuid: xx-1-0-0-tcp-c-nr-1-0-0-000
     operation-clients:
       own-oam:
         basic:
-        individual:
-          ## TODO: Add Services required for handing-over configuration or data during update
+        individual: MediatorManager
       service:
         basic:
         individual:
@@ -138,9 +136,7 @@ clients:
       service:
         basic:
           ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
-
+        individual: /v1/create-service-list
   - http-client:
       application-name: TypeApprovalRegister
       release-number: 2.0.1
@@ -156,9 +152,13 @@ clients:
         individual:
       service:
         basic:
-          ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+          - operation-name: /v1/embed-yourself
+            uuid: xx-1-0-0-op-c-bm-or-1-0-0-000  
+          - operation-name: /v1/update-client
+            uuid: xx-1-0-0-op-c-bm-or-1-0-0-000   
+          - operation-name: /v1/update-operation-client
+            uuid: xx-1-0-0-op-c-bm-or-1-0-0-000    
+        individual: /v1/create-service-list
 
   - http-client:
       application-name: ExecutionAndTraceLog
@@ -178,8 +178,7 @@ clients:
       service:
         basic:
           ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+        individual: /v1/create-service-list
 
   - http-client:
       application-name: OamLog
@@ -199,8 +198,8 @@ clients:
       service:
         basic:
           ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+        individual: /v1/create-service-list
+
 
   - http-client:
       application-name: AdministratorAdministration
@@ -219,9 +218,13 @@ clients:
         individual:
       service:
         basic:
-          ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+          - operation-name: /v1/inquire-oam-request-approvals
+            uuid: xx-1-0-0-op-c-bs-aa-2-0-1-000
+ 
+ 
+
+        individual: /v1/create-service-list
+
 
   - http-client:
       application-name: ApplicationLayerTopology
@@ -251,8 +254,8 @@ clients:
       service:
         basic:
           ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+        individual: /v1/create-service-list
+
 
   - http-client:
       application-name: OperationKeyManagement
@@ -270,8 +273,8 @@ clients:
       service:
         basic:
           ## TODO: Add Clients specific to this application, but addressing all other applications
-        individual:
-          ## TODO: Add Clients specific to this application
+        individual: /v1/create-service-list
+
 
   - http-client:
       application-name: ## TODO: Add Name of application to be addressed
