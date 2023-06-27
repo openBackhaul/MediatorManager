@@ -59,7 +59,7 @@ servers:
           uuid: mm-1-0-0-op-s-is-006
         - operation-name: /v1/export-mediator-vm-list
           uuid: mm-1-0-0-op-s-is-007
-        
+  
   http-server:
     own-application-name: MediatorManager
     own-release-number: 1.0.0
@@ -99,7 +99,7 @@ clients:
     tcp-client:
       remote-protocol: http
       ip-address:
-      tcp-port: 
+      tcp-port:
       uuid: mm-1-0-0-tcp-c-or-1-0-0-000
     operation-clients:
       own-oam:
@@ -275,7 +275,7 @@ clients:
         basic:
         individual:
 
-  
+
   - http-client:
       application-name: xMediatorInstanceManager #ask Thorsten they are indv
       release-number: 1.0.0
@@ -294,5 +294,3 @@ clients:
         individual:
            #wedont know yet
       #for https we dont know yet
-
-
