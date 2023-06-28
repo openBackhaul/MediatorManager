@@ -272,7 +272,7 @@ clients:
 
 
   - http-client:
-      application-name: xMediatorInstanceManager 
+      application-name: xMediatorInstanceManager
       release-number: 1.0.0
       uuid: mm-1-0-0-http-c-xmim-1-0-0-000
     tcp-client:
@@ -288,7 +288,7 @@ clients:
         basic:
         individual:
 
- - http-client:
+  - http-client:
       application-name: EricssonMediatorInstanceManager
       release-number: 1.0.0
       uuid: mm-1-0-0-http-c-emim-1-0-0-000
