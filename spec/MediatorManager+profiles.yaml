@@ -53,6 +53,3 @@ profiles:
       pattern: string
     configuration:
       string-value: string
-
-
-## TODO: Add further Profile definitions, if required
