@@ -1,7 +1,7 @@
 profile-instances:
 
   - profile-name: 'ActionProfile'
-    uuid: 'mm-1-0-0-action-p-000' 
+    uuid: 'mm-1-0-0-action-p-000'
     capability:
       operation-name: '/v1/start-application-in-generic-representation'
       label: 'Inform about Application'
@@ -10,7 +10,7 @@ profile-instances:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mm-1-0-0-action-p-001' 
+    uuid: 'mm-1-0-0-action-p-001'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'Release History'
@@ -19,7 +19,7 @@ profile-instances:
       consequent-operation-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-op-s-bs-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-capability/operation-name'
 
   - profile-name: 'ActionProfile'
-    uuid: 'mm-1-0-0-action-p-002' 
+    uuid: 'mm-1-0-0-action-p-002'
     capability:
       operation-name: '/v1/inform-about-application-in-generic-representation'
       label: 'API Documentation'
@@ -106,6 +106,3 @@ profile-instances:
       datatype: string
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=*-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
-
-
-
