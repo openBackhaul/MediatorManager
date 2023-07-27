@@ -55,8 +55,8 @@ servers:
         #delete pairing definition for old devices to be removed (output--> responsecode )
         - operation-name: /v1/delete-pairing-definition
           uuid: mm-1-0-0-op-s-is-003
-        #export pairing definition list (output--> list )
-        - operation-name: /v1/export-pairing-definition-list
+        #export pairing definition
+        - operation-name: /v1/export-pairing-definition
           uuid: mm-1-0-0-op-s-is-004
         #provide mediator name and ip for the device (output--> netconfaddres,mediatorname )
         - operation-name: /v1/provide-mediator-for-this-device
@@ -64,9 +64,12 @@ servers:
         #remove mediator for the device (output -->responsecode)
         - operation-name: /v1/dismantle-mediator-for-this-device
           uuid: mm-1-0-0-op-s-is-006
-        #export mediator virtualname list (output--> list )
-        - operation-name: /v1/export-mediator-vm-list
+        #export mediator kind list (output--> list )
+        - operation-name: /v1/export-mediator-kind-list
           uuid: mm-1-0-0-op-s-is-007
+        #export mediator device instance list (output--> list )
+        - operation-name: /v1/export-mediator-device-instance-list
+          uuid: mm-1-0-0-op-s-is-008
 
   http-server:
     own-application-name: MediatorManager
