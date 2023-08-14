@@ -23,4 +23,3 @@ profiles:
     configuration:
       static-value: string
       value-reference: string
- 
