@@ -393,7 +393,7 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name:
-          uuid: 
+          uuid:
       fc-port-update:
         - server-name:
       fc-port-deletion:
@@ -402,8 +402,8 @@ forwardings:
       - server-name: MountingOrchestrator:///v1/mount-device
         uuid: mm-1-0-0-0-op-s-is-mo-1-0-0-001
     consequent-requests:
-      - client-name: 
-        uuid: 
+      - client-name:
+        uuid:
 
   - forwarding-name: DismantleMediatorForThisDeviceRequestedByUnmountDevice
     uuid: mm-1-0-0-op-fc-is-002
@@ -411,7 +411,7 @@ forwardings:
     management-requests:
       operation-client-update:
         - server-name:
-          uuid: 
+          uuid:
       fc-port-update:
         - server-name:
       fc-port-deletion:
@@ -420,5 +420,5 @@ forwardings:
       - server-name: MountingOrchestrator:///v1/unmount-device
         uuid: mm-1-0-0-0-op-s-is-mo-1-0-0-002
     consequent-requests:
-      - client-name: 
-        uuid: 
+      - client-name:
+        uuid:
