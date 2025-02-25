@@ -164,8 +164,182 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+        PromptForBequeathingRegardsMediatorInstanceManagerToNewRelease:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-nr-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-nr-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - application-name
+                        - release-number
+                        - provide-mediator-instance-operation
+                        - dismantle-mediator-instance-operation
+                        - list-mediator-instance-operation
+                        - protocol
+                        - address
+                        - port
+                        - vendor-name
+                        - supported-device-kind-list
+                        - engineering-limit
+                      properties:
+                        application-name:
+                          type: string
+                          description: >
+                            'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name] and also included to APPData'
+                        release-number:
+                          type: string
+                          pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                          description: >
+                            'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        provide-mediator-instance-operation:
+                          type: string
+                          minLength: 6
+                          description: >
+                            'Operation to create a new mediator instance
+                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        dismantle-mediator-instance-operation:
+                          type: string
+                          minLength: 6
+                          description: >
+                            'Operation to dismantle an existing mediator instance
+                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        list-mediator-instance-operation:
+                          type: string
+                          minLength: 6
+                          description: >
+                            'operation to list the existing mediator instances
+                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        vendor-name:
+                          description: 'Vendor name of the Mediator instance Manager that shall be should to the APPdata'
+                          type: string
+                          enum:
+                            - 'Ericsson'
+                            - 'SIAE'
+                            - 'Huawei'
+                        supported-device-kind-list:
+                          description: 'Supported device kind of the Mediator instance Manager that should be included to the APPdata'
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                              - 'MLTN'
+                              - 'ML6600'
+                              - 'ML6352'
+                              - 'AGS20'
+                              - 'AGS20L'
+                              - 'ALCP2E'
+                              - 'ALFO'
+                              - 'RTN-950'
+                              - 'RTN-905'
+                              - 'RTN-380A'     
+                        engineering-limit:  
+                          description: 'Number of instances supported by the Mediator instance Manager that should be included to the APPdata'
+                          type: integer          
+                        protocol:
+                          type: string
+                          enum:
+                            - 'HTTP'
+                            - 'HTTPS'
+                          description: >
+                            'Protocol to be used for addressing the MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                        address:
+                          type: object
+                          minProperties: 1
+                          maxProperties: 1
+                          additionalProperties: false
+                          properties:
+                            ip-address:
+                              type: object
+                              minProperties: 1
+                              additionalProperties: false
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                                  description: >
+                                    'IPv4 address of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            domain-name:
+                              type: string
+                              pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                              description: >
+                                'Domain name of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        port:
+                          type: integer
+                          minimum: 0
+                          maximum: 65535
+                          description: >
+                            'Port of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                      example:
+                        application-name: 'EricssonMediatorManager'
+                        release-number: '1.0.1'
+                        provide-mediator-operation: '/v1/provide-mediator-instance'
+                        dismantle-mediator-operation: '/v1/dismantle-mediator-instance'
+                        list-mediator-operation: '/v1/list-mediator-instances'
+                        vendor-name: 'Ericsson'
+                        supported-device-kind-list: ['MLTN','ML6600']
+                        protocol: 'HTTP'
+                        address:
+                          ip-address:
+                            ipv-4-address: '1.1.3.1'
+                        port: 3001
+                        engineering-limits: 3000
+                responses:
+                '204':
+                  description: 'Mediator Instance Manager Information stored'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                        'Life cycle state of the consumed service
+                        from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  PromptForBequeathingDataCausesRequestForBroadcastingInfoAboutServerReplacement:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -278,7 +452,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForBequeathingDataCausesRequestForDeregisteringOfOldRelease:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -350,7 +524,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptingNewReleaseForUpdatingServerCausesRequestForBroadcastingInfoAboutBackwardCompatibleUpdateOfOperation:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'This callback belongs to the sequence of actions that have to be done during the bequeath-your-data-and-die process, despite the forwarding gets neither managed nor directly initiated by the /v1/bequeath-your-data-and-die request.
               After consuming applications have been redirected to the new release, the new release is triggered (this callback) to request the RegistryOffice for broadcasting information about backward compatible replacements of services.'
@@ -437,365 +611,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
-  /v1/create-mediator-vm-template:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: regardMediatorVmTemplate
-      summary: 'Offers creating and updating mediator vm templates'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mediator-vm-template-name
-                - vendor-name
-                - supported-device-kind-list
-                - engineering-limit
-                - provide-mediator-instance-operation-name
-                - dismantle-mediator-instance-operation-name
-                - list-mediator-instance-operation-name
-              properties:
-                mediator-vm-template-name:
-                  type: string
-                  minLength: 6
-                  description: >
-                    'Name of a mediator vm template that shall be created in the APPData.This attribute has the function of a key attribute.'
-                supported-device-kind-list:
-                  description: 'Supported device kinds of the Mediator vm that shall be added to the {$mediator-vm-template-name} in APPdata'
-                  type: array
-                  items:
-                    type: string 
-                engineering-limit:  
-                  description: 'Number of instances supported by the Mediator vm that shall be added to the {$mediator-vm-template-name} in APPdata'
-                  type: integer
-                  # Forwarding shall be introduced to delete instances (random mountpoints shall be considered)
-                provide-mediator-instance-operation:
-                  type: string
-                  minLength: 6
-                  description: >
-                    'Operation to create a new mediator instance that shall be added to the {$mediator-vm-template-name} in APPdata'
-                dismantle-mediator-instance-operation:
-                  type: string
-                  minLength: 6
-                  description: >
-                    'Operation to dismantle an existing mediator instance that shall be added to the {$mediator-vm-template-name} in APPdata'
-                list-mediator-instance-operation:
-                  type: string
-                  minLength: 6
-                  description: >
-                    'operation to list the existing mediator instances that shall be added to the {$mediator-vm-template-name} in APPdata'
-              example:
-                mediator-vm-template-name: 'EricssonMLTemplate'
-                supported-device-kind-list: ['MLTN','ML6600']
-                engineering-limit: 3600
-                provide-mediator-instance-operation-name: '/v1/provide-mediator-instance'
-                dismantle-mediator-instance-operation-name: '/v1/dismantle-mediator-instance'
-                list-mediator-instance-operation-name: '/v1/list-mediator-instances'
-      responses:
-        '204':
-          description: 'Mediator vm template stored'
-          headers:
-            x-correlator:
-              schema:
-                type: string
-                example: '550e8400-e29b-11d4-a716-446655440000'
-              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-            exec-time:
-              schema:
-                type: integer
-                example: 1100
-              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-            backend-time:
-              schema:
-                type: integer
-                example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-            life-cycle-state:
-              schema:
-                type: string
-                enum:
-                  - 'EXPERIMENTAL'
-                  - 'OPERATIONAL'
-                  - 'DEPRECATED'
-                  - 'OBSOLETE'
-                  - 'UNKNOWN'
-                  - 'NOT_YET_DEFINED'
-                example: 'EXPERIMENTAL'
-              description: >
-                'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-im-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/delete-mediator-vm-template:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: deleteMediatorVmTemplate
-      summary: 'Offers deleting a mediator vm template from APPData.'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - mediator-vm-template-name
-              properties:
-                mediator-vm-template-name:
-                  type: string
-                  minLength: 6
-                  description: >
-                    'Name of a mediator vm template that shall be find in the APPData.
-                     If the template is in usage , then this request shall be rejected with 409 Conflict'
-              example:
-                mediator-vm-template-name: 'EricssonMLTemplate'
-      responses:
-        '204':
-          description: 'Mediator vm template deleted'
-          headers:
-            x-correlator:
-              schema:
-                type: string
-                example: '550e8400-e29b-11d4-a716-446655440000'
-              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-            exec-time:
-              schema:
-                type: integer
-                example: 1100
-              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-            backend-time:
-              schema:
-                type: integer
-                example: 850
-              description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-            life-cycle-state:
-              schema:
-                type: string
-                enum:
-                  - 'EXPERIMENTAL'
-                  - 'OPERATIONAL'
-                  - 'DEPRECATED'
-                  - 'OBSOLETE'
-                  - 'UNKNOWN'
-                  - 'NOT_YET_DEFINED'
-                example: 'EXPERIMENTAL'
-              description: >
-                'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-im-001/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '409':
-          description: 'Template is in usage'
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - code
-                  - message
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                  message:
-                    type: string
-                    enum:
-                      - 'Conflict with the current state of the target resource'
-          headers:
-            x-correlator:
-              schema:
-                type: string
-                pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
-                example: '550e8400-e29b-11d4-a716-446655440000'
-              description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-            exec-time:
-              schema:
-                type: integer
-                example: 1100
-              description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/list-mediator-vm-templates:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
-    post:
-      operationId: listsMediatorVmTemplates
-      summary: 'Offers listing the available mediator vm templates from the APPData'
-      tags:
-        - IndividualServices
-      security:
-        - apiKeyAuth: []
-      responses:
-        '200':
-          description: 'List of Mediator vm templates provided'
-          content:
-            application/json:
-              schema:
-                type: array
-                uniqueItems: true
-                items:
-                  type: object
-                  required:
-                    - mediator-vm-template-name
-                    - vendor-name
-                    - supported-device-kind-list
-                    - engineering-limit
-                    - provide-mediator-instance-operation-name
-                    - dismantle-mediator-instance-operation-name
-                    - list-mediator-instance-operation-name
-                  properties:
-                    mediator-vm-template-name:
-                      type: string
-                      minLength: 6
-                      description: >
-                        'Name of a mediator vm template that shall be updated or created in the APPData.'
-                    vendor-name:
-                      description: 'Vendor name of the Mediator vm that shall be added to the {$mediator-vm-template-name} in APPdata'
-                      type: string
-                      enum:
-                        - 'Ericsson'
-                        - 'SIAE'
-                        - 'Huawei'
-                    supported-device-kind-list:
-                      description: 'Supported device kind of the Mediator vm that shall be added to the {$mediator-vm-template-name} in APPdata'
-                      type: array
-                      items:
-                        type: string
-                        enum:
-                          - 'MLTN'
-                          - 'ML6600'
-                          - 'ML6352'
-                          - 'AGS20'
-                          - 'AGS20L'
-                          - 'ALCP2E'
-                          - 'ALFO'
-                          - 'RTN-950'
-                          - 'RTN-905'
-                          - 'RTN-380A'     
-                    engineering-limit:  
-                      description: 'Number of instances supported by the Mediator vm that shall be added to the {$mediator-vm-template-name} in APPdata'
-                      type: integer
-                    provide-mediator-instance-operation-name:
-                      type: string
-                      minLength: 6
-                      description: >
-                        'Operation to create a new mediator instance that shall be added to the {$mediator-vm-template-name} in APPdata'
-                    dismantle-mediator-instance-operation-name:
-                      type: string
-                      minLength: 6
-                      description: >
-                        'Operation to dismantle an existing mediator instance that shall be added to the {$mediator-vm-template-name} in APPdata'
-                    list-mediator-instance-operation-name:
-                      type: string
-                      minLength: 6
-                      description: >
-                        'operation to list the existing mediator instances that shall be added to the {$mediator-vm-template-name} in APPdata'
-                  example:
-                    - mediator-vm-template-name: 'EricssonMLTemplate'
-                      vendor-name: 'Ericsson'
-                      supported-device-kind-list: ['MLTN','ML6600']
-                      engineering-limit: 3600
-                      provide-mediator-instance-operation-name: '/v1/provide-mediator-instance'
-                      dismantle-mediator-instance-operation-name: '/v1/dismantle-mediator-instance'
-                      list-mediator-instance-operation-name: '/v1/list-mediator-instances'
-                    - mediator-vm-template-name: 'SIAEAGSTemplate'
-                      vendor-name: 'SIAE'
-                      supported-device-kind-list: ['AGS20','AGS20L']
-                      engineering-limit: 3600
-                      provide-mediator-instance-operation-name: '/v1/provide-mediator-instance'
-                      dismantle-mediator-instance-operation-name: '/v1/dismantle-mediator-instance'
-                      list-mediator-instance-operation-name: '/v1/list-mediator-instances'
-          headers:
-              x-correlator:
-                schema:
-                  type: string
-                  example: '550e8400-e29b-11d4-a716-446655440000'
-                description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-              exec-time:
-                schema:
-                  type: integer
-                  example: 1100
-                description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-              backend-time:
-                schema:
-                  type: integer
-                  example: 850
-                description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-              life-cycle-state:
-                schema:
-                  type: string
-                  enum:
-                    - 'EXPERIMENTAL'
-                    - 'OPERATIONAL'
-                    - 'DEPRECATED'
-                    - 'OBSOLETE'
-                    - 'UNKNOWN'
-                    - 'NOT_YET_DEFINED'
-                  example: 'EXPERIMENTAL'
-                description: >
-                  'Life cycle state of the consumed service
-                  from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
-        '400':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '401':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '403':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '404':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        '500':
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-        default:
-          $ref: '#/components/responses/responseForErroredServiceRequests'
-  
   /v1/regard-mediator-instance-manager:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: regardMediatorInstanceManager
       summary: 'Offers configuring the client side for MediatorInstanceManager and its paring defintion to APPData'
@@ -810,39 +626,79 @@ paths:
             schema:
               type: object
               required:
-                - mediator-instance-name
-                - mediator-instance-release-number
-                - mediator-vm-template-name
-                - mediator-instance-manager-protocol
-                - mediator-instance-manager-ip-address
-                - mediator-instance-manager-port
+                - application-name
+                - release-number
+                - provide-mediator-instance-operation
+                - dismantle-mediator-instance-operation
+                - list-mediator-instance-operation
+                - protocol
+                - address
+                - port
+                - vendor-name
+                - supported-device-kind-list
+                - engineering-limit
               properties:
-                mediator-instance-name:
+                application-name:
                   type: string
-                  minLength: 6
-                  pattern: '^([A-Z][a-z0-9]+){2,}$'
                   description: >
-                    'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-                mediator-instance-release-number:
+                    'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name] and also included to APPData'
+                release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
-                mediator-vm-template-name:
+                provide-mediator-instance-operation:
                   type: string
                   minLength: 6
                   description: >
-                    'Name of a precreated mediator vm template find in the APPData. 
-                     Request shall be rejected with 400 BadRequest if the template is not available.
-                     {$mediator-instance-name}' shall be mapped to the {$mediator-vm-template-name} in the APPData.
-                mediator-instance-manager-protocol:
+                    'Operation to create a new mediator instance
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                dismantle-mediator-instance-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Operation to dismantle an existing mediator instance
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                list-mediator-instance-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'operation to list the existing mediator instances
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                vendor-name:
+                  description: 'Vendor name of the Mediator instance Manager that shall be should to the APPdata'
+                  type: string
+                  enum:
+                    - 'Ericsson'
+                    - 'SIAE'
+                    - 'Huawei'
+                supported-device-kind-list:
+                  description: 'Supported device kind of the Mediator instance Manager that should be included to the APPdata'
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - 'MLTN'
+                      - 'ML6600'
+                      - 'ML6352'
+                      - 'AGS20'
+                      - 'AGS20L'
+                      - 'ALCP2E'
+                      - 'ALFO'
+                      - 'RTN-950'
+                      - 'RTN-905'
+                      - 'RTN-380A'     
+                engineering-limit:  
+                  description: 'Number of instances supported by the Mediator instance Manager that should be included to the APPdata'
+                  type: integer          
+                protocol:
                   type: string
                   enum:
                     - 'HTTP'
                     - 'HTTPS'
                   description: >
                     'Protocol to be used for addressing the MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
-                mediator-instance-manager-ip-address:
+                address:
                   type: object
                   minProperties: 1
                   maxProperties: 1
@@ -863,21 +719,26 @@ paths:
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
-                mediator-instance-manager-port:
+                port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
               example:
-                mediator-instance-name: 'EricssonMediatorManager'
-                mediator-instance-release-number: '1.0.1'
-                mediator-vm-template-name: 
-                mediator-instance-manager-protocol: 'HTTP'
-                mediator-instance-manager-ip-address:
+                application-name: 'EricssonMediatorManager'
+                release-number: '1.0.1'
+                provide-mediator-operation: '/v1/provide-mediator-instance'
+                dismantle-mediator-operation: '/v1/dismantle-mediator-instance'
+                list-mediator-operation: '/v1/list-mediator-instances'
+                vendor-name: 'Ericsson'
+                supported-device-kind-list: ['MLTN','ML6600']
+                protocol: 'HTTP'
+                address:
                   ip-address:
                     ipv-4-address: '1.1.3.1'
-                mediator-instance-manager-port: 3001
+                port: 3001
+                engineering-limits: 3000
       responses:
         '204':
           description: 'Mediator Instance Manager Information stored'
@@ -910,7 +771,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-im-002/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -923,277 +784,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
-      callbacks:
-       ProvideMediatorInstanceRetrievesListOfMediatorInstances:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              responses:
-                '200':
-                  description: 'Mediators listed'
-                  content:
-                    application/json:
-                      schema:
-                        type: array
-                        items:
-                          type: object
-                          required:
-                            - device-name
-                            - device-kind-name
-                            - mediator-instance-ip-address
-                            - mediator-instance-netconf-port
-                            - device-ip-address
-                          properties:
-                            device-name:
-                              type: string
-                              description: >
-                                'Name of device, which is connected by this mediator instance'
-                            device-kind-name:
-                              type: string
-                              description: >
-                                'Type of the device, which is connected by the mediator'
-                            mediator-instance-ip-address:
-                              type: string
-                              description: >
-                                'IP address of the mediator, which has been created'
-                            mediator-instance-netconf-port:
-                              type: integer
-                              description: >
-                                'Port of the mediator, which has been created'
-                            device-ip-address:
-                              type: string
-                              description: >
-                                'IP address of the device, which has been connected by the mediator'
-                          example:
-                            device-name: '305251234'
-                            device-kind-name: 'AGS_20'
-                            mediator-instance-ip-address: '10.118.132.1'
-                            mediator-instance-netconf-port: 1
-                            device-ip-address: '10.118.133.1'
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-       ProvideMediatorInstanceCreatesMediatorInstance:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - device-name
-                        - device-ip-address
-                        - device-kind-name
-                      properties:
-                        device-name:
-                          type: string
-                          minLength: 3
-                          description: >
-                            'Name of device that will be connected by the mediator (mediator will get same name)
-                            find or create [/core-model-1-4:control-construct/forwarding-domain=xmim-0-0-1-op-fd-0000/forwarding-construct=xmim-0-0-1-meth-fc-*/name=ForwardingName/name]'
-                        device-ip-address:
-                          type: string
-                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-                          description: >
-                            'IP address of the device, which is to be connected by the mediator
-                            update or create [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
-                        device-kind-name:
-                          type: string
-                          description: >
-                            'Type of the device, which is to be connected by the mediator (SNMP client has to be chosen accordingly)
-                            update or create [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-prot-c-*/layer-protocol=0/protocol-client-interface-1-0:protocol-client-interface-pac/protocol-client-interface-configuration/protocol-server-name]'
-                      example:
-                        device-name: '305251234'
-                        device-ip-address: '10.118.133.1'
-                        device-kind-name: 'AGS_20'
-              responses:
-                '200':
-                  description: 'Mediator created'
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        required:
-                          - mediator-instance-ip-address
-                          - mediator-instance-netconf-port
-                        properties:
-                          mediator-instance-ip-address:
-                            type: string
-                            description: >
-                              'IP address of the mediator, which has been created
-                              from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
-                          mediator-instance-netconf-port:
-                            type: integer
-                            description: >
-                              'Port of the mediator, which has been created
-                              from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
-                        example:
-                          mediator-instance-ip-address: '10.118.132.1'
-                          mediator-instance-netconf-port: 1
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-       DismantleMediatorInstanceDeletesMediatorInstance:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-001/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            post:
-              parameters:
-                - $ref: '#/components/parameters/user'
-                - $ref: '#/components/parameters/originator'
-                - $ref: '#/components/parameters/x-correlator'
-                - $ref: '#/components/parameters/trace-indicator'
-                - $ref: '#/components/parameters/customer-journey'
-              requestBody:
-                required: true
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      required:
-                        - device-name
-                      properties:
-                        device-name:
-                          type: string
-                          minLength: 3
-                          description: >
-                            'Name of device (mediator, respectively FC has the same name) that has to be dismantled
-                            find [/core-model-1-4:control-construct/forwarding-domain=xmim-0-0-1-op-fd-0000/forwarding-construct=xmim-0-0-1-meth-fc-*/name=ForwardingName/name]'
-              responses:
-                '204':
-                  description: 'Mediator deleted'                    
-                  headers:
-                    x-correlator:
-                      schema:
-                        type: string
-                        example: '550e8400-e29b-11d4-a716-446655440000'
-                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
-                    exec-time:
-                      schema:
-                        type: integer
-                        example: 1100
-                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
-                    backend-time:
-                      schema:
-                        type: integer
-                        example: 850
-                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
-                    life-cycle-state:
-                      schema:
-                        type: string
-                        enum:
-                          - 'EXPERIMENTAL'
-                          - 'OPERATIONAL'
-                          - 'DEPRECATED'
-                          - 'OBSOLETE'
-                          - 'UNKNOWN'
-                          - 'NOT_YET_DEFINED'
-                        example: 'EXPERIMENTAL'
-                      description: 'Life cycle state of the consumed service'
-                '400':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '401':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '403':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '404':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                '500':
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
-                default:
-                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/disregard-mediator-instance-manager:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: disregardMediatorInstanceManager
       summary: 'deletes the client side of the MediatorInstanceManager from CONFIGfile and its relavant information from APPData'
@@ -1208,23 +799,21 @@ paths:
             schema:
               type: object
               required:
-                - mediator-instance-name
-                - mediator-instance-release-number
+                - application-name
+                - release-number
               properties:
-                mediator-instance-name:
+                application-name:
                   type: string
-                  minLength: 6
-                  pattern: '^([A-Z][a-z0-9]+){2,}$'
                   description: >
-                    'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-                mediator-instance-release-number:
+                    'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, and delete [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name] and also included to APPData'
+                release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
-                    'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, and delete [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
               example:
-                mediator-instance-name: 'EricssonMediatorManager'
-                mediator-instance-release-number: '1.0.1'
+                application-name: 'EricssonMediatorManager'
+                release-number: '1.0.1'
       responses:
         '204':
           description: 'Mediator Instance Manager Information deleted'
@@ -1257,7 +846,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-im-003/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -1271,12 +860,6 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/list-mediator-instance-managers:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: listMediatorInstanceManagers
       summary: 'Lists the configured MediatorInstanceManagers and its paring defintion in APPData'
@@ -1284,9 +867,129 @@ paths:
         - IndividualServices
       security:
         - apiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - application-name
+                - release-number
+                - provide-mediator-instance-operation
+                - dismantle-mediator-instance-operation
+                - list-mediator-instance-operation
+                - protocol
+                - address
+                - port
+                - vendor-name
+                - supported-device-kind-list
+                - engineering-limits
+              properties:
+                application-name:
+                  type: string
+                  description: >
+                    'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name] and also included to APPData'
+                release-number:
+                  type: string
+                  pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
+                  description: >
+                    'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                provide-mediator-instance-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Operation to create a new mediator instance
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                dismantle-mediator-instance-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'Operation to dismantle an existing mediator instance
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                list-mediator-instance-operation:
+                  type: string
+                  minLength: 6
+                  description: >
+                    'operation to list the existing mediator instances
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                vendor-name:
+                  description: 'Vendor name of the Mediator instance Manager that shall be should to the APPdata'
+                  type: string
+                  enum:
+                    - 'Ericsson'
+                    - 'SIAE'
+                    - 'Huawei'
+                supported-device-kind-list:
+                  description: 'Supported device kind of the Mediator instance Manager that should be included to the APPdata'
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - 'MLTN'
+                      - 'ML6600'
+                      - 'ML6352'
+                      - 'AGS20'
+                      - 'AGS20L'
+                      - 'ALCP2E'
+                      - 'ALFO'
+                      - 'RTN-950'
+                      - 'RTN-905'
+                      - 'RTN-380A'     
+                engineering-limits: 
+                  description: 'Number of instances supported by the Mediator instance Manager that should be included to the APPdata'
+                  type: integer          
+                protocol:
+                  type: string
+                  enum:
+                    - 'HTTP'
+                    - 'HTTPS'
+                  description: >
+                    'Protocol to be used for addressing the MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                address:
+                  type: object
+                  minProperties: 1
+                  maxProperties: 1
+                  additionalProperties: false
+                  properties:
+                    ip-address:
+                      type: object
+                      minProperties: 1
+                      additionalProperties: false
+                      properties:
+                        ipv-4-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'IPv4 address of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                    domain-name:
+                      type: string
+                      pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
+                      description: >
+                        'Domain name of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                port:
+                  type: integer
+                  minimum: 0
+                  maximum: 65535
+                  description: >
+                    'Port of MediatorInstanceManager update or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+              example:
+                application-name: 'EricssonMediatorManager'
+                release-number: '1.0.1'
+                provide-mediator-operation: '/v1/provide-mediator-instance'
+                dismantle-mediator-operation: '/v1/dismantle-mediator-instance'
+                list-mediator-operation: '/v1/list-mediator-instances'
+                vendor-name: 'Ericsson'
+                supported-device-kind-list: ['MLTN','ML6600']
+                protocol: 'HTTP'
+                address:
+                  ip-address:
+                    ipv-4-address: '1.1.3.1'
+                port: 3001
+                engineering-limits: 3000
       responses:
         '200':
-          description: 'Mediator Instance Manager listed'
+          description: 'Mediator Instance Manager Information stored'
           content:
             application/json:
               schema:
@@ -1716,12 +1419,6 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
 
   /v1/provide-mediator-instance:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: provideMediatorInstance
       summary: 'Creates a mediator instance'
@@ -1738,6 +1435,7 @@ paths:
               required:
                 - mount-name
                 - device-ip
+                - vendor-name
                 - device-model
               properties:
                 mount-name:
@@ -1836,25 +1534,219 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForProvidingMediatorInstanceForANonExistingInstanceCausesMediatorInstanceCreation:
+        ProvideMediatorInstanceChecksAllocationMethodType:
+          url: #/core-model-1-4:control-construct/profile-collection/profile=mm-1-0-0-string-p-000/string-profile-1-0:string-profile-pac/string-profile-capability/string-name
+            description: >
+              'Internally the current allocationMethodType value will be checked. 
+              If allocationMethodType == EQUAL_UTILIZATION then load should be shared accross the MediatorInstanceManager of the same kind
+              Else If allocationMethodType == NONE then MediatorInstanceManager shall be selected randomly until the EngineeringLimit exceeds'
+        ProvideMediatorInstanceFindsPairingDefinition:
+          url: #/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/operation-name
+            description: >
+              'Internally finds the available list of MediatorInstanceManagers allocated for the #requestBody#devicemodel in the APPData'
+        ProvideMediatorInstanceExportsListOfMediatorInstance:
           url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'The steps that are specified in MountNameAndDeviceIPDoesnotExist.plantuml shall be executed.'
-        RequestForProvidingMediatorInstanceForAnExistingInstanceWithDifferentDeviceIpCausesMediatorInstanceCreation:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'The steps that are specified in MountNameExistWithDifferentIP.plantuml shall be executed.'
-        RequestForProvidingMediatorInstanceForAnExistingInstanceWithSameDeviceIpCausesMediatorInstanceCreation:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: >
-              'The steps that are specified in MountNameWithCorrectIPExistForSameDeviceKindName.plantuml shall be executed.'
+            description: > 
+              'Correct MediatorInstanceManager application will be determined by
+              repeating this callback for all the MediatorInstanceManager instances from the {$ProvideMediatorInstanceFindsPairingDefinition} and
+              If {$ProvideMediatorInstanceFindsPairingDefinition#engineeringLimits > responses#array.length} consider that MediatorInstanceManager further.
+              If {$ProvideMediatorInstanceChecksAllocationMethodType#allocationMethodType}  == EQUAL_UTILIZATION then the MediatorInstanceManager with least load should be consider
+              otherwise a random MediatorInstanceManager shall be choosed'
+            post:
+              summary: Retrieves the list of Mediator Instance
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              responses:
+                '200':
+                  description: 'Mediators listed'
+                  content:
+                    application/json:
+                      schema:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - device-name
+                            - device-kind-name
+                            - mediator-instance-ip-address
+                            - mediator-instance-netconf-port
+                            - device-ip-address
+                          properties:
+                            device-name:
+                              type: string
+                              description: >
+                                'Name of device, which is connected by this mediator instance'
+                            device-kind-name:
+                              type: string
+                              description: >
+                                'Type of the device, which is connected by the mediator'
+                            mediator-instance-ip-address:
+                              type: string
+                              description: >
+                                'IP address of the mediator, which has been created'
+                            mediator-instance-netconf-port:
+                              type: integer
+                              description: >
+                                'Port of the mediator, which has been created'
+                            device-ip-address:
+                              type: string
+                              description: >
+                                'IP address of the device, which has been connected by the mediator'
+                          example:
+                            device-name: '305251234'
+                            device-kind-name: 'AGS_20'
+                            mediator-instance-ip-address: '10.118.132.1'
+                            mediator-instance-netconf-port: 1
+                            device-ip-address: '10.118.133.1'
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+        ProvideMediatorInstanceCreatesMediatorInstance:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            description: > 
+              'Perform this callback on the MediatorInstanceManager application selected from the {$ProvideMediatorInstanceExportsListOfMediatorInstance}              
+              If the request fails with response code != 200 , then repeat this callback with the next eligible MediatorInstanceManager
+              If the final request fails with the (response code 500: 'No Port available for this mediator instance' for SIAE) OR (response code 404: 'Netconf ports: No Port available' for Ericsson) then the response'
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - device-name
+                        - device-ip-address
+                        - device-kind-name
+                      properties:
+                        device-name:
+                          type: string
+                          minLength: 3
+                          description: >
+                            'The name of the device that is addressed by this callback from {$request.body#mount-name}'
+                        device-ip-address:
+                          type: string
+                          pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+                          description: >
+                            'The name of the device that is addressed by this callback from {$request.body#device-ip}'
+                        device-kind-name:
+                          type: string
+                          description: >
+                            'The name of the device that is addressed by this callback from {$request.body#device-model}'
+                      example:
+                        device-name: '305251234'
+                        device-ip-address: '10.118.133.1'
+                        device-kind-name: 'AGS_20'
+              responses:
+                '200':
+                  description: 'Mediator created'
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        required:
+                          - mediator-instance-ip-address
+                          - mediator-instance-netconf-port
+                        properties:
+                          mediator-instance-ip-address:
+                            type: string
+                            description: >
+                              'IP address of the mediator, which has been created'
+                          mediator-instance-netconf-port:
+                            type: integer
+                            description: >
+                              'Port of the mediator, which has been created'
+                        example:
+                          mediator-instance-ip-address: '10.118.132.1'
+                          mediator-instance-netconf-port: 1
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
   /v1/dismantle-mediator-instance:
-    parameters:
-      - $ref: '#/components/parameters/user'
-      - $ref: '#/components/parameters/originator'
-      - $ref: '#/components/parameters/x-correlator'
-      - $ref: '#/components/parameters/trace-indicator'
-      - $ref: '#/components/parameters/customer-journey'
     post:
       operationId: dismantleMediatorInstance
       summary: 'Deletes a mediator Instance'
@@ -1929,11 +1821,76 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForDeletingMediatorInstanceCausesMediatorInstanceDeletion:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+        DeleteMediatorInstanceFirstLocatesMediatorInstanceManager:
+          url: #/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/operation-name
             description: >
-              'The steps that are specified in DeleteMediatorInstance.plantuml shall be executed.'
-        
+              'Internally retrieves the list of MediatorInstanceManager and finds the MediatorInstanceManager allocated for the #requestBody#mediator-instance-ip-address'
+        DismantleMediatorInstanceDeletesMediatorInstance:
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*-*-*-*-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-im-*-*-*-*-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - device-name
+                      properties:
+                        device-name:
+                          type: string
+                          pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                          description: 'Identifier of the device at the Controller'
+              responses:
+                '204':
+                  description: 'Mediator deleted'                    
+                  headers:
+                    x-correlator:
+                      schema:
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: 'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+  
 ########################################################################################################################
 #   Service Layer - Basic Part
 ########################################################################################################################
@@ -1976,19 +1933,19 @@ paths:
                       minLength: 3
                       description: >
                         'If body provided, name of RegistryOffice application
-                        find [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                        find [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-mm-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                     registry-office-application-release-number:
                       type: string
                       pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                       description: >
                         'If body provided, release of RegistryOffice application
-                        find or update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                        find or update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-mm-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                     registration-operation:
                       type: string
                       minLength: 6
                       description: >
                         'If body provided, operation for registering
-                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                     registry-office-protocol:
                       type: string
                       enum:
@@ -1996,7 +1953,7 @@ paths:
                         - 'HTTPS'
                       description: >
                         'If body provided, protocol for addressing the RegistryOffice application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                     registry-office-address:
                       type: object
                       minProperties: 1
@@ -2013,20 +1970,20 @@ paths:
                               pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                               description: >
                                 'If body provided, IPv4 address of RegistryOffice application
-                                update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                                update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                         domain-name:
                           type: string
                           pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                           description: >
                             'If body provided, domain name of RegistryOffice application
-                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                     registry-office-port:
                       type: integer
                       minimum: 0
                       maximum: 65535
                       description: >
                         'If body provided, port of RegistryOffice application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
                     http-address:
                       type: object
                       minProperties: 1
@@ -2132,7 +2089,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForRegisteringCausesRegistrationRequest2:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://{[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]}:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://{[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]}:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'Starting from RO v2.1.0, PromptForRegisteringCausesRegistrationRequest2 shall be executed first, only if HTTP response code different from 204 PromptForRegisteringCausesRegistrationRequest shall be executed, too.'
             post:
@@ -2282,7 +2239,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         PromptForRegisteringCausesRegistrationRequest:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://{[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]}:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://{[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]}:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'DEPRECATED - Callback shall be deleted with RO v3.0.0'
             post:
@@ -2453,31 +2410,31 @@ paths:
                   type: string
                   description: >
                     'Name of RegistryOffice application
-                    find [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
+                    find [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-mm-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
                 registry-office-application-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'Release of RegistryOffice application
-                    find or update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-ro-2-1-2-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
+                    find or update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-mm-1-0-0-000/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 relay-server-replacement-operation:
                   type: string
                   minLength: 6
                   description: >
                     'Operation for requesting for broadcasting a new server address
-                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                 relay-operation-update-operation:
                   type: string
                   minLength: 6
                   description: >
                     'Operation for requesting for broadcasting a backward compatible replacement of an operation
-                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-003/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                 deregistration-operation:
                   type: string
                   minLength: 6
                   description: >
                     'Operation for deregistering from the application layer
-                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-ro-2-1-2-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-mm-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]'
                 registry-office-protocol:
                   type: string
                   enum:
@@ -2485,7 +2442,7 @@ paths:
                     - 'HTTPS'
                   description: >
                     'Protocol for addressing RegistryOffice application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]'
                 registry-office-address:
                   type: object
                   minProperties: 1
@@ -2502,20 +2459,20 @@ paths:
                           pattern: '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
                           description: >
                             'IPv4 address of RegistryOffice application
-                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                            update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
                     domain-name:
                       type: string
                       pattern: '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$'
                       description: >
                         'Domain name of RegistryOffice application
-                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
+                        update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]'
                 registry-office-port:
                   type: integer
                   minimum: 0
                   maximum: 65535
                   description: >
                     'Port of RegistryOffice application
-                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
+                    update [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port]'
                 old-release-protocol:
                   type: string
                   enum:
@@ -2617,7 +2574,7 @@ paths:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
         PromptForEmbeddingCausesRequestForBequeathingData:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-ro-2-1-2-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-or-1-0-1-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-mm-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-or-1-0-1-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-bm-or-1-0-1-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             post:
               parameters:
                 - $ref: '#/components/parameters/user'

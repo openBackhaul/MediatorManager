@@ -21,7 +21,7 @@ release-list:
               temporary-address:
                 ipv-4-address: 127.0.0.1
                 tcp-port: 5000 #We need to follow port prescription ?
-          - simulator-file: './completeness/v1.0.0/simulators/SIAEMediatorInstanceManager/dockerfile
+          - simulator-file: './completeness/v1.0.0/simulators/SIAEMediatorInstanceManager/dockerfile'
               simulated-application:
                 application-name: 'MIM'
                 release-number: '1.0.0'

@@ -1,0 +1,44 @@
+@startuml DeleteMediatorVmTemplate
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager /v1/delete-mediator-vm-template
+end title
+
+participant "OperationsTeam" as OT
+participant "MediatorManager://v1/delete-mediator-vm-template" as MM
+database "MediatorManager:APPDataFile" as AppData
+
+
+OT -> MM : 
+note right OT #PaleGreen
+    { mediator-vm-template-name : 
+    <b>"EricssonMLTemplate"
+    }
+end note
+activate MM #LightSteelBlue
+
+ 
+AppData --\\o MM : <b>Retrieve the "EricssonMLTemplate"
+note right MM #LightSteelBlue
+    {
+    "mediator-vm-template-name" : "EricssonMLTemplate",
+    "vendor-name" : "Ericsson",
+    "supported-device-kind" : ["MLTN","ML6600"],
+    "engineering-limit" : 3600,
+    <b>"paired-mediator-vm-list" : ["vmeric1"]
+    }
+end note
+
+MM --> MM : 
+hnote over MM #LightSteelBlue
+    <b>Check if the template is used by any mediator vm ?
+    In this example , 
+    yes this template is used by the vm "vmeric1" 
+    <b>"paired-mediator-vm-list" : ["vmeric1"]
+end note
+
+MM -> OT : 409 Conflict
+deactivate MM
+
+@enduml
