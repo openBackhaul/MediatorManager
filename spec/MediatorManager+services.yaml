@@ -72,7 +72,7 @@ servers:
           uuid: mm-1-0-0-op-s-is-001        
         - operation-name: /v1/provide-netconf-interface
           uuid: mm-1-0-0-op-s-is-002      
-        - operation-name: /v1/delete-mediator-instance
+        - operation-name: /v1/dismantle-mediator-instance
           uuid: mm-1-0-0-op-s-is-003
 
   http-server:
