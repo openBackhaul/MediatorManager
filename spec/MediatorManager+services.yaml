@@ -70,7 +70,7 @@ servers:
           uuid: mm-1-0-0-op-s-im-003
         - operation-name: /v1/list-mediator-instance-managers
           uuid: mm-1-0-0-op-s-is-001        
-        - operation-name: /v1/create-mediator-instance
+        - operation-name: /v1/provide-netconf-interface
           uuid: mm-1-0-0-op-s-is-002      
         - operation-name: /v1/delete-mediator-instance
           uuid: mm-1-0-0-op-s-is-003
@@ -132,6 +132,10 @@ clients:
       service:
         basic:
         individual:
+          - operation-name: /v1/regard-mediator-instance-manager
+            uuid: mm-1-0-0-op-c-im-nr-1-0-0-000
+          - operation-name: /v1/create-mediator-vm-template
+            uuid: mm-1-0-0-op-c-im-nr-1-0-0-001
 
   - http-client:
       application-name: RegistryOffice
@@ -313,3 +317,22 @@ clients:
             uuid: mm-1-0-0-op-c-im-smim-1-0-0-000
           - operation-name: /v1/dismantle-mediator-instance
             uuid: mm-1-0-0-op-c-im-smim-1-0-0-001
+
+  - http-client:
+      application-name: ConnectionPreparation
+      release-number: 1.1.0
+      uuid: mm-1-0-0-http-c-cc-1-1-0-000
+    tcp-client:
+      remote-protocol: http
+      ip-address: 127.0.0.1
+      tcp-port: 4022
+      uuid: mm-1-0-0-tcp-c-cc-1-1-0-000
+    operation-clients:
+      own-oam:
+        basic:
+        individual:
+      service:
+        basic:
+        individual:
+          - operation-name: /v1/prepare-connection
+            uuid: mm-1-0-0-op-c-is-cc-1-1-0-000

@@ -196,23 +196,6 @@
                             }
                         }
                     }
-                },
-                {
-                    "uuid": "mm-1-0-0-string-p-000",
-                    "profile-name": "string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE",
-                    "string-profile-1-0:string-profile-pac": {
-                        "string-profile-capability": {
-                            "string-name": "allocationMethodType",
-                            "enumeration": [
-                                "EQUAL_UTILIZATION",
-                                "LATEST_RELEASE_FIRST",
-                                "NONE"
-                            ]
-                        },
-                        "string-profile-configuration": {
-                            "string-value": "EQUAL_UTILIZATION"
-                        }
-                    }
                 }
             ]
         },
@@ -724,6 +707,190 @@
                 ]
             },
             {
+                "uuid": "mm-1-0-0-op-s-im-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/create-mediator-vm-template"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-im-001",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/delete-mediator-vm-template"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-is-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/list-mediator-vm-templates"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-im-002",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/regard-mediator-instance-manager"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-im-003",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/disregard-mediator-instance-manager"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-is-001",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/list-mediator-instance-managers"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-is-002",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/provide-netconf-interface"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-s-is-003",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-s-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-server-interface-1-0:operation-server-interface-pac": {
+                            "operation-server-interface-capability": {
+                                "operation-name": "/v1/delete-mediator-instance"
+                            },
+                            "operation-server-interface-configuration": {
+                                "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
+                                "operation-key": "Operation key not yet provided."
+                            }
+                        }
+                    }
+                ]
+            },
+            {
                 "uuid": "mm-1-0-0-http-s-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [
@@ -748,7 +915,15 @@
                     "mm-1-0-0-op-s-bs-002",
                     "mm-1-0-0-op-s-bs-003",
                     "mm-1-0-0-op-s-bs-004",
-                    "mm-1-0-0-op-s-bs-005"
+                    "mm-1-0-0-op-s-bs-005",
+                    "mm-1-0-0-op-s-im-000",
+                    "mm-1-0-0-op-s-im-001",
+                    "mm-1-0-0-op-s-is-000",
+                    "mm-1-0-0-op-s-im-002",
+                    "mm-1-0-0-op-s-im-003",
+                    "mm-1-0-0-op-s-is-001",
+                    "mm-1-0-0-op-s-is-002",
+                    "mm-1-0-0-op-s-is-003"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-s-000"
@@ -763,8 +938,8 @@
                                 "release-number": "1.0.0",
                                 "application-purpose": "Preparing the connection between device and mediator/controller",
                                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
-                                "owner-name": "Andreas Haack",
-                                "owner-email-address": "Andreas.Haack@telefonica.com",
+                                "owner-name": "Owner name",
+                                "owner-email-address": "owner@telefonica.com",
                                 "release-list": [
                                     {
                                         "local-id": "0",
@@ -886,7 +1061,55 @@
                         "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                         "operation-client-interface-1-0:operation-client-interface-pac": {
                             "operation-client-interface-configuration": {
-                                "operation-name": "/v1/regard-mediator-vm",
+                                "operation-name": "/v1/regard-mediator-instance-manager",
+                                "operation-key": "Operation key not yet provided."
+                            },
+                            "operation-client-interface-status": {
+                                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-c-im-nr-1-0-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-c-nr-1-0-0-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-client-interface-1-0:operation-client-interface-pac": {
+                            "operation-client-interface-configuration": {
+                                "operation-name": "/v1/regard-mediator-instance-manager",
+                                "operation-key": "Operation key not yet provided."
+                            },
+                            "operation-client-interface-status": {
+                                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-c-im-nr-1-0-0-001",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-c-nr-1-0-0-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-client-interface-1-0:operation-client-interface-pac": {
+                            "operation-client-interface-configuration": {
+                                "operation-name": "/v1/create-mediator-vm-template",
                                 "operation-key": "Operation key not yet provided."
                             },
                             "operation-client-interface-status": {
@@ -901,7 +1124,9 @@
                 "uuid": "mm-1-0-0-http-c-nr-1-0-0-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [
-                    "mm-1-0-0-op-c-im-nr-1-0-0-000"
+                    "mm-1-0-0-op-c-im-nr-1-0-0-000",
+                    "mm-1-0-0-op-c-im-nr-1-0-0-000",
+                    "mm-1-0-0-op-c-im-nr-1-0-0-001"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-c-nr-1-0-0-000"
@@ -1525,7 +1750,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-emim-1-0-0-001",
+                "uuid": "mm-1-0-0-op-c-im-emim-1-0-0-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1549,7 +1774,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-emim-1-0-0-002",
+                "uuid": "mm-1-0-0-op-c-im-emim-1-0-0-001",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1577,8 +1802,8 @@
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [
                     "mm-1-0-0-op-c-is-emim-1-0-0-000",
-                    "mm-1-0-0-op-c-is-emim-1-0-0-001",
-                    "mm-1-0-0-op-c-is-emim-1-0-0-002"
+                    "mm-1-0-0-op-c-im-emim-1-0-0-000",
+                    "mm-1-0-0-op-c-im-emim-1-0-0-001"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-c-emim-1-0-0-000"
@@ -1646,7 +1871,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-hmim-1-0-0-001",
+                "uuid": "mm-1-0-0-op-c-im-hmim-1-0-0-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1670,7 +1895,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-hmim-1-0-0-002",
+                "uuid": "mm-1-0-0-op-c-im-hmim-1-0-0-001",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1698,8 +1923,8 @@
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [
                     "mm-1-0-0-op-c-is-hmim-1-0-0-000",
-                    "mm-1-0-0-op-c-is-hmim-1-0-0-001",
-                    "mm-1-0-0-op-c-is-hmim-1-0-0-002"
+                    "mm-1-0-0-op-c-im-hmim-1-0-0-000",
+                    "mm-1-0-0-op-c-im-hmim-1-0-0-001"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-c-hmim-1-0-0-000"
@@ -1767,7 +1992,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-smim-1-0-0-001",
+                "uuid": "mm-1-0-0-op-c-im-smim-1-0-0-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1791,7 +2016,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-is-smim-1-0-0-002",
+                "uuid": "mm-1-0-0-op-c-im-smim-1-0-0-001",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1819,8 +2044,8 @@
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [
                     "mm-1-0-0-op-c-is-smim-1-0-0-000",
-                    "mm-1-0-0-op-c-is-smim-1-0-0-001",
-                    "mm-1-0-0-op-c-is-smim-1-0-0-002"
+                    "mm-1-0-0-op-c-im-smim-1-0-0-000",
+                    "mm-1-0-0-op-c-im-smim-1-0-0-001"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-c-smim-1-0-0-000"
@@ -1858,6 +2083,77 @@
                                     }
                                 },
                                 "remote-port": 2004
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-op-c-is-cc-1-1-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [],
+                "server-ltp": [
+                    "mm-1-0-0-http-c-cc-1-1-0-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
+                        "operation-client-interface-1-0:operation-client-interface-pac": {
+                            "operation-client-interface-configuration": {
+                                "operation-name": "/v1/prepare-connection",
+                                "operation-key": "Operation key not yet provided."
+                            },
+                            "operation-client-interface-status": {
+                                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
+                                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-http-c-cc-1-1-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                    "mm-1-0-0-op-c-is-cc-1-1-0-000"
+                ],
+                "server-ltp": [
+                    "mm-1-0-0-tcp-c-cc-1-1-0-000"
+                ],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "http-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
+                        "http-client-interface-1-0:http-client-interface-pac": {
+                            "http-client-interface-configuration": {
+                                "application-name": "ConnectionPreparation",
+                                "release-number": "1.1.0"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "uuid": "mm-1-0-0-tcp-c-cc-1-1-0-000",
+                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
+                "client-ltp": [
+                    "mm-1-0-0-http-c-cc-1-1-0-000"
+                ],
+                "server-ltp": [],
+                "layer-protocol": [
+                    {
+                        "local-id": "0",
+                        "layer-protocol-name": "tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER",
+                        "tcp-client-interface-1-0:tcp-client-interface-pac": {
+                            "tcp-client-interface-configuration": {
+                                "remote-protocol": "tcp-client-interface-1-0:PROTOCOL_TYPE_HTTP",
+                                "remote-address": {
+                                    "ip-address": {
+                                        "ipv-4-address": "127.0.0.1"
+                                    }
+                                },
+                                "remote-port": 4022
                             }
                         }
                     }
@@ -2084,27 +2380,27 @@
                             {
                                 "local-id": "122",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-000"
+                                "logical-termination-point": "mm-1-0-0-op-s-im-000"
                             },
                             {
                                 "local-id": "123",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-001"
+                                "logical-termination-point": "mm-1-0-0-op-s-im-001"
                             },
                             {
                                 "local-id": "124",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-002"
+                                "logical-termination-point": "mm-1-0-0-op-s-is-001"
                             },
                             {
                                 "local-id": "125",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                                "logical-termination-point": "mm-1-0-0-op-s-is-002"
                             },
                             {
                                 "local-id": "126",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-004"
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
                             },
                             {
                                 "local-id": "200",
@@ -2598,11 +2894,36 @@
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "ProvideNetconfInterfacePreparesConnectionAtDevices"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-is-cc-1-1-0-000"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-002",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
                                 "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "value": "ProvideMediatorInstanceExportsListOfMediatorInstance"
+                                "value": "provideNetconfInterfaceManagesExistingMediatorInstances.ListMediatorInstances"
                             }
                         ],
                         "fc-port": [
@@ -2639,51 +2960,6 @@
                         ]
                     },
                     {
-                        "uuid": "mm-1-0-0-op-fc-is-002",
-                        "name": [
-                            {
-                                "value-name": "ForwardingKind",
-                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
-                            },
-                            {
-                                "value-name": "ForwardingName",
-                                "value": "ProvideMediatorInstanceCreatesMediatorInstance"
-                            }
-                        ],
-                        "fc-port": [
-                            {
-                                "local-id": "000",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-000"
-                            },
-                            {
-                                "local-id": "001",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-001"
-                            },
-                            {
-                                "local-id": "100",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
-                            },
-                            {
-                                "local-id": "200",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-smim-1-0-0-001"
-                            },
-                            {
-                                "local-id": "201",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-hmim-1-0-0-001"
-                            },
-                            {
-                                "local-id": "202",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-emim-1-0-0-001"
-                            }
-                        ]
-                    },
-                    {
                         "uuid": "mm-1-0-0-op-fc-is-003",
                         "name": [
                             {
@@ -2692,7 +2968,27 @@
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "value": "DismantleMediatorInstanceDeletesMediatorInstance"
+                                "value": "provideNetconfInterfaceManagesExistingMediatorInstances.PingTestOnDevice"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-004",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "provideNetconfInterfaceManagesExistingMediatorInstances.DeletesMediatorInstance"
                             }
                         ],
                         "fc-port": [
@@ -2714,17 +3010,127 @@
                             {
                                 "local-id": "200",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-smim-1-0-0-002"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-smim-1-0-0-001"
                             },
                             {
                                 "local-id": "201",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-hmimxx-1-0-0-002"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
                             },
                             {
                                 "local-id": "202",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-is-emim-1-0-0-002"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-emim-1-0-0-001"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-005",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "provideNetconfInterfaceCreatesMediatorInstance.DeterminesMediatorInstanceManagerBasedOnEngineeringLimit"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-006",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "provideNetconfInterfaceCreatesMediatorInstance.CreatesMediatorInstance"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "000",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-000"
+                            },
+                            {
+                                "local-id": "001",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-001"
+                            },
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-smim-1-0-0-000"
+                            },
+                            {
+                                "local-id": "201",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmim-1-0-0-000"
+                            },
+                            {
+                                "local-id": "202",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-emim-1-0-0-000"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-007",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "RequestForDeletingMediatorInstanceCausesMediatorInstanceDeletion"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "000",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-000"
+                            },
+                            {
+                                "local-id": "001",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-001"
+                            },
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-003"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-smim-1-0-0-001"
+                            },
+                            {
+                                "local-id": "201",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
+                            },
+                            {
+                                "local-id": "202",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-emim-1-0-0-001"
                             }
                         ]
                     },
@@ -2737,7 +3143,7 @@
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "value": "PromptForBequeathingRegardsMediatorVmToNewRelease"
+                                "value": "PromptForBequeathingRegardsMediatorInstanceManagerToNewRelease"
                             }
                         ],
                         "fc-port": [
@@ -2750,6 +3156,31 @@
                                 "local-id": "200",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                                 "logical-termination-point": "mm-1-0-0-op-c-im-nr-1-0-0-000"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-im-001",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "PromptForBequeathingTransfersMediatorVMTemplateToNewRelease"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-im-000"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "/v1/create-mediator-vm-template"
                             }
                         ]
                     }
