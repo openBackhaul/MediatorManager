@@ -431,7 +431,6 @@ forwardings:
       - client-name: ApplicationLayerTopology://v1/delete-fc-port
         uuid: mm-1-0-0-op-c-bm-alt-2-1-2-005
 
-
   - forwarding-name: createMediatorVmTemplateManagesMediatorInstances.RetrievesListOfMediatorInstances
     uuid: mm-1-0-0-op-fc-is-200
     forwarding-type: ProcessSnippet
@@ -477,7 +476,6 @@ forwardings:
         uuid: mm-1-0-0-op-c-im-hmim-1-0-0-001
       - client-name: MediatorInstanceManager://v1/dismantle-mediator-instance
         uuid: mm-1-0-0-op-c-im-emim-1-0-0-001
-
 
   - forwarding-name: RequestForManagingInstancesAtMediatorInstanceManagerCausesSendingRecordsToEatl
     uuid: mm-1-0-0-op-fc-is-202
