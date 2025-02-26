@@ -1813,7 +1813,7 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: createMediatorInstance
+      operationId: provideNetconfInterface
       summary: 'Creates a mediator instance'
       tags:
         - IndividualServices
@@ -1894,7 +1894,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-004/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -1994,7 +1994,7 @@ paths:
           ListMediatorInstances: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'Existance of a mediator instance for the {#requestBody#deviceIp} + {#requestBody#mount-name} shall be determined by retrieving the mediator instances accross all the MIM
-              The steps that are specified in provideNetconfInterfaceManagesExistingMediatorInstances.plantuml shall be executed.'
+              The steps that are specified in ProvideNetconfInterface.plantuml shall be executed.'
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2064,7 +2064,7 @@ paths:
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
           PingTestOnDevice: #requestBody#deviceIp
-            description: 'Ping test shall be performed on the deviceIp as per the cases stated in table in provideNetconfInterfaceManagesExistingMediatorInstances.md shall be executed.'
+            description: 'Ping test shall be performed on the deviceIp as per the steps mentioned in the ProvideNetconfInterface.plantuml.'
           DeletesMediatorInstances: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
               'Existing Mediator instances shall be deleted per the cases stated in table in provideNetconfInterfaceManagesExistingMediatorInstances.md shall be executed.'
@@ -2136,9 +2136,9 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
         provideNetconfInterfaceCreatesMediatorInstance:
           DeterminesMediatorInstanceManagerBasedOnEngineeringLimit: #callbacks#provideNetconfInterfaceManagesExistingMediatorInstances#ListMediatorInstances
-            description: 'Engineeringlimit shall be determined based on the EvaluateEngineeringLimit.plantuml sequence'
+            description: 'Engineeringlimit shall be determined based on the ProvideNetconfInterface.plantuml sequence'
           CreatesMediatorInstance: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-001/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
-            description: 'Mediator Instances shall be created'
+            description: 'Mediator Instances shall be created based on the steps mentioned in the ProvideNetconfInterface.plantuml'
             post:
               parameters:
                 - $ref: '#/components/parameters/user'
@@ -2242,7 +2242,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/dismantle-netconf-instance:
+  /v1/dismantle-netconf-instances:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'
@@ -2250,8 +2250,8 @@ paths:
       - $ref: '#/components/parameters/trace-indicator'
       - $ref: '#/components/parameters/customer-journey'
     post:
-      operationId: dismantleMediatorInstance
-      summary: 'Deletes a mediator Instance'
+      operationId: dismantleNefconfInstances
+      summary: 'Delete mediator Instances'
       tags:
         - IndividualServices
       security:
@@ -2309,7 +2309,7 @@ paths:
                 example: 'EXPERIMENTAL'
               description: >
                 'Life cycle state of the consumed service
-                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-000/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
+                from [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-s-is-005/layer-protocol=0/operation-server-interface-1-0:operation-server-interface-pac/operation-server-interface-configuration/life-cycle-state]'
         '400':
           $ref: '#/components/responses/responseForErroredServiceRequests'
         '401':
@@ -2323,10 +2323,150 @@ paths:
         default:
           $ref: '#/components/responses/responseForErroredServiceRequests'
       callbacks:
-        RequestForDeletingMediatorInstanceCausesMediatorInstanceDeletion:
-          url: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+        RequestForDeletingMediatorInstanceCausesDeletion:
+          ListMediatorInstances: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-000/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
             description: >
-              'The steps that are specified in DeleteMediatorInstance.plantuml shall be executed.'
+              'Existance of a mediator instance for the {#requestBody#mount-name} shall be determined by retrieving the mediator instances accross all the MIM.
+              The steps that are specified in DismantleNetconfInstances.plantuml shall be executed.'
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              responses:
+                '200':
+                  description: 'Mediators listed'
+                  content:
+                    application/json:
+                      schema:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - device-name
+                            - device-kind-name
+                            - mediator-instance-ip-address
+                            - mediator-instance-netconf-port
+                            - device-ip-address
+                          properties:
+                            device-name:
+                              type: string
+                              description: >
+                                'Name of device, which is connected by this mediator instance
+                                from [/core-model-1-4:control-construct/forwarding-domain=xmim-0-0-1-op-fd-0000/forwarding-construct=xmim-0-0-1-meth-fc-*/name=ForwardingName/name]'
+                            device-kind-name:
+                              type: string
+                              description: >
+                                'Type of the device, which is connected by the mediator
+                                from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-prot-c-*/layer-protocol=0/protocol-client-interface-1-0:protocol-client-interface-pac/protocol-client-interface-configuration/protocol-server-name]'
+                            mediator-instance-ip-address:
+                              type: string
+                              description: >
+                                'IP address of the mediator, which has been created
+                                from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-address/ipv-4-address]'
+                            mediator-instance-netconf-port:
+                              type: integer
+                              description: >
+                                'Port of the mediator, which has been created
+                                from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-s-*/layer-protocol=0/tcp-server-interface-1-0:tcp-server-interface-pac/tcp-server-interface-configuration/local-port]'
+                            device-ip-address:
+                              type: string
+                              description: >
+                                'IP address of the device, which has been connected by the mediator
+                                from [/core-model-1-4:control-construct/logical-termination-point=xmim-0-0-1-tcp-c-*/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address]'
+                          example:
+                            device-name: '305251234'
+                            device-kind-name: 'AGS_20'
+                            mediator-instance-ip-address: '10.118.132.1'
+                            mediator-instance-netconf-port: 1
+                            device-ip-address: '10.118.133.1'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '406':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'          
+          PingTestOnDevice: #requestBody#mount-name#device-ip
+              description: 'Ping test shall be performed on the device-ip of the identified mediator instance of the {$RequestBody#mount-name}
+          DeletesMediatorInstances: #[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-protocol]://[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/ip-address/ipv-4-address or /core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-address/domain-name]:[/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-tcp-c-*mim-1-0-0-000/layer-protocol=0/tcp-client-interface-1-0:tcp-client-interface-pac/tcp-client-interface-configuration/remote-port][/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-op-c-is-*mim-1-0-0-002/layer-protocol=0/operation-client-interface-1-0:operation-client-interface-pac/operation-client-interface-configuration/operation-name]
+            description: >
+              'Existing Mediator instances shall be deleted per the cases mentioned in the DismantleNetconfInstances.plantuml'
+            post:
+              parameters:
+                - $ref: '#/components/parameters/user'
+                - $ref: '#/components/parameters/originator'
+                - $ref: '#/components/parameters/x-correlator'
+                - $ref: '#/components/parameters/trace-indicator'
+                - $ref: '#/components/parameters/customer-journey'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      required:
+                        - device-name
+                      properties:
+                        device-name:
+                          type: string
+                          minLength: 3
+                          description: >
+                            'Name of device (mediator, respectively FC has the same name) that has to be dismantled
+                            find [/core-model-1-4:control-construct/forwarding-domain=xmim-0-0-1-op-fd-0000/forwarding-construct=xmim-0-0-1-meth-fc-*/name=ForwardingName/name]'
+              responses:
+                '204':
+                  description: 'Mediator deleted'
+                  headers:
+                    x-correlator:
+                      schema: 
+                        type: string
+                        example: '550e8400-e29b-11d4-a716-446655440000'
+                      description: 'UUID for the service execution flow that allows to correlate requests and responses. Its value must be identical at the response compared with its corresponding request'
+                    exec-time:
+                      schema:
+                        type: integer
+                        example: 1100
+                      description: 'Value written by the service provider, reporting the total elapsed time for the execution, including all the additional processing needed to retrieve the data from the backend service. Expressed in milliseconds'
+                    backend-time:
+                      schema:
+                        type: integer
+                        example: 850
+                      description: 'Value written by the service provider, reporting the elapsed time for data retrieval from the backend (service invocation, database access…). Expressed in milliseconds'
+                    life-cycle-state:
+                      schema:
+                        type: string
+                        enum:
+                          - 'EXPERIMENTAL'
+                          - 'OPERATIONAL'
+                          - 'DEPRECATED'
+                          - 'OBSOLETE'
+                          - 'UNKNOWN'
+                          - 'NOT_YET_DEFINED'
+                        example: 'EXPERIMENTAL'
+                      description: >
+                          'Life cycle state of the consumed service'
+                '400':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '401':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '403':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '404':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                '500':
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
+                default:
+                  $ref: '#/components/responses/responseForErroredServiceRequests'
         
 ########################################################################################################################
 #   Service Layer - Basic Part
