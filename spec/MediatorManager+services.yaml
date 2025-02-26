@@ -69,9 +69,9 @@ servers:
         - operation-name: /v1/disregard-mediator-instance-manager
           uuid: mm-1-0-0-op-s-im-002
         - operation-name: /v1/list-mediator-instance-managers
-          uuid: mm-1-0-0-op-s-is-003        
+          uuid: mm-1-0-0-op-s-is-003       
         - operation-name: /v1/provide-netconf-interface
-          uuid: mm-1-0-0-op-s-is-004      
+          uuid: mm-1-0-0-op-s-is-004     
         - operation-name: /v1/dismantle-netconf-instances
           uuid: mm-1-0-0-op-s-is-005
 
