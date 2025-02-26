@@ -1,0 +1,101 @@
+@startuml DeleteMediatorVmTemplate
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager /v1/delete-mediator-vm-template
+end title
+
+participant "OperationsTeam" as OT
+participant "MM://v1/delete-mediator-vm-template" as MM
+database "MM:APPDataFile" as AppData
+
+OT -> MM : 
+note right OT
+    {
+        "mediator-vm-template-name" : "EricssonMLTemplate"
+    }
+end note
+activate MM
+
+== case 1 : Mediator VM Template doesnot exist ==
+AppData -> MM : Retrieves list of existing mediator VM templates
+note left APPDataFile
+[
+    {
+    "mediator-vm-template-name" : "SiaeTemplate",
+    "vendor-name" : "Ericsson",
+    "supported-device-kind" : ["ALCP2E"],
+    "engineering-limit" : 3600,
+    <b>"paired-mediator-vm-list" : ["vmsiae1"]
+    },
+    {
+    "mediator-vm-template-name" : "HuaweiTemplate",
+    "vendor-name" : "Ericsson",
+    "supported-device-kind" : ["RTN-920"],
+    "engineering-limit" : 3600,
+    <b>"paired-mediator-vm-list" : ["vmhua1"]
+    }
+]
+end note
+note over MM
+   If mediator VM template doesnot exist
+end note
+
+MM --> OT : 204 NoContent
+
+== case 2 : Mediator VM Template already exist with empty paired-mediator-vm-list ==
+AppData -> MM : Retrieves list of existing mediator VM templates
+note left APPDataFile
+[
+    {
+    "mediator-vm-template-name" : "EricssonMLTemplate",
+    "vendor-name" : "Ericsson",
+    "supported-device-kind" : ["MLTN"],
+    "engineering-limit" : 3600,
+    <b>"paired-mediator-vm-list" : []
+    }
+]
+end note
+note over MM
+   If mediator VM already exist
+end note
+note over MM
+   If "paired-mediator-vm-list" is empty
+end note
+MM -> AppData :
+note right MM
+   Delete Mediator VM template
+end note
+MM --> OT : 204 NoContent
+
+== case 3 : Mediator VM Template already exist with paired-mediator-vm-list ==
+AppData -> MM : Retrieves list of existing mediator VM templates
+note left APPDataFile
+[
+    {
+    "mediator-vm-template-name" : "EricssonMLTemplate",
+    "vendor-name" : "Ericsson",
+    "supported-device-kind" : ["MLTN"],
+    "engineering-limit" : 3600,
+    <b>"paired-mediator-vm-list" : ["vmEric1"]
+    }
+]
+end note
+note over MM
+   If mediator VM already exist
+end note
+note over MM
+   If "paired-mediator-vm-list" is not empty
+end note
+
+MM --> OT : 409 NoContent
+note left MM
+ResponseBody :
+{
+conflictingMediatorInstanceManagerList : string [*] 
+}
+end note
+
+deactivate MM
+
+@enduml

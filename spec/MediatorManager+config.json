@@ -707,7 +707,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-im-000",
+                "uuid": "mm-1-0-0-op-s-is-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -730,7 +730,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-im-001",
+                "uuid": "mm-1-0-0-op-s-is-001",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -753,7 +753,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-is-000",
+                "uuid": "mm-1-0-0-op-s-is-002",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -776,7 +776,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-im-002",
+                "uuid": "mm-1-0-0-op-s-im-001",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -799,7 +799,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-im-003",
+                "uuid": "mm-1-0-0-op-s-im-002",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -822,7 +822,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-is-001",
+                "uuid": "mm-1-0-0-op-s-is-003",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -845,7 +845,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-is-002",
+                "uuid": "mm-1-0-0-op-s-is-004",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -868,7 +868,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-s-is-003",
+                "uuid": "mm-1-0-0-op-s-is-005",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SOURCE",
                 "client-ltp": [],
                 "server-ltp": [
@@ -880,7 +880,7 @@
                         "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                         "operation-server-interface-1-0:operation-server-interface-pac": {
                             "operation-server-interface-capability": {
-                                "operation-name": "/v1/delete-mediator-instance"
+                                "operation-name": "/v1/dismantle-netconf-instance"
                             },
                             "operation-server-interface-configuration": {
                                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -916,14 +916,14 @@
                     "mm-1-0-0-op-s-bs-003",
                     "mm-1-0-0-op-s-bs-004",
                     "mm-1-0-0-op-s-bs-005",
-                    "mm-1-0-0-op-s-im-000",
-                    "mm-1-0-0-op-s-im-001",
                     "mm-1-0-0-op-s-is-000",
-                    "mm-1-0-0-op-s-im-002",
-                    "mm-1-0-0-op-s-im-003",
                     "mm-1-0-0-op-s-is-001",
                     "mm-1-0-0-op-s-is-002",
-                    "mm-1-0-0-op-s-is-003"
+                    "mm-1-0-0-op-s-im-001",
+                    "mm-1-0-0-op-s-im-002",
+                    "mm-1-0-0-op-s-is-003",
+                    "mm-1-0-0-op-s-is-004",
+                    "mm-1-0-0-op-s-is-005"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-s-000"
@@ -939,7 +939,7 @@
                                 "application-purpose": "Preparing the connection between device and mediator/controller",
                                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",
                                 "owner-name": "Owner name",
-                                "owner-email-address": "owner@telefonica.com",
+                                "owner-email-address": "andreas.haack@telefonica.com",
                                 "release-list": [
                                     {
                                         "local-id": "0",
@@ -969,7 +969,7 @@
                                 "description": "Without TLS layer",
                                 "local-protocol": "tcp-server-interface-1-0:PROTOCOL_TYPE_HTTP",
                                 "local-address": {
-                                    "ipv-4-address": "1.1.4.6"
+                                    "ipv-4-address": "127.0.0.1"
                                 },
                                 "local-port": 4006
                             }
@@ -1073,31 +1073,7 @@
                 ]
             },
             {
-                "uuid": "mm-1-0-0-op-c-im-nr-1-0-0-000",
-                "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
-                "client-ltp": [],
-                "server-ltp": [
-                    "mm-1-0-0-http-c-nr-1-0-0-000"
-                ],
-                "layer-protocol": [
-                    {
-                        "local-id": "0",
-                        "layer-protocol-name": "operation-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
-                        "operation-client-interface-1-0:operation-client-interface-pac": {
-                            "operation-client-interface-configuration": {
-                                "operation-name": "/v1/regard-mediator-instance-manager",
-                                "operation-key": "Operation key not yet provided."
-                            },
-                            "operation-client-interface-status": {
-                                "operational-state": "operation-client-interface-1-0:OPERATIONAL_STATE_TYPE_NOT_YET_DEFINED",
-                                "life-cycle-state": "operation-client-interface-1-0:LIFE_CYCLE_STATE_TYPE_NOT_YET_DEFINED"
-                            }
-                        }
-                    }
-                ]
-            },
-            {
-                "uuid": "mm-1-0-0-op-c-im-nr-1-0-0-001",
+                "uuid": "mm-1-0-0-op-c-is-nr-1-0-0-000",
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [],
                 "server-ltp": [
@@ -1125,8 +1101,7 @@
                 "ltp-direction": "core-model-1-4:TERMINATION_DIRECTION_SINK",
                 "client-ltp": [
                     "mm-1-0-0-op-c-im-nr-1-0-0-000",
-                    "mm-1-0-0-op-c-im-nr-1-0-0-000",
-                    "mm-1-0-0-op-c-im-nr-1-0-0-001"
+                    "mm-1-0-0-op-c-is-nr-1-0-0-000"
                 ],
                 "server-ltp": [
                     "mm-1-0-0-tcp-c-nr-1-0-0-000"
@@ -3015,7 +2990,7 @@
                             {
                                 "local-id": "201",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmim-1-0-0-001"
                             },
                             {
                                 "local-id": "202",
@@ -3125,7 +3100,7 @@
                             {
                                 "local-id": "201",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmim-1-0-0-001"
                             },
                             {
                                 "local-id": "202",

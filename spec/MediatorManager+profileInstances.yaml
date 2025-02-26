@@ -106,13 +106,3 @@ profile-instances:
       datatype: string
     configuration:
       value-reference: '/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-s-000/layer-protocol=0/http-server-interface-1-0:http-server-interface-pac/http-server-interface-capability/release-list=0/changes'
-  
-  - profile-name: 'StringProfile'
-    uuid: 'mm-1-0-0-string-p-000'
-    capability:
-      string-name: 'allocationMethodType'
-      enumeration: ['EQUAL_UTILIZATION', 'NONE']
-      # EQUAL_UTILIZATION: load distributed accross same mediator kind type
-      # NONE: considering any mediator kind type until exceeding engineering limits.
-    configuration:
-      string-value: 'EQUAL_UTILIZATION'
