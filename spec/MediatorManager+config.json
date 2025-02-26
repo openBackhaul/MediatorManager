@@ -880,7 +880,7 @@
                         "layer-protocol-name": "operation-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_OPERATION_LAYER",
                         "operation-server-interface-1-0:operation-server-interface-pac": {
                             "operation-server-interface-capability": {
-                                "operation-name": "/v1/dismantle-netconf-instance"
+                                "operation-name": "/v1/dismantle-netconf-instances"
                             },
                             "operation-server-interface-configuration": {
                                 "life-cycle-state": "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_EXPERIMENTAL",
@@ -3140,7 +3140,7 @@
                             {
                                 "local-id": "201",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmim-1-0-0-001"
                             },
                             {
                                 "local-id": "202",
@@ -3215,7 +3215,7 @@
                         ]
                     },
                     {
-                        "uuid": "mm-1-0-0-op-fc-is-107",
+                        "uuid": "mm-1-0-0-op-fc-is-301",
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
@@ -3223,7 +3223,72 @@
                             },
                             {
                                 "value-name": "ForwardingName",
-                                "value": "RequestForDeletingMediatorInstanceCausesMediatorInstanceDeletion"
+                                "value": "RequestForDeletingMediatorInstanceCausesDeletion.ListMediatorInstances"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "000",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-im-001"
+                            },
+                            {
+                                "local-id": "001",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_MANAGEMENT",
+                                "logical-termination-point": "mm-1-0-0-op-s-im-002"
+                            },
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-005"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-is-smim-1-0-0-000"
+                            },
+                            {
+                                "local-id": "201",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-is-hmim-1-0-0-000"
+                            },
+                            {
+                                "local-id": "202",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-is-emim-1-0-0-000"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-302",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "RequestForDeletingMediatorInstanceCausesDeletion.PingTestOnDevice"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-is-005"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-is-303",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "RequestForDeletingMediatorInstanceCausesDeletion.MediatorInstanceDeletion"
                             }
                         ],
                         "fc-port": [
@@ -3250,7 +3315,7 @@
                             {
                                 "local-id": "201",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-im-hmimxx-1-0-0-001"
+                                "logical-termination-point": "mm-1-0-0-op-c-im-hmim-1-0-0-001"
                             },
                             {
                                 "local-id": "202",
@@ -3261,31 +3326,6 @@
                     },
                     {
                         "uuid": "mm-1-0-0-op-fc-im-000",
-                        "name": [
-                            {
-                                "value-name": "ForwardingKind",
-                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
-                            },
-                            {
-                                "value-name": "ForwardingName",
-                                "value": "PromptForBequeathingRegardsMediatorInstanceManagerToNewRelease"
-                            }
-                        ],
-                        "fc-port": [
-                            {
-                                "local-id": "100",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
-                                "logical-termination-point": "mm-1-0-0-op-s-im-000"
-                            },
-                            {
-                                "local-id": "200",
-                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
-                                "logical-termination-point": "mm-1-0-0-op-c-im-nr-1-0-0-000"
-                            }
-                        ]
-                    },
-                    {
-                        "uuid": "mm-1-0-0-op-fc-im-001",
                         "name": [
                             {
                                 "value-name": "ForwardingKind",
@@ -3306,6 +3346,31 @@
                                 "local-id": "200",
                                 "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
                                 "logical-termination-point": "mm-1-0-0-op-c-is-nr-1-0-0-000"
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "mm-1-0-0-op-fc-im-001",
+                        "name": [
+                            {
+                                "value-name": "ForwardingKind",
+                                "value": "core-model-1-4:FORWARDING_KIND_TYPE_INVARIANT_PROCESS_SNIPPET"
+                            },
+                            {
+                                "value-name": "ForwardingName",
+                                "value": "PromptForBequeathingRegardsMediatorInstanceManagerToNewRelease"
+                            }
+                        ],
+                        "fc-port": [
+                            {
+                                "local-id": "100",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_INPUT",
+                                "logical-termination-point": "mm-1-0-0-op-s-im-000"
+                            },
+                            {
+                                "local-id": "200",
+                                "port-direction": "core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT",
+                                "logical-termination-point": "mm-1-0-0-op-c-im-nr-1-0-0-000"
                             }
                         ]
                     }

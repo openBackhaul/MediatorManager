@@ -72,7 +72,7 @@ servers:
           uuid: mm-1-0-0-op-s-is-003        
         - operation-name: /v1/provide-netconf-interface
           uuid: mm-1-0-0-op-s-is-004      
-        - operation-name: /v1/dismantle-netconf-instance
+        - operation-name: /v1/dismantle-netconf-instances
           uuid: mm-1-0-0-op-s-is-005
 
   http-server:

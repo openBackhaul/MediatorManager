@@ -1,0 +1,116 @@
+@startuml DismantleNetconfInstances
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager /v1/dismantle-netconf-instances
+end title
+
+participant "MountingOrchestrator" as MO
+participant "MM://v1/dismantle-netconf-instances" as MM
+participant "*MIM://v1/delete-mediator-instance" as AMIMDel
+database "MediatorManager:APPDataFile" as AppData
+collections "*MIM://list-mediator-instances" as AMIM
+
+
+MO -> MM : 
+note right MO
+    { 
+      mount-name: '513250011'
+    }
+end note
+activate MM #LightSteelBlue
+
+Group RequestForDeletingMediatorInstanceCausesDeletion
+    Group ListMediatorInstances
+    MM -> AMIM : /v1/list-mediator-instances
+
+    note over MM 
+        In the retrieved instances list, 
+        filter for the mount-name 
+    end note
+    end
+
+    note over MM
+        let deletionStatusList = [];
+    end note
+    Group MediatorInstanceDeletion [repeat for entire filtered list]
+        Group PingTestOnDevice
+            MM -> device
+            note over MM
+                If ping is successful, 
+                then 
+                let deletionStatus = {"mediator-instance-ip-address": '1.2.3.4'
+                "deletion-status": "false",
+                "reason" : "DEVICE_IS_OPERATIONAL"}
+                deletionStatusList.push(deletionStatus)
+                move to the next iteration
+            end note        
+        end
+        MM -> AMIMDel :
+        == Case 1 : No response received from MIM ==
+        AMIMDel -X MM :
+        note over MM
+            If no response received from MIM then
+            let deletionStatus = {"mediator-instance-ip-address": '1.2.3.4'
+            "deletion-status": "false",
+            "reason" : "MIM_NOT_REACHABLE"}
+            deletionStatusList.push(deletionStatus) 
+        end note
+
+        == Case 2 : Authentication failure with MIM ==
+        AMIMDel -> MM : 401 UnAuthorized
+        note over MM
+            If Authentication failure at MIM then
+            let deletionStatus = {"mediator-instance-ip-address": '1.2.3.4'
+            "deletion-status": "false",
+            "reason" : "MIM_401"}
+            deletionStatusList.push(deletionStatus) 
+        end note
+
+        == Case 3 : InternalServerError in MIM ==
+        AMIMDel -> MM : 500 InternalServerError
+        note over MM
+            If Authentication failure at MIM then
+            let deletionStatus = {"mediator-instance-ip-address": '1.2.3.4'
+            "deletion-status": "false",
+            "reason" : "MIM_500"}
+            deletionStatusList.push(deletionStatus) 
+        end note
+
+        == Case 4 : Successful creation ==
+        AMIMDel -> MM : 204 NoContent
+        note over mm
+            If successfully deleted then
+            let deletionStatus = {"mediator-instance-ip-address": '1.2.3.4'
+            "deletion-status": "true",
+            "reason" : "MIM_500"}   
+        end note 
+    end
+
+    note over MM
+        If one or more deletionStatusList["deletion-status"] is false
+        then        
+    end note
+
+    MM -> MO : 500 InternalServerError
+
+    note over MM
+        If no deletionStatusList["deletion-status"] is false
+        then        
+    end note
+
+    MM -> MO : 204 NoContent
+deactivate MM 
+
+    note left MM #LightPink
+        <b><u>Thoughts about the response code :
+        If failed to delete a single instance, then 
+        we have to return the status code !=204.
+        But exactly what we have to include? Because MIM shall send no response, 401, 500.
+        If there are more than 1 failure , and if the reason for failure is heterogeneous  
+        then shall we send 500 ?
+        If there are more than 1 failure , and if the reason for failure is homogeneous  
+        then shall we send that specific response ?
+        If there is 1 failure , then shall we send that specific response ?
+    end note
+end
