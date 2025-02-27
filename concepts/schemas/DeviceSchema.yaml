@@ -6,10 +6,10 @@ core-model-1-4:control-construct:
   properties:
     uuid:
       type: string
-      pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+      pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
       description: >
         'Network Element ID
-        from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+        from [MM://v1/provide-netconf-interface$request.body#mount-name]'
     logical-termination-point:
       type: array
       uniqueItems: true
@@ -27,10 +27,10 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$'
                 description: >
                   'Network Element ID and sequence number of the mediator connection
-                  from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]'
               ltp-direction:
                 type: string
                 enum:
@@ -49,7 +49,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$'
                   description: 'Identifier of the serving TcpServer'
               layer-protocol:
                 type: array
@@ -85,15 +85,15 @@ core-model-1-4:control-construct:
                           properties:
                             device-name:
                               type: string
-                              pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                              pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
                               description: >
                                 'Network Element ID
-                                from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+                                from [MM://v1/provide-netconf-interface$request.body#mount-name]'
                             device-model:
                               type: string
                               description: >
-                                'Network Element ID
-                                from [NIM://v1/provide-netconf-interface$request.body#device-model]'
+                                'Kind of device
+                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
                         snmp-server-interface-configuration:
                           type: object
                         snmp-server-interface-status:
@@ -109,10 +109,10 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$'
                 description: >
                   'Network Element ID and identification of the single TcpServer
-                  from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]'
               ltp-direction:
                 type: string
                 enum:
@@ -123,7 +123,7 @@ core-model-1-4:control-construct:
                 minItems: 1
                 items:
                   type: string
-                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$'
                   description: 'Identifier of the client SnmpServers'
               server-ltp:
                 type: array
@@ -181,8 +181,8 @@ core-model-1-4:control-construct:
                                 ipv-4-address:
                                   type: string
                                   description: >
-                                    'Network Element ID
-                                    from [NIM://v1/provide-netconf-interface$request.body#device-ip]'
+                                    'IP address of the device
+                                    from [MM://v1/provide-netconf-interface$request.body#device-ip]'
                                 domain-name:
                                   type: string
                                   description: 'Not used'

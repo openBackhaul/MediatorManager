@@ -1187,27 +1187,28 @@ paths:
             schema:
               type: object
               required:
-                - mediator-instance-name
-                - mediator-instance-release-number
+                - mediator-instance-name-OBSOLETE
+                - mediator-instance-release-number-OBSOLETE
                 - mediator-vm-template-name
                 - mediator-instance-manager-protocol
                 - mediator-instance-manager-ip-address
                 - mediator-instance-manager-port
               properties:
-                mediator-instance-name:
+                mediator-instance-name-OBSOLETE:
                   type: string
                   minLength: 6
                   pattern: '^([A-Z][a-z0-9]+){2,}$'
                   description: >
                     'Name of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]'
-                mediator-instance-release-number:
+                mediator-instance-release-number-OBSOLETE:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
                   description: >
                     'release of a MediatorInstanceManager application find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=mm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/release-number]'
                 mediator-vm-template-name:
                   type: string
-                  minLength: 6
+                  minLength: 6  # Thorsten: I would like the mediatorVm being handled like an application.
+                  pattern: '^([a-z]{2,6})$'  # Thorsten: This pattern is required for automatically generating the UUID of the mediatorVm
                   description: >
                     'find the name of a pre-created mediator vm template in the APPData. 
                      {$mediator-instance-name}' shall be associated to the {$mediator-vm-template-name} in the APPData.
@@ -2242,7 +2243,7 @@ paths:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
                 default:
                   $ref: '#/components/responses/responseForErroredServiceRequests'
-  /v1/dismantle-netconf-instances:
+  /v1/dismantle-netconf-interface:
     parameters:
       - $ref: '#/components/parameters/user'
       - $ref: '#/components/parameters/originator'

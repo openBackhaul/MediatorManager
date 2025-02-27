@@ -1,0 +1,482 @@
+core-model-1-4:control-construct:
+  type: object
+  required:
+    - uuid
+    - logical-termination-point
+    - forwarding-domain
+  properties:
+    uuid:
+      type: string
+      pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})$'
+      description: >
+        'Unique identifier of the mediatorVm composed from the mediatorVmTemplateName and a sequence number.
+        The pattern must be kept for the mediatorVm being accepted as an application.
+        from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]-0-0-[a sequence number that is unique for the same mediator-vm-template-name to be assigned]'
+    logical-termination-point:
+      type: array
+      uniqueItems: true
+      minItems: 2
+      maxItems: 2
+      items:
+        oneOf:
+          - description: 'netconf server'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
+                description: >
+                  'Unique identifier of the NETCONF interface composed from the Network Element ID and a sequence number
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-netc-s-[sequence number]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-([0-9]{3}))$'
+                  description: 'Identifier of the serving TcpServer'
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - netconf-server-interface-1-0:netconf-server-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'netconf-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_NETCONF_LAYER'
+                    netconf-server-interface-1-0:netconf-server-interface-pac:
+                      type: object
+                      required:
+                        - netconf-server-interface-capability
+                        - netconf-server-interface-configuration
+                        - netconf-server-interface-status
+                      properties:
+                        netconf-server-interface-capability:
+                          type: object
+                          required:
+                            - device-name
+                            - device-model
+                          properties:
+                            device-name:
+                              type: string
+                              pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
+                              description: >
+                                'Network Element ID
+                                from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+                            device-model:
+                              type: string
+                              description: >
+                                'Kind of device
+                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
+                        netconf-server-interface-configuration:
+                          type: object
+                        netconf-server-interface-status:
+                          type: object
+                          required:
+                            - interface-status
+                          properties:
+                            interface-status:
+                              type: string
+                              enum:
+                                - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_UP'
+                                - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_DOWN'
+                                - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_UNKNOWN'
+                                - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_NOT_YET_DEFINED'
+                              description: >
+                                'Status of the NETCONF interface
+                                not yet defined = feature not implemented
+                                unknown = feature implemented, but currently no result'
+                            device-model:
+                              type: string
+                              description: >
+                                'Kind of device
+                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
+          - description: 'tcp server'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-([0-9]{3}))$'
+                description: >
+                  'Unique identifier of the TcpServer composed from the Network Element ID and the same sequence number as the client NetconfServer
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-s-[sequence number]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
+                  description: 'Identifier of the client NetconfServer'
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - tcp-server-interface-1-0:tcp-server-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                    tcp-server-interface-1-0:tcp-server-interface-pac:
+                      type: object
+                      required:
+                        - tcp-server-interface-configuration
+                      properties:
+                        tcp-server-interface-configuration:
+                          type: object
+                          required:
+                            - description
+                            - local-protocol
+                            - local-address
+                            - local-port
+                          properties:
+                            description:
+                              type: string
+                              enum: ''
+                              description: 'Not used'
+                            local-protocol:
+                              type: string
+                              enum:
+                                - 'tcp-server-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED'
+                            local-address:
+                              type: object
+                              minProperties: 1
+                              maxProperties: 1
+                              additionalProperties: false
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: >
+                                    'IP address of the NETCONF interface
+                                    from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]'
+                                domain-name:
+                                  type: string
+                                  description: 'Not used'
+                            local-port:
+                              type: integer
+                              description: >
+                                'TCP port of the NETCONF interface
+                                from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-netconf-port]'
+          - description: 'snmp client'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
+                description: >
+                  'Unique identifier of the SnmpClient composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-snmp-c-[sequence number]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-c-([0-9]{3}))$'
+                  description: 'Identifier of the serving TcpClient'
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - snmp-client-interface-1-0:snmp-client-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'snmp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_SNMP_LAYER'
+                    snmp-client-interface-1-0:snmp-client-interface-pac:
+                      type: object
+                      required:
+                        - snmp-client-interface-capability
+                        - snmp-client-interface-configuration
+                        - snmp-client-interface-status
+                      properties:
+                        snmp-client-interface-capability:
+                          type: object
+                          required:
+                            - device-name
+                            - device-model
+                          properties:
+                            device-name:
+                              type: string
+                              pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
+                              description: >
+                                'Network Element ID
+                                from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+                            device-model:
+                              type: string
+                              description: >
+                                'Kind of device
+                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
+                        snmp-client-interface-configuration:
+                          type: object
+                        snmp-client-interface-status:
+                          type: object
+          - description: 'tcp client'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-c-([0-9]{3}))$'
+                description: >
+                  'Unique identifier of the TcpClient composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-c-[sequence number]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
+                  description: 'Identifier of the client SnmpClient'
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - tcp-client-interface-1-0:tcp-client-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                    tcp-client-interface-1-0:tcp-client-interface-pac:
+                      type: object
+                      required:
+                        - tcp-client-interface-configuration
+                      properties:
+                        tcp-client-interface-configuration:
+                          type: object
+                          required:
+                            - remote-protocol
+                            - remote-address
+                            - remote-port
+                          properties:
+                            remote-protocol:
+                              type: string
+                              enum:
+                                - 'tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED'
+                            remote-address:
+                              type: object
+                              minProperties: 1
+                              maxProperties: 1
+                              additionalProperties: false
+                              properties:
+                                ip-address:
+                                  type: object
+                                  minProperties: 1
+                                  additionalProperties: false
+                                  properties:
+                                    ipv-4-address:
+                                      type: string
+                                      description: >
+                                        'IP address of the device
+                                        from [MM://v1/provide-netconf-interface$request.body#device-ip]'
+                                domain-name:
+                                  type: string
+                                  description: 'Not used'
+                            remote-port:
+                              type: integer
+                              description: >
+                                'to be set on 0 until defined in detail'
+    forwarding-domain:
+      type: array
+      minItems: 1
+      maxItems: 1
+      items:
+        type: object
+        required:
+          - uuid
+          - forwarding-construct
+        properties:
+          uuid:
+            type: string
+            pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000)$
+            description: 'Unique identifier of the mediationForwardingDomain composed from the control-construct::uuid and -med-fd-000'
+          forwarding-construct:
+            type: array
+            items:
+              type: object
+              required:
+                - uuid
+                - name
+                - fc-port
+              properties:
+                uuid:
+                  type: string
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-med-fc-is-([0-9]{3}))$'
+                  description: >
+                    'Unique identifier of the mediatorProcess composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
+                    from [MM://v1/provide-netconf-interface$request.body#mount-name]-med-fc-is-[sequence number]'
+                name:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - value-name
+                      - value
+                    properties:
+                      value-name:
+                        type: string
+                        enum:
+                          - 'deviceName'
+                      value:
+                        type: string
+                        pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
+                        description: >
+                          'Network Element ID
+                          from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+                fc-port:
+                  type: array
+                  minItems: 2
+                  maxItems: 2
+                  items:
+                    oneOf:
+                      - description: 'netconf fc port'
+                        type: object
+                        required:
+                          - local-id
+                          - port-direction
+                          - logical-termination-point
+                        properties:
+                          local-id:
+                            type: string
+                            enum:
+                              - '0'
+                          port-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
+                          logical-termination-point:
+                            type: string
+                            pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
+                            description: 'Identifier of the NetconfServer'
+                      - description: 'snmp fc port'
+                        type: object
+                        required:
+                          - local-id
+                          - port-direction
+                          - logical-termination-point
+                        properties:
+                          local-id:
+                            type: string
+                            enum:
+                              - '1'
+                          port-direction:
+                            type: string
+                            enum:
+                              - 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
+                          logical-termination-point:
+                            type: string
+                            pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
+                            description: 'Identifier of the SnmpClient'
