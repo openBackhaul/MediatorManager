@@ -15,16 +15,16 @@ release-list:
         data-file: './completeness/v1.0.0/testcases/MediatorManager+data.completeness.json'
         simulator-file-list: 
           - simulator-file: './completeness/v1.0.0/simulators/EricssonMediatorInstanceManager/dockerfile' #Includeing real server is fine ?
-              simulated-application:
-                application-name: 'MIM'
-                release-number: '1.0.0'
-              temporary-address:
-                ipv-4-address: 127.0.0.1
-                tcp-port: 5000 #We need to follow port prescription ?
+            simulated-application:
+              application-name: 'MIM'
+              release-number: '1.0.0'
+            temporary-address:
+              ipv-4-address: 127.0.0.1
+              tcp-port: 5000 #We need to follow port prescription ?
           - simulator-file: './completeness/v1.0.0/simulators/SIAEMediatorInstanceManager/dockerfile'
-              simulated-application:
-                application-name: 'MIM'
-                release-number: '1.0.0'
-              temporary-address:
-                ipv-4-address: 127.0.0.1
-                tcp-port: 5001
+            simulated-application:
+              application-name: 'MIM'
+              release-number: '1.0.0'
+            temporary-address:
+              ipv-4-address: 127.0.0.1
+              tcp-port: 5001

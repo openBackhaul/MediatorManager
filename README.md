@@ -1,21 +1,30 @@
-# MediatorManager
+# MediatorManager  
 
-### Location
-The MediatorManager is part of the OperationSupport.
+### Location  
+The MediatorManager (MM) is part of the OperationSupport.  
 
-### Description
-The MediatorManager decides about which MediatorInstanceManager to be addressed for provisioning of a mediator process for an individual device. It is regarding device type and e.g. load balancing criteria. Future versions might support re-allocation of mediator processes based on planned operational activities like replacement of a mediator virtual machine or unplanned events like failure of a mediator virtual machine.
+### Description  
+The MediatorManager manages and encapsulates all necessary activities for providing and maintaining NETCONF interfaces to the devices.  
 
-New and to be discussed:
-A prerequisite for creating or modifying a mediator is that the IP address provided as an input is not used for an existing mediator instance with another mount name in connected state.
+This includes the following aspects:  
+  - establishing the interface (incl. initiating the necessary device preparation)  
+  - sharing the load accross mediatorVMs  
+  - supporting non-traffic affecting mediator release updates  
+  - load sharing based protection of mediatorVMs  
+  - representing the network topology behind the NETCONF interface  
 
-### Relevance
-The MediatorManager is required for connecting devices to the controller.
+More detailed information about the MM's concepts:  
+- [Basic Building Blocks](./concepts/BasicBuildingBlocks.md)  
+- [Network Topology Representation](./concepts/NetworkTopologyRepresentation.md)  
+- [Automated Operation](./concepts/AutomatedOperation.md)  
 
-### Resources
-- [Specification](./spec/)
-- [TestSuite](./testing/)
-- [Implementation](./server/)
+### Relevance  
+The MediatorManager is required for connecting devices to the controller.  
 
-### Comments
+### Resources  
+- [Specification](./spec/)  
+- [TestSuite](./testing/)  
+- [Implementation](./server/)  
+
+### Comments  
 ./.

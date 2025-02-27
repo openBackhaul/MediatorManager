@@ -1,0 +1,12 @@
+
+
+
+
+
+
+
+Ein Utilization attribute an der mediatorVM wäre vielleicht nicht schlecht
+Utilization = Anzahl mediatorProzesse / engineering limit 
+aber damit wären nicht mehr alle eigeschaften der mediatorVM statisch
+Auf der anderen Seite ist auch der username bei Huawei individuell zu konfigurieren
+

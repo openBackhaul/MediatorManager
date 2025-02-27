@@ -1,0 +1,192 @@
+core-model-1-4:control-construct:
+  type: object
+  required:
+    - uuid
+    - logical-termination-point
+  properties:
+    uuid:
+      type: string
+      pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+      description: >
+        'Network Element ID
+        from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+    logical-termination-point:
+      type: array
+      uniqueItems: true
+      minItems: 2
+      items:
+        oneOf:
+          - description: 'snmp server'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$
+                description: >
+                  'Network Element ID and sequence number of the mediator connection
+                  from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$
+                  description: 'Identifier of the serving TcpServer'
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - snmp-server-interface-1-0:snmp-server-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'snmp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_SNMP_LAYER'
+                    snmp-server-interface-1-0:snmp-server-interface-pac:
+                      type: object
+                      required:
+                        - snmp-server-interface-capability
+                        - snmp-server-interface-configuration
+                        - snmp-server-interface-status
+                      properties:
+                        snmp-server-interface-capability:
+                          type: object
+                          required:
+                            - device-name
+                            - device-model
+                          properties:
+                            device-name:
+                              type: string
+                              pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$
+                              description: >
+                                'Network Element ID
+                                from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+                            device-model:
+                              type: string
+                              description: >
+                                'Network Element ID
+                                from [NIM://v1/provide-netconf-interface$request.body#device-model]'
+                        snmp-server-interface-configuration:
+                          type: object
+                        snmp-server-interface-status:
+                          type: object
+          - description: 'tcp server'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$
+                description: >
+                  'Network Element ID and identification of the single TcpServer
+                  from [NIM://v1/provide-netconf-interface$request.body#mount-name]'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: string
+                  pattern: ^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$
+                  description: 'Identifier of the client SnmpServers'
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - tcp-server-interface-1-0:tcp-server-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                    tcp-server-interface-1-0:tcp-server-interface-pac:
+                      type: object
+                      required:
+                        - tcp-server-interface-configuration
+                      properties:
+                        tcp-server-interface-configuration:
+                          type: object
+                          required:
+                            - description
+                            - local-protocol
+                            - local-address
+                            - local-port
+                          properties:
+                            description:
+                              type: string
+                              enum: ''
+                              description: 'Not used'
+                            local-protocol:
+                              type: string
+                              enum:
+                                - 'tcp-server-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED'
+                            local-address:
+                              type: object
+                              minProperties: 1
+                              maxProperties: 1
+                              additionalProperties: false
+                              properties:
+                                ipv-4-address:
+                                  type: string
+                                  description: >
+                                    'Network Element ID
+                                    from [NIM://v1/provide-netconf-interface$request.body#device-ip]'
+                                domain-name:
+                                  type: string
+                                  description: 'Not used'
+                            local-port:
+                              type: integer
+                              description: >
+                                'to be set on 0 until defined in detail'
