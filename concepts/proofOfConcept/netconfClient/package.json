@@ -1,0 +1,14 @@
+{
+  "name": "netconfclient",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Prathiba Jeevan",
+  "license": "ISC",
+  "description": "Proof of concept for connecting with netconf client from a nodejs application",
+  "dependencies": {
+    "node-netconf": "^1.1.2"
+  }
+}
