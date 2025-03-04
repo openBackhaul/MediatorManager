@@ -7,11 +7,63 @@ core-model-1-4:control-construct:
   properties:
     uuid:
       type: string
-      pattern: "^([a-z]{2,6})-0-0-([0-9]{1,2})$"
+      pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})$'
       description: >
         'Unique identifier of the mediatorVm composed from the mediatorVmTemplateName and a sequence number.
         The pattern must be kept for the mediatorVm being accepted as an application.
-        from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]-0-0-[a sequence number that is unique for the same mediator-vm-template-name to be assigned]'
+        from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]-0-0-[automatically generated sequence number that is unique for the same mediatorVmTemplateName]'
+    profile-collection:
+      type: object
+      required:
+        - profile
+      properties:
+        profile:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          maxItems: 1
+          items:
+            oneOf:
+              - description: 'string profile - mediatorVmTemplateName'
+                type: object
+                required:
+                  - uuid
+                  - profile-name
+                  - string-profile-1-0:string-profile-pac
+                properties:
+                  uuid:
+                    type: string
+                    pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-string-p-000)$'
+                    description: 'Unique identifier of the StringProfile composed from the control-construct::uuid and -string-p-000'
+                  profile-name:
+                    type: string
+                    enum:
+                      - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                  string-profile-1-0:string-profile-pac:
+                    type: object
+                    required:
+                      - string-profile-capability
+                      - string-profile-configuration
+                    properties:
+                      string-profile-capability:
+                        type: object
+                        required:
+                          - string-name
+                        properties:
+                          string-name:
+                            type: string
+                            enum:
+                              - 'mediatorVmTemplateName'
+                      string-profile-configuration:
+                        type: object
+                        required:
+                          - string-value
+                        properties:
+                          string-value:
+                            type: string
+                            description: >
+                              'mediatorVmTemplate from which this mediatorVm is derived from
+                              from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]'
     logical-termination-point:
       type: array
       uniqueItems: true
@@ -29,7 +81,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$'
                 description: 'Unique identifier of the TcpServer composed from the control-construct::uuid and -tcp-s-000'
               ltp-direction:
                 type: string
@@ -41,7 +93,7 @@ core-model-1-4:control-construct:
                 minItems: 1
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-([0-9]{3}))$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-([0-9]{3}))$'
                   description: 'Identifier of the client HttpServers'
               server-ltp:
                 type: array
@@ -68,7 +120,7 @@ core-model-1-4:control-construct:
                     layer-protocol-name:
                       type: string
                       enum:
-                        - "tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER"
+                        - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
                     tcp-server-interface-1-0:tcp-server-interface-pac:
                       type: object
                       required:
@@ -121,12 +173,12 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
                 description: 'Unique identifier of the HttpServer composed from the control-construct::uuid and -http-s-000'
               ltp-direction:
                 type: string
                 enum:
-                  - "core-model-1-4:TERMINATION_DIRECTION_SOURCE"
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
               client-ltp:
                 type: array
                 uniqueItems: true
@@ -134,7 +186,7 @@ core-model-1-4:control-construct:
                 maxItems: 3
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-00([0-2]{1}))$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-00([0-2]{1}))$'
                   description: 'Identifier of the client OperationServers'
               server-ltp:
                 type: array
@@ -143,7 +195,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$'
                   description: 'Identifier of the serving TcpServer'
               layer-protocol:
                 type: array
@@ -163,7 +215,7 @@ core-model-1-4:control-construct:
                     layer-protocol-name:
                       type: string
                       enum:
-                        - "http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER"
+                        - 'http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER'
                     http-server-interface-1-0:http-server-interface-pac:
                       type: object
                       required:
@@ -217,12 +269,12 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-000)$
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-000)$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-000'
               ltp-direction:
                 type: string
                 enum:
-                  - "core-model-1-4:TERMINATION_DIRECTION_SOURCE"
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
               client-ltp:
                 type: array
                 uniqueItems: true
@@ -237,7 +289,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -282,7 +334,7 @@ core-model-1-4:control-construct:
                             life-cycle-state:
                               type: string
                               enum:
-                                - "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL"
+                                - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
                             operation-key:
                               type: string
                               enum:
@@ -298,12 +350,12 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-001)$
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-001)$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-001'
               ltp-direction:
                 type: string
                 enum:
-                  - "core-model-1-4:TERMINATION_DIRECTION_SOURCE"
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
               client-ltp:
                 type: array
                 uniqueItems: true
@@ -318,7 +370,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -363,7 +415,7 @@ core-model-1-4:control-construct:
                             life-cycle-state:
                               type: string
                               enum:
-                                - "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL"
+                                - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
                             operation-key:
                               type: string
                               enum:
@@ -379,12 +431,12 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-002)$
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-002)$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-002'
               ltp-direction:
                 type: string
                 enum:
-                  - "core-model-1-4:TERMINATION_DIRECTION_SOURCE"
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
               client-ltp:
                 type: array
                 uniqueItems: true
@@ -399,7 +451,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -444,7 +496,7 @@ core-model-1-4:control-construct:
                             life-cycle-state:
                               type: string
                               enum:
-                                - "operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL"
+                                - 'operation-server-interface-1-0:LIFE_CYCLE_STATE_TYPE_OPERATIONAL'
                             operation-key:
                               type: string
                               enum:
@@ -461,7 +513,7 @@ core-model-1-4:control-construct:
         properties:
           uuid:
             type: string
-            pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000)$
+            pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000)$'
             description: 'Unique identifier of the mediationForwardingDomain composed from the control-construct::uuid and -med-fd-000'
           forwarding-construct:
             type: array

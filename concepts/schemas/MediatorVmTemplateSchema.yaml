@@ -1,1 +1,98 @@
-mediatorVmTemplateName pattern wie für Kurzform des application-name anwenden ^([a-z]{2,6})$
+AppDATA:
+  type: object
+  required:
+    - mediator-vm-template-list
+    - core-model-1-4:network-control-domain
+  properties:
+    mediator-vm-template-list:
+      type: array
+      uniqueItems: true
+      x-key: mediatorVmTemplateName
+      items:
+        type: object
+        required:
+          - mediatorVmTemplateName
+          - supportedDeviceModelList
+          - engineeringLimit
+          - tcpPortRangeList
+          - userName
+          - password
+        properties:
+          mediatorVmTemplateName:
+            type: string
+            pattern: '^([a-z]{2,6})$'
+            description: >
+              'Unique identifier of the mediatorVmTemplate that must look like the abbreviation of an ApplicationName
+              Must be invariant as mediatorVms are referencing their mediatorVmTemplate with this identifier'
+          mediatorTypeName:
+            type: string
+            description: 'Free text field that can be optionally filled by the operator'
+          mediatorTypeReleaseNumber:
+            type: string
+            description: 'Free text field that can be optionally filled by the operator'
+          vendorName:
+            type: string
+            enum:
+              - Ericsson
+              - Huawei
+              - SIAE
+            description: 'Name of the microwave vendor'
+          supportedDeviceModelList:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            items:
+              type: string
+              description: >
+                'Names of the device models for which the derived mediatorVms can be used
+                Values must be identical with the values that are used in MM://v1/provide-netconf-interface$request.body#device-model'
+          engineeringLimit:
+            type: integer
+            description: 'Limits the number of mediatorProcesses operated in mediatorVms derived from this mediatorVmTemplate'
+          tcpPortRangeList:
+            type: array
+            minItems: 1
+            description: >
+              'The mediatorVms derived from this mediatorVmTemplate create NETCONF interfaces with TCP ports equal or between the lowestTcpPort and the highestTcpPort
+              Defining several separated ranges is supported'
+            items:
+              type: object
+              required:
+                - lowestTcpPort
+                - highestTcpPort
+              properties:
+                lowestTcpPort:
+                  type: integer
+                  description: ''
+                highestTcpPort:
+                  type: integer
+                  description: ''
+          userName:
+            type: string
+            description: 'User name for manual access to the mediatorVms derived from this mediatorVmTemplate'
+          password:
+            type: string
+            description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
+          javaVersion:
+            type: string
+            description: 'Java Release applied for this mediator release'
+    core-model-1-4:network-control-domain:
+      type: array
+      minItems: 1
+      maxItems: 1
+      items:
+        type: object
+        required:
+          - control-construct
+          - link
+        properties:
+          control-construct:
+            type: array
+            items:
+              type: object
+              # devices (see DeviceSchema.yaml) and mediatorVms (see MediatorVmSchema.yaml) to be listed here
+          link:
+            type: array
+            items:
+              type: object
+              # links (see LinkSchema.yaml) to be listed here
