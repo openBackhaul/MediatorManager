@@ -17,4 +17,4 @@ NA
 
 **Sequence diagram** :
 
-![your-UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PrathibaJee/applicationPatternDummy/refs/heads/main/MediatorManager/disregardMediatorInstanceManager.iuml?token=GHSAT0AAAAAAC72XVCRQ6C2MED5MFPBXDS4Z6P2TSA)
+![your-UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/openBackhaul/MediatorManager/refs/heads/v1.0.0_spec/spec/diagrams/MediatorVMtemplate/disregardMediatorInstanceManager.iuml)
