@@ -20,4 +20,4 @@ MediatorMonitoringIsOn(StringProfile)
 
 **Sequence** :
 
-![your-UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PrathibaJee/applicationPatternDummy/refs/heads/main/MediatorManager/CyclicProcessToMonitorMediatorVMs.iuml?token=GHSAT0AAAAAACXA25NICZVCPVLDUJXOWC4EZ6QAEHQ)
+![your-UML-diagram-name](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/openBackhaul/MediatorManager/refs/heads/v1.0.0_spec/spec/diagrams/MediatorVMtemplate/CyclicProcessToMonitorMediatorVMs.iuml)
