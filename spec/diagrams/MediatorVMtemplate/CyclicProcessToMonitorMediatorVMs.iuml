@@ -1,0 +1,67 @@
+@startuml CyclicProcessToMonitorMediatorVMs
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager CyclicProcessToMonitorMediatorVMs
+end title
+
+participant "MM://v1/embed-yourself" as EmbedYourself
+participant "MM:CyclicProcessToMonitorMediatorVMs" as MM
+database "MM:ConfigFile" as ConfigFile
+database "MM:APPData(ES)" as AppData
+participant " *MIM://v1/list-mediator-instances" as MIM
+
+EmbedYourself -> MM : 
+note right EmbedYourself
+start the cyclic process to Monitor the mediator VMs
+end note
+activate MM
+
+ConfigFile -> MM :
+note left ConfigFile
+get mediatorMonitoringIsOn stringProfile
+end note
+
+== If mediatorMonitoringIsOn is true ==
+
+ConfigFile -> MM :
+note left ConfigFile
+get mediatorMonitoringFrequency IntegerProfile
+end note
+
+loop per valueOf(mediatorMonitoringFrequency) 
+
+AppData -> MM : Retrieves list of existing mediator Instance Manager
+note left AppData
+[
+    <ControlConstruct list of all existing Mediator VMs>
+]
+end note
+
+loop for all MediatorInstanceManagers
+MM -> MIM :
+MIM -> MM :
+
+
+== case 1 : MIM responds with response !=200 ==
+MM -> MM :
+note over MM
+   If MIM responds with response !=200
+end note
+
+MM -> AppData
+note left AppData
+Update the operationState to UNAVAILABLE
+end note
+
+== case 2 : MIM responds with response ==200 ==
+
+note over MM
+   Do nothing
+end note
+end
+end
+
+deactivate MM
+
+@enduml

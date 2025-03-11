@@ -1,0 +1,45 @@
+@startuml disregardMediatorInstanceManager
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager /v1/disregard-mediator-instance-manager
+end title
+
+participant "OperationsTeam" as OT
+participant "MM://v1/disregard-mediator-instance-manager" as MM
+database "MM:APPData(ES)" as AppData
+
+OT -> MM : 
+note right OT
+    {
+        "mediator-instance-name" : "EricssonMediatorVMOne",
+        "mediator-instance-release-number" : "1.0.0"
+    }
+end note
+activate MM
+
+note over MM
+Do nothing to the config data
+end note
+
+AppData -> MM : Retrieves list of existing mediator Instance Manager
+note left AppData
+[
+    <ControlConstruct list of all existing Mediator VMs>
+]
+end note
+
+note over MM
+   If Mediator Instance Manager exist
+end note
+
+MM -> MM
+note over MM
+   Mark life-cycle-state as PENDING_REMOVAL
+end note
+
+MM --> OT : 204 NoContent
+
+deactivate MM
+
+@enduml

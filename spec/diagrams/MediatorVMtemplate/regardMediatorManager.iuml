@@ -1,0 +1,70 @@
+@startuml regardMediatorInstanceManager
+skinparam responseMessageBelowArrow true
+
+title
+MediatorManager /v1/regard-mediator-instance-manager
+end title
+
+participant "OperationsTeam" as OT
+participant "MM://v1/regard-mediator-instance-manager" as MM
+database "MM:ConfigData" as ConfigData
+database "MM:APPData(ES)" as AppData
+
+OT -> MM : 
+note right OT
+    {
+        "mediator-instance-name" : "EricssonMediatorVMOne",
+        "mediator-instance-release-number" : "1.0.0"
+        "mediator-vm-template-name" : "EricssonMLTNTemplate"
+        "mediator-instance-manager-protocol" : "HTTP"
+        "mediator-instance-manager-ip-address" : 127.0.0.1
+        "mediator-instance-manager-port" : 3000
+    }
+end note
+activate MM
+
+MM -> ConfigData
+note left ConfigData
+Create or update client ltp stack and 
+required forwardings(where 
+/v1/regard-mediator-instance-manager is listed as MANAGEMENT).
+end note
+
+AppData -> MM : Retrieves list of existing mediator Instance Manager
+note left AppData
+[
+    <ControlConstruct list of all existing Mediator VMs>
+]
+end note
+
+== case 1 : Mediator Instance Manager doesnot exist in APPData ==
+note over MM
+   If Mediator Instance Manager does not exist
+end note
+
+MM -> MM
+note over MM
+   Generate ControlConstruct based on the schema https://github.com/openBackhaul/MediatorManager/blob/v1.0.0_spec/concepts/schemas/MediatorVmSchema.yaml
+   Include life-cycle-state as PLANNED
+   Doubt : 
+   1. As per the schema definition , if we consider application-name from the mediator-vm-template-name
+   then , there will be an ambiguity when more than one MIM installed with the 
+   2. Where this life-cycle-state attribute is planned to be included ? to the http-server ?
+end note
+
+MM --> OT : 204 NoContent
+
+== case 2 : Mediator Instance Manager already exist in APPData ==
+
+note over MM
+   If Mediator Instance Manager already exist
+end note
+MM -> AppData :
+note right MM
+   Update tcp-server
+end note
+MM --> OT : 204 NoContent
+
+deactivate MM
+
+@enduml
