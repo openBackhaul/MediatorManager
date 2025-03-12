@@ -1,0 +1,87 @@
+core-model-1-4:network-control-domain:
+  type: object
+  properties:
+    link:
+      type: array
+      uniqueItems: true
+      items:
+        oneOf:
+          - description: 'netconfLink'
+            type: object
+            required:
+              - uuid
+              - name
+              - layer-protocol-name
+              - end-point-list
+            properties:
+              uuid:
+                type: string
+                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netconf-link-000)$'
+                description: >
+                  'Unique identifier of the netconfLink composed from the Network Element ID and -netconf-link-000
+                  from [controller#/core-model-1-4:control-construct/equipment-augment-1-0:control-construct-pac/external-label]-netconf-link-000'
+              name:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - value-name
+                    - value
+                  properties:
+                    value-name:
+                      type: string
+                      enum:
+                        - 'deviceName'
+                    value:
+                      type: string
+                      description: >
+                        'Network Element ID
+                        from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+              layer-protocol-name:
+                type: string
+                enum:
+                  - 'netconf-link-1-0:LAYER_PROTOCOL_NAME_TYPE_NETCONF_LAYER'
+              end-point-list:
+                type: array
+                minItems: 2
+                maxItems: 2
+                items:
+                  oneOf:
+                    - description: 'netconf server at mediatorProcess'
+                      type: object
+                      required:
+                        - control-construct
+                        - logical-termination-point
+                        - layer-protocol
+                      properties:
+                        control-construct:
+                          type: string
+                          description: 'UUID of the mediatorVm'
+                        logical-termination-point:
+                          type: string
+                          description: >
+                            'UUID of the NetconfServer
+                            which is composed from the same Network Element ID as in UUID of NetconfLink and -netconf-s- and a sequence number'
+                        layer-protocol:
+                          type: string
+                          enum:
+                            - '0'
+                    - description: 'netconf client at controller'
+                      type: object
+                      required:
+                        - control-construct
+                        - logical-termination-point
+                        - layer-protocol
+                      properties:
+                        control-construct:
+                          type: string
+                          description: 'UUID of the controller'
+                        logical-termination-point:
+                          type: string
+                          description: >
+                            'UUID of the NetconfClient
+                            which is composed from the same Network Element ID as in UUID of NetconfLink and -netconf-c-000'
+                        layer-protocol:
+                          type: string
+                          enum:
+                            - '0'

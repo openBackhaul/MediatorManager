@@ -2,6 +2,9 @@ core-model-1-4:control-construct:
   type: object
   required:
     - uuid
+    - operational-state
+    - lifecycle-state
+    - profile-collection
     - logical-termination-point
     - forwarding-domain
   properties:
@@ -12,6 +15,25 @@ core-model-1-4:control-construct:
         'Unique identifier of the mediatorVm composed from the mediatorVmTemplateName and a sequence number.
         The pattern must be kept for the mediatorVm being accepted as an application.
         from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]-0-0-[automatically generated sequence number that is unique for the same mediatorVmTemplateName]'
+    operational-state:
+      type: string
+      enum:
+        - core-model-1-4:OPERATIONAL_STATE_ENABLED
+        - core-model-1-4:OPERATIONAL_STATE_DISABLED
+      description: >
+        'IF xMIM://v1/list-mediator-instances is not responding, THEN operational state = disabled.'
+    lifecycle-state:
+      type: string
+      enum:
+        - core-model-1-4:LIFECYCLE_STATE_PLANNED
+        - core-model-1-4:LIFECYCLE_STATE_POTENTIAL_AVAILABLE
+        - core-model-1-4:LIFECYCLE_STATE_POTENTIAL_BUSY
+        - core-model-1-4:LIFECYCLE_STATE_INSTALLED
+        - core-model-1-4:LIFECYCLE_STATE_PENDING_REMOVAL
+      description: >
+        'IF MM://v1/disregard-mediator-instance-manager has been addressed, THEN lifecycle state = pending removal.
+        IF number of mediatorProcesses reached engineeringLimit of referenced mediatorVmTemplate, THEN lifecycle state = potential busy.
+        Installed is default, planned and potential available currently not used.'
     profile-collection:
       type: object
       required:
@@ -21,7 +43,7 @@ core-model-1-4:control-construct:
           type: array
           uniqueItems: true
           minItems: 1
-          maxItems: 1
+          maxItems: 2
           items:
             oneOf:
               - description: 'string profile - mediatorVmTemplateName'
@@ -33,7 +55,7 @@ core-model-1-4:control-construct:
                 properties:
                   uuid:
                     type: string
-                    pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-string-p-000)$'
+                    pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-string-p-000$'
                     description: 'Unique identifier of the StringProfile composed from the control-construct::uuid and -string-p-000'
                   profile-name:
                     type: string
@@ -64,6 +86,86 @@ core-model-1-4:control-construct:
                             description: >
                               'mediatorVmTemplate from which this mediatorVm is derived from
                               from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]'
+              - description: 'string profile - mediatorUserName'
+                type: object
+                required:
+                  - uuid
+                  - profile-name
+                  - string-profile-1-0:string-profile-pac
+                properties:
+                  uuid:
+                    type: string
+                    pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-string-p-001$'
+                    description: 'Unique identifier of the StringProfile composed from the control-construct::uuid and -string-p-001'
+                  profile-name:
+                    type: string
+                    enum:
+                      - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                  string-profile-1-0:string-profile-pac:
+                    type: object
+                    required:
+                      - string-profile-capability
+                      - string-profile-configuration
+                    properties:
+                      string-profile-capability:
+                        type: object
+                        required:
+                          - string-name
+                        properties:
+                          string-name:
+                            type: string
+                            enum:
+                              - 'mediatorUserName'
+                      string-profile-configuration:
+                        type: object
+                        required:
+                          - string-value
+                        properties:
+                          string-value:
+                            type: string
+                            description: >
+                              'User name that is used by the mediatorProcesses inside this mediatorVm while connecting to the management interface of the device.
+                              from [referenced mediatorVmTemplate#mediatorUserList/mediatorUserName]'
+              - description: 'string profile - password'
+                type: object
+                required:
+                  - uuid
+                  - profile-name
+                  - string-profile-1-0:string-profile-pac
+                properties:
+                  uuid:
+                    type: string
+                    pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-string-p-002$'
+                    description: 'Unique identifier of the StringProfile composed from the control-construct::uuid and -string-p-002'
+                  profile-name:
+                    type: string
+                    enum:
+                      - 'string-profile-1-0:PROFILE_NAME_TYPE_STRING_PROFILE'
+                  string-profile-1-0:string-profile-pac:
+                    type: object
+                    required:
+                      - string-profile-capability
+                      - string-profile-configuration
+                    properties:
+                      string-profile-capability:
+                        type: object
+                        required:
+                          - string-name
+                        properties:
+                          string-name:
+                            type: string
+                            enum:
+                              - 'password'
+                      string-profile-configuration:
+                        type: object
+                        required:
+                          - string-value
+                        properties:
+                          string-value:
+                            type: string
+                            description: >
+                              'User name that is used by the mediatorProcesses inside this mediatorVm while connecting to the management interface of the device.
+                              from [referenced mediatorVmTemplate#mediatorUserList/mediatorUserPassword]'
     logical-termination-point:
       type: array
       uniqueItems: true
@@ -81,7 +183,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$'
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000$'
                 description: 'Unique identifier of the TcpServer composed from the control-construct::uuid and -tcp-s-000'
               ltp-direction:
                 type: string
@@ -93,7 +195,7 @@ core-model-1-4:control-construct:
                 minItems: 1
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-([0-9]{3}))$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-([0-9]{3})$'
                   description: 'Identifier of the client HttpServers'
               server-ltp:
                 type: array
@@ -173,7 +275,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000$'
                 description: 'Unique identifier of the HttpServer composed from the control-construct::uuid and -http-s-000'
               ltp-direction:
                 type: string
@@ -186,7 +288,7 @@ core-model-1-4:control-construct:
                 maxItems: 3
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-00([0-2]{1}))$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-00([0-2]{1})$'
                   description: 'Identifier of the client OperationServers'
               server-ltp:
                 type: array
@@ -195,7 +297,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000)$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-tcp-s-000$'
                   description: 'Identifier of the serving TcpServer'
               layer-protocol:
                 type: array
@@ -239,11 +341,11 @@ core-model-1-4:control-construct:
                             release-number:
                               type: string
                               description: >
-                                'from -0-0-[same sequence number as in control-construct::uuid]
+                                'from 0.0.[same sequence number as in control-construct::uuid]
                             application-purpose:
                               type: string
                               enum:
-                                - 'mediatorVm'
+                                - 'Management interface to mediatorVm'
                             data-update-period:
                               type: string
                               enum:
@@ -269,7 +371,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-000)$'
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-000$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-000'
               ltp-direction:
                 type: string
@@ -289,7 +391,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -350,7 +452,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-001)$'
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-001$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-001'
               ltp-direction:
                 type: string
@@ -370,7 +472,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -431,7 +533,7 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-002)$'
+                pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-op-s-002$'
                 description: 'Unique identifier of the OperationServer composed from the control-construct::uuid and -op-s-002'
               ltp-direction:
                 type: string
@@ -451,7 +553,7 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000)$'
+                  pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-http-s-000$'
                   description: 'Identifier of the serving HttpServer'
               layer-protocol:
                 type: array
@@ -513,7 +615,7 @@ core-model-1-4:control-construct:
         properties:
           uuid:
             type: string
-            pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000)$'
+            pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000$'
             description: 'Unique identifier of the mediationForwardingDomain composed from the control-construct::uuid and -med-fd-000'
           forwarding-construct:
             type: array

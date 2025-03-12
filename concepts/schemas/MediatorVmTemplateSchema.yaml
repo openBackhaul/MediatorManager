@@ -17,6 +17,7 @@ AppDATA:
           - tcpPortRangeList
           - userName
           - password
+          - mediatorUserList
         properties:
           mediatorVmTemplateName:
             type: string
@@ -73,6 +74,24 @@ AppDATA:
           password:
             type: string
             description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
+          mediatorUserList:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            items:
+              type: object
+              required:
+                - mediatorUserName
+                - mediatorUserPassword
+              properties:
+                mediatorUserName:
+                  type: string
+                  description: > 
+                    'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device.
+                    If several value pairs are listed, MM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm.'
+                mediatorUserPassword:
+                  type: string
+                  description: 'Password that has to be applied in combination with the user name.'
           javaVersion:
             type: string
             description: 'Java Release applied for this mediator release'

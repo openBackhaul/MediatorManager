@@ -1,0 +1,159 @@
+core-model-1-4:control-construct:
+  type: object
+  properties:
+    logical-termination-point:
+      type: array
+      uniqueItems: true
+      items:
+        oneOf:
+          - description: 'netconf client'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                description: >
+                  'Unique identifier of the NetconfClient composed from the Network Element ID and -netconf-c-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-netconf-c-000'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  description: 'Identifier of the serving TcpClient'
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - netconf-client-interface-1-0:netconf-client-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'netconf-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_NETCONF_LAYER'
+                    netconf-client-interface-1-0:netconf-client-interface-pac:
+                      type: object
+                      required:
+                        - netconf-client-interface-capability
+                      properties:
+                        netconf-client-interface-capability:
+                          type: object
+                          required:
+                            - device-name
+                          properties:
+                            device-name:
+                              type: string
+                              description: >
+                                'Network Element ID
+                                from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+          - description: 'tcp client'
+            type: object
+            required:
+              - uuid
+              - ltp-direction
+              - client-ltp
+              - server-ltp
+              - layer-protocol
+            properties:
+              uuid:
+                type: string
+                description: >
+                  'Unique identifier of the TcpClient composed from the Network Element ID and -tcp-c-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-c-000'
+              ltp-direction:
+                type: string
+                enum:
+                  - 'core-model-1-4:TERMINATION_DIRECTION_SINK'
+              client-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: string
+                  description: 'Identifier of the client NetconfClient'
+              server-ltp:
+                type: array
+                uniqueItems: true
+                minItems: 0
+                maxItems: 0
+                items:
+                  type: string
+              layer-protocol:
+                type: array
+                minItems: 1
+                maxItems: 1
+                items:
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol-name
+                    - tcp-client-interface-1-0:tcp-client-interface-pac
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - '0'
+                    layer-protocol-name:
+                      type: string
+                      enum:
+                        - 'tcp-client-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                    tcp-client-interface-1-0:tcp-client-interface-pac:
+                      type: object
+                      required:
+                        - tcp-client-interface-configuration
+                      properties:
+                        tcp-client-interface-configuration:
+                          type: object
+                          required:
+                            - remote-address
+                            - remote-port
+                          properties:
+                            remote-address:
+                              type: object
+                              minProperties: 1
+                              maxProperties: 1
+                              additionalProperties: false
+                              properties:
+                                ip-address:
+                                  type: object
+                                  minProperties: 1
+                                  additionalProperties: false
+                                  properties:
+                                    ipv-4-address:
+                                      type: string
+                                      description: >
+                                        'IP address of the mediatorProcess to which the mountPoint is currently connected to
+                                        from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]'
+                            remote-port:
+                              type: integer
+                              description: >
+                                'TCP port of the mediatorProcess to which the mountPoint is currently connected to
+                                from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-netconf-port]'

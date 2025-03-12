@@ -1,22 +1,9 @@
 core-model-1-4:control-construct:
   type: object
-  required:
-    - uuid
-    - logical-termination-point
-    - forwarding-domain
   properties:
-    uuid:
-      type: string
-      pattern: '^([a-z]{2,6})-0-0-([0-9]{1,2})$'
-      description: >
-        'Unique identifier of the mediatorVm composed from the mediatorVmTemplateName and a sequence number.
-        The pattern must be kept for the mediatorVm being accepted as an application.
-        from [MM://v1/regard-mediator-instance-manager$request.body#mediator-vm-template-name]-0-0-[a sequence number that is unique for the same mediator-vm-template-name to be assigned]'
     logical-termination-point:
       type: array
       uniqueItems: true
-      minItems: 2
-      maxItems: 2
       items:
         oneOf:
           - description: 'netconf server'
@@ -30,10 +17,9 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
                 description: >
-                  'Unique identifier of the NETCONF interface composed from the Network Element ID and a sequence number
-                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-netc-s-[sequence number]'
+                  'Unique identifier of the NETCONF interface composed from the Network Element ID and -netconf-s-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-netconf-s-000'
               ltp-direction:
                 type: string
                 enum:
@@ -52,7 +38,6 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-([0-9]{3}))$'
                   description: 'Identifier of the serving TcpServer'
               layer-protocol:
                 type: array
@@ -77,14 +62,12 @@ core-model-1-4:control-construct:
                       type: object
                       required:
                         - netconf-server-interface-capability
-                        - netconf-server-interface-configuration
                         - netconf-server-interface-status
                       properties:
                         netconf-server-interface-capability:
                           type: object
                           required:
                             - device-name
-                            - device-model
                           properties:
                             device-name:
                               type: string
@@ -92,13 +75,6 @@ core-model-1-4:control-construct:
                               description: >
                                 'Network Element ID
                                 from [MM://v1/provide-netconf-interface$request.body#mount-name]'
-                            device-model:
-                              type: string
-                              description: >
-                                'Kind of device
-                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
-                        netconf-server-interface-configuration:
-                          type: object
                         netconf-server-interface-status:
                           type: object
                           required:
@@ -112,14 +88,11 @@ core-model-1-4:control-construct:
                                 - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_UNKNOWN'
                                 - 'netconf-server-interface-1-0:INTERFACE_STATUS_TYPE_NOT_YET_DEFINED'
                               description: >
-                                'Status of the NETCONF interface
+                                'Status of the NETCONF interface updated by regularly querying an attribute using an internal test NetconfClient
                                 not yet defined = feature not implemented
-                                unknown = feature implemented, but currently no result'
-                            device-model:
-                              type: string
-                              description: >
-                                'Kind of device
-                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
+                                unknown = feature implemented, but currently no result
+                                up = if internal test NetconfClient could succcessfully read some attribute from the device
+                                down = if reading the attribute failed'
           - description: 'tcp server'
             type: object
             required:
@@ -131,10 +104,9 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-([0-9]{3}))$'
                 description: >
-                  'Unique identifier of the TcpServer composed from the Network Element ID and the same sequence number as the client NetconfServer
-                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-s-[sequence number]'
+                  'Unique identifier of the TcpServer composed from the Network Element ID and -tcp-s-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-s-000'
               ltp-direction:
                 type: string
                 enum:
@@ -146,7 +118,6 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
                   description: 'Identifier of the client NetconfServer'
               server-ltp:
                 type: array
@@ -182,19 +153,9 @@ core-model-1-4:control-construct:
                         tcp-server-interface-configuration:
                           type: object
                           required:
-                            - description
-                            - local-protocol
                             - local-address
                             - local-port
                           properties:
-                            description:
-                              type: string
-                              enum: ''
-                              description: 'Not used'
-                            local-protocol:
-                              type: string
-                              enum:
-                                - 'tcp-server-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED'
                             local-address:
                               type: object
                               minProperties: 1
@@ -206,9 +167,6 @@ core-model-1-4:control-construct:
                                   description: >
                                     'IP address of the NETCONF interface
                                     from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]'
-                                domain-name:
-                                  type: string
-                                  description: 'Not used'
                             local-port:
                               type: integer
                               description: >
@@ -225,10 +183,9 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
                 description: >
-                  'Unique identifier of the SnmpClient composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
-                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-snmp-c-[sequence number]'
+                  'Unique identifier of the SnmpClient composed from the Network Element ID and -snmp-c-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-snmp-c-000'
               ltp-direction:
                 type: string
                 enum:
@@ -247,7 +204,6 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-c-([0-9]{3}))$'
                   description: 'Identifier of the serving TcpClient'
               layer-protocol:
                 type: array
@@ -272,14 +228,11 @@ core-model-1-4:control-construct:
                       type: object
                       required:
                         - snmp-client-interface-capability
-                        - snmp-client-interface-configuration
-                        - snmp-client-interface-status
                       properties:
                         snmp-client-interface-capability:
                           type: object
                           required:
                             - device-name
-                            - device-model
                           properties:
                             device-name:
                               type: string
@@ -287,15 +240,6 @@ core-model-1-4:control-construct:
                               description: >
                                 'Network Element ID
                                 from [MM://v1/provide-netconf-interface$request.body#mount-name]'
-                            device-model:
-                              type: string
-                              description: >
-                                'Kind of device
-                                from [MM://v1/provide-netconf-interface$request.body#device-model]'
-                        snmp-client-interface-configuration:
-                          type: object
-                        snmp-client-interface-status:
-                          type: object
           - description: 'tcp client'
             type: object
             required:
@@ -307,10 +251,9 @@ core-model-1-4:control-construct:
             properties:
               uuid:
                 type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-c-([0-9]{3}))$'
                 description: >
-                  'Unique identifier of the TcpClient composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
-                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-c-[sequence number]'
+                  'Unique identifier of the TcpClient composed from the Network Element ID and -tcp-c-000
+                  from [MM://v1/provide-netconf-interface$request.body#mount-name]-tcp-c-000'
               ltp-direction:
                 type: string
                 enum:
@@ -322,7 +265,6 @@ core-model-1-4:control-construct:
                 maxItems: 1
                 items:
                   type: string
-                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
                   description: 'Identifier of the client SnmpClient'
               server-ltp:
                 type: array
@@ -358,14 +300,9 @@ core-model-1-4:control-construct:
                         tcp-client-interface-configuration:
                           type: object
                           required:
-                            - remote-protocol
                             - remote-address
                             - remote-port
                           properties:
-                            remote-protocol:
-                              type: string
-                              enum:
-                                - 'tcp-client-interface-1-0:PROTOCOL_TYPE_NOT_YET_DEFINED'
                             remote-address:
                               type: object
                               minProperties: 1
@@ -382,27 +319,16 @@ core-model-1-4:control-construct:
                                       description: >
                                         'IP address of the device
                                         from [MM://v1/provide-netconf-interface$request.body#device-ip]'
-                                domain-name:
-                                  type: string
-                                  description: 'Not used'
                             remote-port:
                               type: integer
-                              description: >
-                                'to be set on 0 until defined in detail'
+                              minimum: 161
+                              maximum: 161
+                              description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'
     forwarding-domain:
       type: array
-      minItems: 1
-      maxItems: 1
       items:
         type: object
-        required:
-          - uuid
-          - forwarding-construct
         properties:
-          uuid:
-            type: string
-            pattern: ^([a-z]{2,6})-0-0-([0-9]{1,2})-med-fd-000)$
-            description: 'Unique identifier of the mediationForwardingDomain composed from the control-construct::uuid and -med-fd-000'
           forwarding-construct:
             type: array
             items:
@@ -414,10 +340,9 @@ core-model-1-4:control-construct:
               properties:
                 uuid:
                   type: string
-                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-med-fc-is-([0-9]{3}))$'
                   description: >
-                    'Unique identifier of the mediatorProcess composed from the Network Element ID and the same sequence number as the corresponding NetconfServer
-                    from [MM://v1/provide-netconf-interface$request.body#mount-name]-med-fc-is-[sequence number]'
+                    'Unique identifier of the mediatorProcess composed from the Network Element ID and -med-fc-000
+                    from [MM://v1/provide-netconf-interface$request.body#mount-name]-med-fc-000'
                 name:
                   type: array
                   items:
@@ -432,7 +357,6 @@ core-model-1-4:control-construct:
                           - 'deviceName'
                       value:
                         type: string
-                        pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
                         description: >
                           'Network Element ID
                           from [MM://v1/provide-netconf-interface$request.body#mount-name]'
@@ -459,7 +383,6 @@ core-model-1-4:control-construct:
                               - 'core-model-1-4:PORT_DIRECTION_TYPE_OUTPUT'
                           logical-termination-point:
                             type: string
-                            pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-netc-s-([0-9]{3}))$'
                             description: 'Identifier of the NetconfServer'
                       - description: 'snmp fc port'
                         type: object
@@ -478,5 +401,4 @@ core-model-1-4:control-construct:
                               - 'core-model-1-4:PORT_DIRECTION_TYPE_INPUT'
                           logical-termination-point:
                             type: string
-                            pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-c-([0-9]{3}))$'
                             description: 'Identifier of the SnmpClient'
