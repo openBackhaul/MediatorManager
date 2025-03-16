@@ -32,7 +32,7 @@ Whenever its MM://v1/regard-controller service is addressed, it
 - creates a [controller in its internal data structure](./schemas/ControllerSchema.yaml)  
 
 Whenever its MM://v1/regard-mediator-instance-manager service is addressed, it  
-- creates a [mediatorVM in its internal data structure](./schemas/MediatorVmSchema.yaml) that is referencing one of the existing [mediatorVmTemplates](./schemas/MediatorVmTemplateSchema.yaml)  
+- creates a [mediatorVM in its internal data structure](./schemas/MediatorVmSchema.yaml) that is referencing one of the existing [mediatorVmTemplates in the AppDATA](./schemas/AppDataSchema.yaml)  
 - addresses the ALT://v1/regard-application for updating the ALT  
 
 Whenever its MM://v1/provide-netconf-interface service is addressed, it  

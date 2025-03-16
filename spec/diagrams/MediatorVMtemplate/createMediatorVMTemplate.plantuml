@@ -7,91 +7,36 @@ end title
 
 participant "OperationsTeam" as OT
 participant "MM://v1/create-mediator-vm-template" as MM
-database "MM:APPDataFile" as AppData
+database "ElasticSearch" as ES
 database "MM:ConfigFile" as ConfigFile
-participant "Paired MIM://v1/list-mediator-instances" as MIMList
-participant "Paired XMIM://v1/dismantle-mediator-instance" as MIMDel
-participant "EATL://v1/record-service-request" as MIMEatl
 
 OT -> MM : 
 note right OT
-    {
-        "mediator-vm-template-name" : "EricssonMLTemplate",
-        "vendor-name" : "Ericsson",
-        "supported-device-kind-list" : ["MLTN", "ML6352"],
-        "engineering-limit" : 2000,
-        "provide-mediator-instance-operation-name" : "/v1/provide-mediator-instance",
-        "dismantle-mediator-instance-operation-name" :"/v1/dismantle-mediator-instance",
-        "list-mediator-instance-operation-name" :"/v1/list-mediator-instance"
-    }
+  {
+      "mediator-vm-template-name" : "emiv", [pattern: '^([a-z]{2,6})$']
+      "vendor-name" : "Ericsson",
+      "supported-device-kind-list" : ["MLTN", "ML6352"],
+      "engineering-limit" : 2000,
+      "provide-mediator-instance-operation-name" : "/v1/provide-mediator-instance",
+      "dismantle-mediator-instance-operation-name" :"/v1/dismantle-mediator-instance",
+      "list-mediator-instance-operation-name" :"/v1/list-mediator-instance"
+  }
 end note
 activate MM #LightSteelBlue
 
-AppData -> MM : Retrieves list of existing mediator VM templates
+MM -> ES : GET ES//appdata/mediator-vm-template-list
+MM <-- ES : [mediator-vm-template-list]
 
-== case 1 : Brand new mediator VM template ==
-note over MM
-   If mediator VM template doesnot exist
-end note
+  note over MM
+    IF mediatorVmTemplateName does not already exist
+    THEN create new mediator VM template
+  end note
+  MM -> ES : POST new mediator vm template to ES//appdata/mediator-vm-template-list
+  MM --> OT : 204 NoContent
 
-group new mediator VM template creation
-    MM -> AppData :  create new mediator vm template
-end
-
-MM --> OT : 204 NoContent
-
-== case 2 : Mediator VM Template already exist ==
-note over MM
-   If mediator VM template already exist
-end note
-
-group Existing mediator VM template updation
-    MM -> AppData :  updates existing mediator vm template
-    MM -> OT : 204 NoContent
-deactivate MM
-    note over MM
-        If template has any paired-VMs
-    end note
-    MM -> ConfigFile : 
-    note over ConfigFile
-        update the operation-client of the forwardings w.r.t the paired-vm name,
-          <b> provideNetconfInterfaceManagesExistingMediatorInstances.ListMediatorInstances
-          <b> provideNetconfInterfaceCreatesMediatorInstance.CreatesMediatorInstance
-          <b> provideNetconfInterfaceManagesExistingMediatorInstances.DeletesMediatorInstance
-    end note
-
-    note over MM
-       If there is a reduction in the engineering-limit
-    end note
-
-    note over MM
-       If template has any paired-VMs
-    end note
-
-    group createMediatorVmTemplateManagesMediatorInstances [Repeat for all the paired vms]
-        group RetrievesListOfMediatorInstances
-        MM -> MIMList :
-        MM --> MIMEatl : Logs the xMIM client request to EATL
-        note over MM
-            If list.length > engineering-limit
-        end note
-        end
-        note over MM
-            <b>numberOfInstancesBeyondThreshold</b> = list.length - engineering-limit
-            Randomly select numberOfInstancesBeyondThreshold instances
-        end note
-        group DeletesExistingMediatorInstance [Repeat for all random instances]
-            MM -> MIMDel : 
-            MM --> MIMEatl : Logs the xMIM client request to EATL
-        end note
-        MM -> MIMList :
-        MM --> MIMEatl : Logs the xMIM client request to EATL
-        note over MM
-            If still list.length > engineering-limit
-            Repeat the loop again to delete Mediator Instances 
-            until achiving the desired limit
-        end note
-    end    
-end
+  note over MM
+    ELSE terminate with error code
+  end note
+  MM --> OT : 409 Conflict
 
 @enduml

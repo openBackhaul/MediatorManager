@@ -1,29 +1,31 @@
 core-model-1-4:control-construct:
-  type: object
-  required:
-    - uuid
-    - logical-termination-point
-  properties:
-    uuid:
-      type: string
-      description: >
-        'Unique identifier of the controller
-        to be created when MM://v1/regard-controller is executed'
-    equipment-augment-1-0:control-construct-pac:
-      type: object
-      required:
-        - external-label
-      properties:
-        external-label:
-          type: string
-          description: >
-            'Unique identifier of the controller
-            from [MM://v1/regard-controller$request.body#controller-name]'
-    logical-termination-point:
-      type: array
-      uniqueItems: true
-      items:
+  type: array
+  items:
+    type: object
+    required:
+      - uuid
+      - logical-termination-point
+    properties:
+      uuid:
+        type: string
+        description: >
+          'Unique identifier of the controller
+          to be created when MM://v1/regard-controller is executed'
+      equipment-augment-1-0:control-construct-pac:
         type: object
-        oneOf:
-          - description: 'mountPoints - composed from netconfClient and tcpClient according to MountPointSchema.yaml'
-            type: object
+        required:
+          - external-label
+        properties:
+          external-label:
+            type: string
+            description: >
+              'Unique identifier of the controller
+              from [MM://v1/regard-controller$request.body#controller-name]'
+      logical-termination-point:
+        type: array
+        uniqueItems: true
+        items:
+          type: object
+          oneOf:
+            - description: 'mountPoints - composed from netconfClient and tcpClient according to MountPointSchema.yaml'
+              type: object

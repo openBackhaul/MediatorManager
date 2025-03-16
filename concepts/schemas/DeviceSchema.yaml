@@ -1,180 +1,182 @@
 core-model-1-4:control-construct:
-  type: object
-  required:
-    - uuid
-    - equipment-augment-1-0:control-construct-pac
-    - logical-termination-point
-  properties:
-    uuid:
-      type: string
-      pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
-      description: >
-        'Network Element ID
-        from [MM://v1/provide-netconf-interface$request.body#mount-name]'
-    equipment-augment-1-0:control-construct-pac:
-      type: object
-      required:
-        - external-label
-        - device-model-name
-      properties:
-        external-label:
-          type: string
-          description: >
-            'Network Element ID
-            from [MM://v1/provide-netconf-interface$request.body#mount-name]'
-        device-model-name:
-          type: string
-          description: >
-            'Model of the device
-            from [MM://v1/provide-netconf-interface$request.body#device-model]'
-    logical-termination-point:
-      type: array
-      uniqueItems: true
-      minItems: 2
-      items:
-        oneOf:
-          - description: 'tcp server'
-            type: object
-            required:
-              - uuid
-              - ltp-direction
-              - client-ltp
-              - server-ltp
-              - layer-protocol
-            properties:
-              uuid:
-                type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$'
-                description: 'Unique identifier of the TcpServer composed from the control-construct::uuid and -tcp-s-000'
-              ltp-direction:
-                type: string
-                enum:
-                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-              client-ltp:
-                type: array
-                uniqueItems: true
-                minItems: 1
-                items:
+  type: array
+  items:
+    type: object
+    required:
+      - uuid
+      - equipment-augment-1-0:control-construct-pac
+      - logical-termination-point
+    properties:
+      uuid:
+        type: string
+        pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB])$'
+        description: >
+          'Network Element ID
+          from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+      equipment-augment-1-0:control-construct-pac:
+        type: object
+        required:
+          - external-label
+          - device-model-name
+        properties:
+          external-label:
+            type: string
+            description: >
+              'Network Element ID
+              from [MM://v1/provide-netconf-interface$request.body#mount-name]'
+          device-model-name:
+            type: string
+            description: >
+              'Model of the device
+              from [MM://v1/provide-netconf-interface$request.body#device-model]'
+      logical-termination-point:
+        type: array
+        uniqueItems: true
+        minItems: 2
+        items:
+          oneOf:
+            - description: 'tcp server'
+              type: object
+              required:
+                - uuid
+                - ltp-direction
+                - client-ltp
+                - server-ltp
+                - layer-protocol
+              properties:
+                uuid:
                   type: string
-                  description: 'Identifier of the client SnmpServers'
-              server-ltp:
-                type: array
-                uniqueItems: true
-                minItems: 0
-                maxItems: 0
-                items:
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-tcp-s-000)$'
+                  description: 'Unique identifier of the TcpServer composed from the control-construct::uuid and -tcp-s-000'
+                ltp-direction:
                   type: string
-              layer-protocol:
-                type: array
-                minItems: 1
-                maxItems: 1
-                items:
-                  type: object
-                  required:
-                    - local-id
-                    - layer-protocol-name
-                    - tcp-server-interface-1-0:tcp-server-interface-pac
-                  properties:
-                    local-id:
-                      type: string
-                      enum:
-                        - '0'
-                    layer-protocol-name:
-                      type: string
-                      enum:
-                        - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
-                    tcp-server-interface-1-0:tcp-server-interface-pac:
-                      type: object
-                      required:
-                        - tcp-server-interface-configuration
-                      properties:
-                        tcp-server-interface-configuration:
-                          type: object
-                          required:
-                            - local-address
-                            - local-port
-                          properties:
-                            local-address:
-                              type: object
-                              minProperties: 1
-                              maxProperties: 1
-                              additionalProperties: false
-                              properties:
-                                ipv-4-address:
-                                  type: string
-                                  description: >
-                                    'IP address of the device
-                                    from [MM://v1/provide-netconf-interface$request.body#device-ip]'
-                            local-port:
-                              type: integer
-                              minimum: 161
-                              maximum: 161
-                              description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'
-          - description: 'snmp server'
-            type: object
-            required:
-              - uuid
-              - ltp-direction
-              - client-ltp
-              - server-ltp
-              - layer-protocol
-            properties:
-              uuid:
-                type: string
-                pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$'
-                description: 'Unique identifier of the SnmpServer composed from the control-construct::uuid and -snmp-s- and a three digit sequence number starting with 000'
-              ltp-direction:
-                type: string
-                enum:
-                  - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
-              client-ltp:
-                type: array
-                uniqueItems: true
-                minItems: 0
-                maxItems: 0
-                items:
+                  enum:
+                    - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+                client-ltp:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items:
+                    type: string
+                    description: 'Identifier of the client SnmpServers'
+                server-ltp:
+                  type: array
+                  uniqueItems: true
+                  minItems: 0
+                  maxItems: 0
+                  items:
+                    type: string
+                layer-protocol:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  items:
+                    type: object
+                    required:
+                      - local-id
+                      - layer-protocol-name
+                      - tcp-server-interface-1-0:tcp-server-interface-pac
+                    properties:
+                      local-id:
+                        type: string
+                        enum:
+                          - '0'
+                      layer-protocol-name:
+                        type: string
+                        enum:
+                          - 'tcp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_TCP_LAYER'
+                      tcp-server-interface-1-0:tcp-server-interface-pac:
+                        type: object
+                        required:
+                          - tcp-server-interface-configuration
+                        properties:
+                          tcp-server-interface-configuration:
+                            type: object
+                            required:
+                              - local-address
+                              - local-port
+                            properties:
+                              local-address:
+                                type: object
+                                minProperties: 1
+                                maxProperties: 1
+                                additionalProperties: false
+                                properties:
+                                  ipv-4-address:
+                                    type: string
+                                    description: >
+                                      'IP address of the device
+                                      from [MM://v1/provide-netconf-interface$request.body#device-ip]'
+                              local-port:
+                                type: integer
+                                minimum: 161
+                                maximum: 161
+                                description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'
+            - description: 'snmp server'
+              type: object
+              required:
+                - uuid
+                - ltp-direction
+                - client-ltp
+                - server-ltp
+                - layer-protocol
+              properties:
+                uuid:
                   type: string
-              server-ltp:
-                type: array
-                uniqueItems: true
-                minItems: 1
-                maxItems: 1
-                items:
+                  pattern: '^(?:\d{3}(?:25|27)\d{4}|\d{3}55\d{4}[AB]-snmp-s-([0-9]{3}))$'
+                  description: 'Unique identifier of the SnmpServer composed from the control-construct::uuid and -snmp-s- and a three digit sequence number starting with 000'
+                ltp-direction:
                   type: string
-                  description: 'Identifier of the serving TcpServer'
-              layer-protocol:
-                type: array
-                minItems: 1
-                maxItems: 1
-                items:
-                  type: object
-                  required:
-                    - local-id
-                    - layer-protocol-name
-                    - snmp-server-interface-1-0:snmp-server-interface-pac
-                  properties:
-                    local-id:
-                      type: string
-                      enum:
-                        - '0'
-                    layer-protocol-name:
-                      type: string
-                      enum:
-                        - 'snmp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_SNMP_LAYER'
-                    snmp-server-interface-1-0:snmp-server-interface-pac:
-                      type: object
-                      required:
-                        - snmp-server-interface-capability
-                      properties:
-                        snmp-server-interface-capability:
-                          type: object
-                          required:
-                            - mediator-user-name
-                            - mediator-user-password
-                          properties:
-                            mediator-user-name:
-                              type: string
-                              description: 'Name of the user that defines this SNMP or Qx interface'
-                            mediator-user-password:
-                              type: string
-                              description: 'Password that has to be used together with the mediatorUserName stated above'
+                  enum:
+                    - 'core-model-1-4:TERMINATION_DIRECTION_SOURCE'
+                client-ltp:
+                  type: array
+                  uniqueItems: true
+                  minItems: 0
+                  maxItems: 0
+                  items:
+                    type: string
+                server-ltp:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  maxItems: 1
+                  items:
+                    type: string
+                    description: 'Identifier of the serving TcpServer'
+                layer-protocol:
+                  type: array
+                  minItems: 1
+                  maxItems: 1
+                  items:
+                    type: object
+                    required:
+                      - local-id
+                      - layer-protocol-name
+                      - snmp-server-interface-1-0:snmp-server-interface-pac
+                    properties:
+                      local-id:
+                        type: string
+                        enum:
+                          - '0'
+                      layer-protocol-name:
+                        type: string
+                        enum:
+                          - 'snmp-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_SNMP_LAYER'
+                      snmp-server-interface-1-0:snmp-server-interface-pac:
+                        type: object
+                        required:
+                          - snmp-server-interface-capability
+                        properties:
+                          snmp-server-interface-capability:
+                            type: object
+                            required:
+                              - mediator-user-name
+                              - mediator-user-password
+                            properties:
+                              mediator-user-name:
+                                type: string
+                                description: 'Name of the user that defines this SNMP or Qx interface'
+                              mediator-user-password:
+                                type: string
+                                description: 'Password that has to be used together with the mediatorUserName stated above'

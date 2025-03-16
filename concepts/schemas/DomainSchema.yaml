@@ -1,85 +1,37 @@
 core-model-1-4:network-control-domain:
-  type: object
-  required:
-    - uuid
-    - alarms-1-0:alarm-pac
-    - control-construct
-    - link
-  properties:
-    uuid:
-      type: string
-      enum:
-        - 'mediatormanager'
-    alarms-1-0:alarm-pac:
-      type: object
-      required:
-        - current-alarms
-      properties:
-        current-alarms:
-          type: object
-          required:
-            - current-alarm-list
-          properties:
-            current-alarm-list:
-              type: array
-              items:
-                type: object
-                required:
-                  - alarm-type-id
-                  - alarm-type-qualifier
-                  - resource
-                  - timestamp
-                properties:
-                  alarm-type-id:
-                    type: string
-                    description: >
-                      'alarm-type-id and alarm-type-qualifier together provide a unique identification of the alarm type
-                      It is assumed that an alarm is resulting from a request that did not execute as expected
-                      from [ request that did not respond 2xx $responseBody#code]'
-                  alarm-type-qualifier:
-                    type: string
-                    description: >
-                      'It is assumed that an alarm is resulting from a request that did not execute as expected
-                      from [ request that did not respond 2xx $responseBody#message]'
-                  resource:
-                    type: string
-                    description: >
-                      'Network Element ID
-                      from []'
-                    examples:
-                      device:
-                        value: '/core-model-1-4:network-control-domain/control-construct=305251234'
-                      mediatorVm:
-                        value: '/core-model-1-4:network-control-domain/control-construct=huamed-0-0-3'
-                      mediatorProcess:
-                        value: '/core-model-1-4:network-control-domain/control-construct=huamed-0-0-3/forwarding-domain=huamed-0-0-3-med-fd-000/forwarding-construct=305251234-med-fc-is-000'
-                      netconfServer:
-                        value: '/core-model-1-4:network-control-domain/control-construct=huamed-0-0-3/logical-termination-point=305251234-netc-s-000'
-                      snmpLink:
-                        value: '/core-model-1-4:network-control-domain/control-construct=huamed-0-0-3/link=305251234-snmp-l-000'
-                      netconfLink:
-                        value: '/core-model-1-4:network-control-domain/control-construct=huamed-0-0-3/link=305251234-netc-l-000'
-                  timestamp:
-                    type: string
-                    pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
-                    description: 'Time when the entry in the alarm list has either been created or updated'
-    control-construct:
-      type: array
-      uniqueItems: true
-      items:
-        oneOf:
-          - description: 'controller - see ControllerSchema.yaml'
-            type: object
-          - description: 'mediatorVm - see MediatorVmSchema.yaml'
-            type: object
-          - description: 'device - see DeviceSchema.yaml'
-            type: object
-    link:
-      type: array
-      uniqueItems: true
-      items:
-        oneOf:
-          - description: 'snmpLink - see SnmpLinkSchema.yaml'
-            type: object
-          - description: 'netconfLink - see NetconfLinkSchema.yaml'
-            type: object
+  type: array
+  minItems: 2
+  maxItems: 2
+  items:
+    type: object
+    required:
+      - uuid
+      - alarms-1-0:alarm-pac
+      - control-construct
+      - link
+    properties:
+      uuid:
+        type: string
+        enum:
+          - 'targetstate'
+          - 'currentstate'
+      control-construct:
+        type: array
+        uniqueItems: true
+        items:
+          oneOf:
+            - description: 'controller - see ControllerSchema.yaml'
+              type: object
+            - description: 'mediatorVm - see MediatorVmSchema.yaml'
+              type: object
+            - description: 'device - see DeviceSchema.yaml'
+              type: object
+      link:
+        type: array
+        uniqueItems: true
+        items:
+          oneOf:
+            - description: 'snmpLink - see SnmpLinkSchema.yaml'
+              type: object
+            - description: 'netconfLink - see NetconfLinkSchema.yaml'
+              type: object
