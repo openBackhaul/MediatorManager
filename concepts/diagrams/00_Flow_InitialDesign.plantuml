@@ -1,0 +1,38 @@
+@startuml 00_Flow_InitialDesign
+skinparam componentStyle rectangle
+
+component [MO] as MO
+
+component [MM] as MM
+MO -[hidden]- MM
+
+package "mediatorVmE" {
+  component [MIM] as MIME
+  MM -[hidden]- MIME
+  component [mediatorProcesses] as mediatorProcessE
+  MIME -[hidden] mediatorProcessE
+  MIME ..> mediatorProcessE #LightSalmon
+}
+
+package "mediatorVmH" {
+  component [MIM] as MIMH
+  MM -[hidden]- MIMH
+  component [mediatorProcesses] as mediatorProcessH
+  MIMH -[hidden] mediatorProcessH
+  MIMH ..> mediatorProcessH #LightSalmon
+}
+
+package "mediatorVmS" {
+  component [MIM] as MIMS
+  MM -[hidden]- MIMS
+  component [mediatorProcesses] as mediatorProcessS
+  MIMS -[hidden] mediatorProcessS
+  MIMS ..> mediatorProcessS #LightSalmon
+}
+
+MO -> MM #SkyBlue
+MM -> MIME #SkyBlue
+MM -> MIMH #SkyBlue
+MM -> MIMS #SkyBlue
+
+@enduml

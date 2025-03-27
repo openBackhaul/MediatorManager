@@ -1,0 +1,29 @@
+@startuml 05_Flow_NIM
+skinparam componentStyle rectangle
+
+  component [MO] as MO
+  component [NIM] as NIM
+   MO -[hidden]- NIM
+  component [...] as ODL
+   MO -[hidden]- ODL
+  component [CP] as ConnectionPreparation
+   NIM -[hidden]- ConnectionPreparation
+  package "mediatorVM" {
+    component [MIM] as MIM
+      ODL -[hidden]- MIM
+      ConnectionPreparation -[hidden] MIM
+    component [mediatorProcesses] as mediatorProcesses
+      MIM -[hidden] mediatorProcesses
+    MIM ..> mediatorProcesses #LightSalmon
+  }
+  component [Device] as Device
+   ConnectionPreparation -[hidden]- Device
+
+  MO -> NIM #SkyBlue : 2.2.1
+    NIM -> ConnectionPreparation #SkyBlue : 2.2.1.1
+      ConnectionPreparation -> Device #SkyBlue : 2.2.1.1.1
+      ConnectionPreparation -> Device #SkyBlue : 2.2.1.1.2
+    NIM -> MIM #SkyBlue : 2.2.1.2
+  MO -> ODL #SkyBlue : 2.2.2
+
+@enduml

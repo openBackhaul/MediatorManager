@@ -1,0 +1,20 @@
+@startuml 03_Flow_DetailedMO
+skinparam componentStyle rectangle
+
+  component [MO] as MO
+  component [Device] as Device
+   MO -[hidden]- Device
+  component [CP] as ConnectionPreparation
+   MO -[hidden]- ConnectionPreparation
+  component [MM] as MM
+   MO -[hidden]- MM
+  component [...] as ODL
+   MO -[hidden]- ODL
+
+  MO -> Device #SkyBlue : 2.2.1a
+  MO -> Device #SkyBlue : 2.2.1b
+  MO -> ConnectionPreparation #SkyBlue : 2.2.1c
+  MO -> MM #SkyBlue : 2.2.2
+  MO -> ODL #SkyBlue : 2.2.3
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml 02_Flow_InitialMO
+skinparam componentStyle rectangle
+
+  component [MO] as MO
+  component [CP] as ConnectionPreparation
+   MO -[hidden]- ConnectionPreparation
+  component [MM] as MM
+   MO -[hidden]- MM
+  component [ODL] as ODL
+   MO -[hidden]- ODL
+  component [LILW] as LILW
+   MO -[hidden]- LILW
+
+  MO -> ConnectionPreparation #SkyBlue : 2.2.1
+  MO -> MM #SkyBlue : 2.2.2
+  MO -> ODL #SkyBlue : 2.2.3
+  MO -> LILW #SkyBlue : 2.2.4
+
+@enduml

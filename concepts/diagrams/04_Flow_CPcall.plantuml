@@ -1,0 +1,21 @@
+@startuml 04_Flow_CPcall
+skinparam componentStyle rectangle
+
+package "coupled" {
+  component [MO] as cMO
+  component [CP] as cConnectionPreparation
+    cMO -[hidden] cConnectionPreparation
+  cMO -> cConnectionPreparation #SkyBlue : /v1/prepare-connection-at-ericsson-ml6352
+}
+
+package "decoupled" {
+  component [MO] as dMO
+    cMO -[hidden]- dMO
+  component [CP] as dConnectionPreparation
+    cMO -[hidden]- dConnectionPreparation
+    dMO -[hidden] dConnectionPreparation
+  dMO -> dConnectionPreparation #SkyBlue : /v1/prepare-connection {deviceType=ml6352}
+  dConnectionPreparation -> dConnectionPreparation #SkyBlue : /v1/prepare-connection-at-ericsson-ml6352
+}
+
+@enduml

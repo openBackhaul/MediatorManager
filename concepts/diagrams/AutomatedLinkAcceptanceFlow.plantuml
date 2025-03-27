@@ -1,0 +1,112 @@
+@startuml AutomatedLinkAcceptanceFlow
+skinparam componentStyle rectangle
+
+title
+UserDemand - AutomatedLinkAcceptance 2.0
+end title
+
+actor USER as USER
+  
+  package "AutomatedLinkAcceptance 2.0" {
+
+  interface GUI as GUI
+  USER -[hidden] GUI
+  component [APT\n] as APT
+  GUI -[hidden] APT
+  component [APTP\n1.2.0] as APTP
+
+  USER -> GUI #LightSalmon
+  GUI -> APT #LightSalmon : 1.0
+  component [MO\n1.0.0] as MO
+  APT -[hidden] MO
+  component [MM\n1.0.0] as MM
+  component [Connection\nPreparation] as ConnectionPreparation
+  MO -[hidden]- MM
+ 
+  component [E_Mediator\nManager] as E_MediatorManager 
+   MM -[hidden]- E_MediatorManager
+  component [E_Mediator\nInstance] as E_MediatorInstance 
+  E_MediatorManager -[hidden]-> E_MediatorInstance 
+  component [TrafficeNode\netc.] as E_Device 
+  E_MediatorInstance -[hidden] E_Device
+  component [H_Mediator\nManager] as H_MediatorManager 
+  MM -[hidden]- H_MediatorManager
+  E_MediatorInstance -[hidden]- H_MediatorManager
+    component [H_Mediator\nInstance] as H_MediatorInstance 
+  E_MediatorInstance -[hidden]- H_MediatorInstance
+  H_MediatorManager -[hidden]- H_MediatorInstance
+  component [RTN900\netc.] as H_Device 
+  H_MediatorInstance -[hidden] H_Device
+  E_Device -[hidden]- H_Device
+  component [S_Mediator\nManager] as S_MediatorManager 
+  MM -[hidden]- S_MediatorManager
+  H_MediatorInstance -[hidden]- S_MediatorManager
+  component [S_Mediator\nInstance] as S_MediatorInstance 
+  component [ALC+2e\netc.] as S_Device 
+  S_MediatorInstance -[hidden] S_Device
+  
+ 
+  MM -[hidden]- S_MediatorManager
+
+  component [ODL\n] as ODL
+  component [PM\n1.0.0] as PM
+  component [LILW\n1.0.0] as LILW
+
+  component [MWDG\n1.1.0] as MWDG
+   LILW -[hidden] MWDG
+  component [MWDI\n1.1.0] as MWDI
+   MO -[hidden] MWDI
+
+
+  APT -> APTP #SkyBlue : 2.0
+  APTP -> MO #SkyBlue : 2.1
+
+  
+  MO -l-> MM #SkyBlue : 2.2.0
+  MM -l-> ConnectionPreparation #SkyBlue : 2.2.1
+
+  ConnectionPreparation ..> E_Device #SkyBlue : 2.2.1.1e
+  ConnectionPreparation ..> H_Device #SkyBlue : 2.2.1.1h
+  ConnectionPreparation ..> S_Device #SkyBlue : 2.2.1.1s
+  
+  MM -d-> E_MediatorManager #SkyBlue : 2.2.2e
+  E_MediatorManager ..d.> E_MediatorInstance #SkyBlue : create 2.2.3e
+  MM -> H_MediatorManager #SkyBlue : 2.2.2h
+  H_MediatorManager ..d.> H_MediatorInstance #SkyBlue : create 2.2.3h
+  MM -d-> S_MediatorManager #SkyBlue : 2.2.2s
+  S_MediatorManager ..d.> S_MediatorInstance #SkyBlue : create 2.2.3s
+
+  MO -> ODL #SkyBlue : 2.3
+
+  MWDI -[hidden]LILW
+  MO -down-> LILW #SkyBlue : 2.4.0
+  LILW -down-> MWDG #SkyBlue : 2.4.1
+  MWDG -> ODL #SkyBlue : 2.4.2\n/2.5.2\n/2.6.1
+
+
+  ODL -> E_MediatorInstance #SkyBlue : 2.4.3e\n/2.5.2e\n/2.6.2e
+  ODL -> H_MediatorInstance #SkyBlue: 2.4.3h \n/2.5.2h\n/2.6.2h
+  ODL -> S_MediatorInstance #SkyBlue : 2.4.3s\n/2.5.2s\n/2.6.2s
+  E_MediatorInstance -> E_Device #SkyBlue : 2.4.4e\n/2.5.3e\n/2.6.3e
+  H_MediatorInstance -> H_Device #SkyBlue : 2.4.4h\n/2.5.3h\n/2.6.3h
+  S_MediatorInstance -> S_Device #SkyBlue : 2.4.4s\n/2.5.3s\n/2.6.3s
+
+  MO -up-> MWDG #SkyBlue : 2.5.0
+  MO -d-> MWDG #SkyBlue : 2.6.0
+  MO -d-> MWDI #SkyBlue : 2.7
+  MO -up-> PM #SkyBlue : 2.8
+
+  APT --> APTP #LightSalmon : 3.1
+  APTP -d-> MWDI #LightSalmon : 3.2
+  MWDI -> ODL #LightSalmon : 3.3
+  ODL -> E_MediatorInstance #LightSalmon : 3.4e
+  ODL -> H_MediatorInstance #LightSalmon : 3.4h
+  ODL -> S_MediatorInstance #LightSalmon : 3.4s
+  E_MediatorInstance -d-> E_Device #LightSalmon : 3.5e
+  H_MediatorInstance -d-> H_Device #LightSalmon : 3.5h
+  S_MediatorInstance -d-> S_Device #LightSalmon : 3.5s
+
+
+  }
+
+@enduml

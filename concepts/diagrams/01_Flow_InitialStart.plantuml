@@ -1,0 +1,29 @@
+@startuml 01_Flow_InitialStart
+skinparam componentStyle rectangle
+
+actor USER as USER
+  
+  package "AutomatedLinkAcceptance 2.0" {
+
+    interface GUI as GUI
+    USER -[hidden] GUI
+    component [APT] as APT
+    GUI -[hidden] APT
+    component [APTP] as APTP
+
+    USER -> GUI #LightSalmon
+    GUI -> APT #LightSalmon : 1.0
+    component [MO] as MO
+    APT -[hidden] MO
+
+    component [MWDI] as MWDI
+
+    APT -> APTP #SkyBlue : 2.1
+    APTP -> MO #SkyBlue : 2.2   /v1/mount-device
+
+    APT --> APTP #LightSalmon : 3.1
+    APTP -d-> MWDI #LightSalmon : 3.2
+
+  }
+
+@enduml
