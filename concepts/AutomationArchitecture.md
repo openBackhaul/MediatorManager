@@ -70,9 +70,9 @@ Pingtest und Protokolltest wurden vom MountingOrchestrator in die ConnectionPrep
 Beispiel zur Reduzierung der Kopplung:  
 Bislang bot die ConnectionPreparation Applikation hardwarespezifische Services an (z.B. /v1/prepare-connection-at-ericsson-ml6352).  
 Die Auftrennung in separate Services geschah ursprünglich um eine rückwärtskompatible Wartung und Ergänzung um zukünftige Hardwaretypen zu erleichtern.  
-Nun stellte sich heraus, dass hierdurch die Entscheidung darüber, welche herstellerspezifische Methode anzuwenden ist, in den MountingOrchestrator verlagert wurde.  
+Da dabei die Entscheidung darüber, welche herstellerspezifische Methode anzuwenden ist, im MountingOrchestrator platziert wurde, muss dieser z.B. bei Einführung einer neuen Hardware ebenfalls aktualisiert werden.  
 Ein zusätzlicher, generischer Service (/v1/prepare-connection) in der ConnectionPreparation Applikation entscheidet nun anhand eines Gerätetyp-Attributes, welcher der hardwarespezifischen Services aufgerufen werden muss.  
-Durch diesen Selbstaufruf der ConnectionPreparation Applikation entfällt der Aktualisierungsbedarf am MountingOrchestrator bei zukünftig neuen Hardwaretypen, da er nur einen String durchreicht.  
+Durch diesen Selbstaufruf der ConnectionPreparation Applikation entfällt der Aktualisierungsbedarf am MountingOrchestrator, da dieser nur einen anderen String durchreichen muss.  
 
 <img src="./diagrams/04_Flow_CPcall.png" alt="CPcall" width="600" style="display: block; margin: 0 auto"/>  
 
@@ -95,7 +95,7 @@ Aus diesem Grund wurde aus dem MediatorManager der NetconfInterfaceManager und a
 
 ### Domänen  
 
-Im Rahmen der Gespräche trat zu Tage, dass es neben des Mountings neuer Geräte weitere Aufgaben zu erledigen sind.  
+Im Rahmen der Designdiskussionen wurde klar, dass neben des Mountings neuer Geräte weitere Aufgaben an den betroffenen Elementen (Controller, mediatorVMs, Geräte) zu erledigen sind.  
 
 Beispiele:  
 - Durch frühere, skriptbasierte Mountingversuche ist es auf einigen Geräten zu einer Verschmutzung gekommen. Es wurden in größerer Anzahl falsche Nutzernamen eingetragen. Eine Hygienefunktion wird benötigt. Diese soll autonom dafür sorgen, dass nur die vorgegebenen Nutzer auf den Geräten konfiguriert sind. Diese Funktion wäre idealerweise ebenfalls in der ConnectionPreparation Applikation untergebracht, da sie die selben Designinformationen und Interfaces zu den Geräten benötigt.  
@@ -104,12 +104,22 @@ Der gegenwärtig genutzte Updateprozess führt zu einem stundenlangen Ausfall de
 Der NetconfInterfaceManager könnte durch Aufrufen der vorhandenen Create- und Deleteservices der MediatorInstanceManager auch den Umzug von mediatorProcesses von einer alten zu einer neuen mediatorVm automatisieren und zumindest nahezu unterbrechungsfrei gestalten.  
 
 Diese Beispiele zeigen, wie durch den Aufruf der selben Services auf der selben Gruppe untergeordneter Elemente unterschiedliche übergeordnete Ziele (UserDemands) umgesetzt werden können.  
-D.h. Applikationen können eine ganze Reihe von Funktionen, welche auf die ihnen untergeordneten Elemente wirken, beinhalten.  
-Ein Teil dieser Funktionen benötigt keinen äußeren Anstoß, sie werden von den Applikationen quasi "in Eigenverantwortung" betrieben.  
+D.h. die Steigerung der Kohäsion hat nicht nur Einfluss auf die Anordnung der Funktionen eines UserDemands, sondern befördert auch, dass eine Applikation an einer ganzen Reihe von UserDemands beteiligt ist, oder diese sogar eigenständig implementiert.  
+
+Im Falle des NetconfInterfaceManagers zeigte sich, dass die zur Umsetzung der unterschiedlichen UserDemands benötigten Funktionen große Überschneidungen aufweisen.  
+z.B. eine Funktion für das Erstellen eines Mediators wird für die Automatisierung des Mountings, die Gleichverteilung der mediatorProcesses über die mediatorVMs, die Automatisierung des Updates der Mediatorsoftware, einen Schutz gegen den Crash von MediatorVMs und eventuell weitere UserDemands benötigt.  
+
+Das bedeutet, dass auch innerhalb der Applikationen nicht lineare Prozesse, sondern wiederverwendbare Module implementiert werden sollten.  
+Da diese Module in mehrere UserDemands eingebunden sind, werden sie offenkundig nicht von außen angestoßen, sondern durch ein internes Ereignis.  
+Sie werden von den Applikationen quasi "in Eigenverantwortung" genutzt.  
+
+Um die Wiederverwendbarkeit von Modulen zu verbessern, kann es sich ergeben, dass das auslösende interne Ereignis nicht mehr in unmittelbarem Zusammenhang mit dem einzelnen UserDemand steht.  
+
+Müssen z.B. im Zusammenhang mit der Gleichverteilung der mediatorProcesses über die mediatorVMs oder der Automatisierung der Updates der Mediatorsoftware nicht mehr benötigte mediatorProcesses gelöscht werden, könnte das interne Ereignis darin bestehen, dass im Rahmen einer regelmäßigen Prüfung ein nicht mehr benötigter mediatorProcess gefunden wurde.  
 
 **Erkenntnis**  
 Konsequentes Optimieren der Architektur hinsichtlich Aufwand und Kosten (durch Steigern der Kohäsion und Reduzieren der Kopplung) führt schließlich zur Bildung von Domänen die relativ autonom agieren.  
-Da mehrere Funktionen innerhalb der Domänen parallel wirken, löst sich der 1:1 Zusammenhang zwischen einem äußeren Serviceaufruf und einer inneren Funktion zu seiner vollständigen Umsetzung auf.  
+Da mehrere Funktionen innerhalb der Domänen parallel wirken, löst sich der 1:1 Zusammenhang zwischen einem äußeren Serviceaufruf (oder einem UserDemand) und einer inneren Funktion zu seiner vollständigen Umsetzung auf.  
 Würde man einen UserDemand (z.B. die Automatisierung des Mountings) als linearen Prozess denken, wäre es vermutlich sehr schwierig nachzuvollziehen, ob alle darin enthaltenen Schritte "irgendwo" abgedeckt sind.  
 
 <img src="./diagrams/06_Domains.png" alt="Domains" width="120" style="display: block; margin: 0 auto"/>  
