@@ -77,7 +77,7 @@ Durch diesen Selbstaufruf der ConnectionPreparation Applikation entfällt der Ak
 <img src="./diagrams/04_Flow_CPcall.png" alt="CPcall" width="600" style="display: block; margin: 0 auto"/>  
 
 Ferner wurde berücksichtigt, dass bei wiederholten Versuchen ein Gerät zu mounten das Gerät nicht in jedem Fall erneut vorbereitet werden muss.  
-Die Information darüber, ob es vorbereitet werden muss, ist jedoch im MediatorManager.  
+Die Information darüber, ob es vorbereitet werden muss, ist jedoch im MediatorManager, nicht im MountingOrchestrator.  
 Unter anderem aus diesem Grund, ist es viel sinnvoller, die ConnectionPreparation Applikation durch den MediatorManager und nicht durch den MountingOrchestrator aufzurufen.  
 
 <img src="./diagrams/04_Flow_Substructured.png" alt="Substructured" width="220" style="display: block; margin: 0 auto"/>  
@@ -86,7 +86,7 @@ Steigerung der Kohäsion und Reduzierung der Kopplung haben zur Folge, dass die 
 
 Beispiele:  
   - Die ConnectionPreparation Applikation kümmert sich nun um die gesamte Kommunikation mit dem Gerät bevor es am Controller angebunden ist.  
-  - Der MediatorManager stellt nicht länger nur einen Mediator zu Verfügung, sondern das NETCONF Interface und alles was dahinter liegt, da er ja die Konfiguration des Interfaces auf der Geräteseite ebenfalls steuert.  
+  - Der MediatorManager stellt nicht länger nur einen Mediator zu Verfügung, sondern das NETCONF Interface und alles was dahinter liegt, da er die Konfiguration des Interfaces auf der Geräteseite ebenfalls vorbereitet und auslöst.  
 
 Aus diesem Grund wurde aus dem MediatorManager der NetconfInterfaceManager und aus dem /v1/provide-mediator der /v1/provide-netconf-interface (2.2.1) Service.  
 
@@ -109,17 +109,17 @@ D.h. die Steigerung der Kohäsion hat nicht nur Einfluss auf die Anordnung der F
 Im Falle des NetconfInterfaceManagers zeigte sich, dass die zur Umsetzung der unterschiedlichen UserDemands benötigten Funktionen große Überschneidungen aufweisen.  
 z.B. eine Funktion für das Erstellen eines Mediators wird für die Automatisierung des Mountings, die Gleichverteilung der mediatorProcesses über die mediatorVMs, die Automatisierung des Updates der Mediatorsoftware, einen Schutz gegen den Crash von MediatorVMs und eventuell weitere UserDemands benötigt.  
 
-Das bedeutet, dass auch innerhalb der Applikationen nicht lineare Prozesse, sondern wiederverwendbare Module implementiert werden sollten.  
-Da diese Module in mehrere UserDemands eingebunden sind, werden sie offenkundig nicht von außen angestoßen, sondern durch ein internes Ereignis.  
+Das bedeutet, dass auch innerhalb der Applikationen Serviceaufrufe, bzw. autonom ausgeführte UserDemands nicht als lineare Prozesse, sondern als Zusammenwirken von wiederverwendbaren Modulen umgesetzt werden sollten.  
+Da diese Module für mehrere UserDemands benötigt werden, werden sie offenkundig nicht von außen angestoßen, sondern durch ein internes Ereignis.  
 Sie werden von den Applikationen quasi "in Eigenverantwortung" genutzt.  
 
 Um die Wiederverwendbarkeit von Modulen zu verbessern, kann es sich ergeben, dass das auslösende interne Ereignis nicht mehr in unmittelbarem Zusammenhang mit dem einzelnen UserDemand steht.  
 
-Müssen z.B. im Zusammenhang mit der Gleichverteilung der mediatorProcesses über die mediatorVMs oder der Automatisierung der Updates der Mediatorsoftware nicht mehr benötigte mediatorProcesses gelöscht werden, könnte das interne Ereignis darin bestehen, dass im Rahmen einer regelmäßigen Prüfung ein nicht mehr benötigter mediatorProcess gefunden wurde.  
+Müssen z.B. im Zusammenhang mit dem Rückbau physikalischer Geräte, der Gleichverteilung der mediatorProcesses über die mediatorVMs oder der Automatisierung der Updates der Mediatorsoftware nicht mehr benötigte mediatorProcesses gelöscht werden, könnte das interne Ereignis darin bestehen, dass im Rahmen einer regelmäßigen Prüfung des Bestandes ein nicht mehr benötigter mediatorProcess gefunden wurde.  
 
 **Erkenntnis**  
 Konsequentes Optimieren der Architektur hinsichtlich Aufwand und Kosten (durch Steigern der Kohäsion und Reduzieren der Kopplung) führt schließlich zur Bildung von Domänen die relativ autonom agieren.  
-Da mehrere Funktionen innerhalb der Domänen parallel wirken, löst sich der 1:1 Zusammenhang zwischen einem äußeren Serviceaufruf (oder einem UserDemand) und einer inneren Funktion zu seiner vollständigen Umsetzung auf.  
+Da mehrere Funktionen innerhalb der Domänen parallel wirken, besteht kein 1:1 Zusammenhang zwischen einem äußeren Serviceaufruf (oder einem UserDemand) und einer Funktion zu seiner vollständigen Umsetzung mehr.  
 Würde man einen UserDemand (z.B. die Automatisierung des Mountings) als linearen Prozess denken, wäre es vermutlich sehr schwierig nachzuvollziehen, ob alle darin enthaltenen Schritte "irgendwo" abgedeckt sind.  
 
 <img src="./diagrams/06_Domains.png" alt="Domains" width="120" style="display: block; margin: 0 auto"/>  
@@ -147,20 +147,20 @@ Eine effektivere Kontrolle erscheint möglich. Hierfür sollte ...
 Beim Zuschnitt der Domänen sollte in Verbindungen, nicht in Endstellen, gedacht werden.  
 
 Im Falle der Automatisierung des Mountings, wurde der Zuschnitt der Domänen noch einmal überarbeitet, so dass nun Verbindungen im Zentrum der jeweiligen Verantwortung stehen.  
-- Der MountingOrchestrator wird in RestconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen zwischen den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy) und dem Controller.  
-- Der NetconfInterfaceManager wird in NetconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der NETCONF Verbindungen zwischen Controller und Mediator.  
-- Der MediatorInstanceManager wird in SnmpConnectionManager umbenannt, und verantwortet weiter das Vorhandensein und den Betrieb der Verbindungen zwischen Mediator und Device, was er im Prinzip schon bislang genau so getan hat, von uns aber anders wahrgenommen wurde.  
+- Der MountingOrchestrator wird in RestconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy).  
+- Der NetconfInterfaceManager wird in NetconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der NETCONF Verbindungen vom Mediator zum Controller.  
+- Der MediatorInstanceManager wird in SnmpConnectionManager umbenannt, und verantwortet weiter das Vorhandensein und den Betrieb der Verbindungen vom Gerät zum Mediator (was er im Prinzip schon bislang genau so getan hat, von uns aber anders wahrgenommen wurde).  
 
 <img src="./diagrams/09_ConnectionDomains.png" alt="ConnectionDomains" width="120" style="display: block; margin: 0 auto"/>  
 
-Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern vom RestconfConnectionManager.  
+Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation.  
 Offensichtlich benötigen RestconfConnectionManager und NetconfInterfaceManager nun auch Funktionen um den operativen Status der vom ihnen verantworteten Verbindungen permanent messen zu können.  
 
 
 ### Inkonsistenz?
 
 Der verbindungsbasierte Zuschnitt der Domänen bedeutet im Beispiel, dass sowohl RestconfConnectionManager als auch NetconfConnectionManager auf den MountPoint im Controller wirken.  
-Sollte der Controller aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an dessen Managementschnittstelle auf beide Applikationen auswirken.  
+Sollte die Controllersoftware aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an ihrer Managementschnittstelle auf beide Applikationen auswirken.  
 Das wäre nicht ideal.  
 Um die Auswirkung einer solchen Änderung zu begrenzen, ist es notwendig, dass nur eine Applikation unmittelbar auf das Element zugreift.  
 Für die Konfiguration des Interfaces, das eigentlich zu einer anderen Domäne gehört, muss diese Applikation einen Service anbieten.  
@@ -168,15 +168,15 @@ Für die Konfiguration des Interfaces, das eigentlich zu einer anderen Domäne g
 Hier scheint sich eine mögliche Inkonsistenz aufzutun:  
 Zum einen sollte eine Domäne möglichst autonom arbeiten und mit möglichst generischen Anfragen adressiert werden, zum anderen wird hier ein Interface mit konkreten technischen Attributen erforderlich.  
 
-Klar ist, dass Elemente deren Schnittstelle wir nicht kontrollieren, nur durch eine Applikation angesprochen werden dürfen, bzw. einer Domäne konkret zugeordnet werden müssen.  
-Die Bedingungen, unter denen sehr konkrete Schnittstellen an der Domänengrenze exponiert werden müssen, sind jedoch (noch) nicht allgemeingültig formuliert.  
+Klar ist, dass Elemente deren Schnittstellenentwicklung wir nicht kontrollieren, nur durch exakt eine Applikation angesprochen werden dürfen, bzw. einer Domäne konkret zugeordnet werden müssen.  
+Die Bedingungen, unter denen sehr konkrete Schnittstellen an der Domänengrenze exponiert werden müssen, sind jedoch (noch) nicht allgemeingültig formuliert (eventuell für reine Übersetzung).  
 
 Im Beispiel der Automatisierung des Mountings, wird der Controller durch den RestconfConnectionManager gekapselt. Dieser erstellt die MountPoints, konfiguriert die RestconfServer und repräsentiert deren operativen Status. Lediglich für die Konfiguration der NetconfClients stellt der RestconfConnectionManager einen Service, der exklusiv durch den NetconfConnectionManager genutzt werden darf, zur Verfügung.  
 
 
 ### Zustandsbasiertes Design
 
-Eingangs wird beschrieben, dass der Aufruf des MountingOrchestrators den Charakter eines Services (z.B. /v1/mount-device) haben sollte.  
+Eingangs wird beschrieben, dass der Aufruf des MountingOrchestrators ursprünglich den Charakter eines Services (z.B. /v1/mount-device) haben sollte.  
 Bei Misserfolg, sollte eine aussagekräftige Fehlermeldung zurück gegeben werden.  
 Auf Basis der Fehlermeldung sollte eine manuelle Korrektur am Aufbau vorgenommen werden.  
 
@@ -190,7 +190,7 @@ Sinnvoller ist, dass der Mensch einen Zielzustand beschreibt und die Automatisie
 
 Im Falle der Automatisierung des Mountings, bedeutet dies:  
 - Der Aufruf des RestconfConnectionManager beschreibt nun einen Zielzustand (z.B. /v1/establish-restconf-connection)  
-- Der RestconfConnectionManager prüft lediglich, ob der Zielzustand grundsätzlich erreicht werden kann (sind Fähigkeiten und Ressourcen vorhanden?)  
+- Der RestconfConnectionManager prüft lediglich, ob dieser Zielzustand grundsätzlich erreicht werden kann (sind Fähigkeiten und Ressourcen vorhanden?)  
 - Kann der Zielzustand grundsätzlich erreicht werden, wird eine positive Antwort gesendet  
 - Das Erreichen des Zielzustands kann im Anschluss natürlich aus den selben Gründen scheitern wie der ursprüngliche Serviceaufruf  
 - Die Gründe des Scheiterns werde jedoch nicht mehr als Ursache für den erfolglosen Abbruch einer Auftragsausführung, sondern als gegenwärtiger Status dargestellt (z.B. "Gerät nicht unter der geplanten IP Adresse erreichbar")  
@@ -201,16 +201,36 @@ Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
 <img src="./diagrams/10_AutomationApplication.png" alt="AutomationApplication" width="600" style="display: block; margin: 0 auto"/>  
 
 Autonome Funktionen sind im Diagramm durch Uhren gekennzeichnet.  
-Offensichtlich, ist lediglich das Validieren und Eintragen in die AdministrativeState Datenbank von außen getriggert.  
+Offensichtlich ist lediglich das Validieren und Eintragen in die AdministrativeState Datenbank von außen getriggert.  
 
 Die dargestellte Struktur stellt den Stand der Überlegungen zum 27. März 2025 dar.  
 Es ist nun geplant, zunächst den NetconfConnectionManager und danach den RestconfConnectionManager nach diesem Konzept zu spezifizieren.  
 
 
+**Noch offen - Status der Verbindung zum Gerät**  
+
+Wie im letzten Abschnitt des Kapitels zum Zuschnitt der Domänen angemerkt, soll das MicroWaveDeviceInventory die Notifications über den operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation bekommen.  
+
+RestconfConnectionManager, NetconfInterfaceManager und SnmpConnectionManager verantworten jedoch jeweils nur einen Abschnitt der Verbindung zwischen RestconfClient an der MicroWaveDeviceInventory Applikation und dem SnmpServer am Gerät.  
+
+Sollen diese Applikationen den operativen Status der von ihnen verantworteten Verbindungen ... 
+
+<img src="./diagrams/11_ConnectionStatus.png" alt="ConnectionStatus" width="600" style="display: block; margin: 0 auto"/>  
+
+... oder den Status der Aggregation von Verbindungen bis zum Gerät 
+
+<img src="./diagrams/12_AggregatedConnectionStatus.png" alt="AggregatedConnectionStatus" width="600" style="display: block; margin: 0 auto"/>  
+
+berichten?  
+
+Wie könnte der Verbindungsstatus überhaupt gemessen werden?
+Wäre es am Ende vielleicht nicht sogar das Beste, wenn das MicroWaveDeviceInventory den Status des Gesamtverbindung selbst messen würde?
+
+
 ### Schlussgedanke
 
 Von Beginn aller Überlegungen zur Automatisierung an, bestand der Einwand, dass das Ergebnis des Zusammenwirkens mehrerer sinnvoller und korrekt implementierter Automatisierungen nicht zwingend ebenfalls sinnvoll sein muss.  
-Es erschien unmöglich sicherzustellen, dass das Zusammenwirken von unabhängig von einander entwickelte lineare Prozesse in jedem denkbaren Fall zu einem sinnvollen Ergebnis führen wird.  
-Mit Hilfe des Zustandsbasierten Designs scheint es nun zumindest einen Ansatzpunkt zu geben.  
+Es erscheint unmöglich sicherzustellen, dass das Zusammenwirken von unabhängig von einander entwickelte lineare Prozesse in jedem denkbaren Fall zu einem sinnvollen Ergebnis führen wird.  
+Mit Hilfe des Zustandsbasierten Designs könnte es nun zumindest einen Ansatzpunkt geben.  
 Vor dem Schreiben in den AdministrativeState kann überprüft werden, ob der neue Zielzustand sinnvoll wäre.  
-Ob es gelingt, die permanent aktiven Funktionen zur Angleichung des OperationalState an den AdministrativeState so zu gestalten, dass nicht sinnvolle Zwischenzustände autonom geheilt werden, muss die Erfahrung zeigen.  
+Ob es gelingt, die autonom wirkenden Funktionen zur Angleichung des OperationalState an den AdministrativeState so zu gestalten, dass nicht sinnvolle Zwischenzustände zuverlässig automatisch geheilt werden, muss die Erfahrung zeigen.  
