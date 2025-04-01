@@ -122,8 +122,6 @@ Konsequentes Optimieren der Architektur hinsichtlich Aufwand und Kosten (durch S
 Da mehrere Funktionen innerhalb der Domänen parallel wirken, besteht kein 1:1 Zusammenhang zwischen einem äußeren Serviceaufruf (oder einem UserDemand) und einer Funktion zu seiner vollständigen Umsetzung mehr.  
 Würde man einen UserDemand (z.B. die Automatisierung des Mountings) als linearen Prozess denken, wäre es vermutlich sehr schwierig nachzuvollziehen, ob alle darin enthaltenen Schritte "irgendwo" abgedeckt sind.  
 
-<img src="./diagrams/06_Domains.png" alt="Domains" width="120" style="display: block; margin: 0 auto"/>  
-
 
 ### Zuschnitt der Domänen  
 
@@ -149,12 +147,10 @@ Beim Zuschnitt der Domänen sollte in Verbindungen, nicht in Endstellen, gedacht
 Im Falle der Automatisierung des Mountings, wurde der Zuschnitt der Domänen noch einmal überarbeitet, so dass nun Verbindungen im Zentrum der jeweiligen Verantwortung stehen.  
 - Der MountingOrchestrator wird in RestconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy).  
 - Der NetconfInterfaceManager wird in NetconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der NETCONF Verbindungen vom Mediator zum Controller.  
-- Der MediatorInstanceManager wird in SnmpConnectionManager umbenannt, und verantwortet weiter das Vorhandensein und den Betrieb der Verbindungen vom Gerät zum Mediator (was er im Prinzip schon bislang genau so getan hat, von uns aber anders wahrgenommen wurde).  
+- (Der MediatorInstanceManager würde in SnmpConnectionManager umbenannt werden und das Vorhandensein und den Betrieb der Verbindungen vom Gerät zum Mediator verantworten. Da der MediatorInstanceManager durch die Hardwarehersteller bereitgestellt wird, ist der Einfluss auf sein Interface, seine Funktionen und seine Implementierung begrenzt. Er wird im NetconfInterfaceManager gekapselt (siehe auch Abschnitt zu Kapselung nicht kontrollierter Schnittstellen).)
 
-<img src="./diagrams/09_ConnectionDomains.png" alt="ConnectionDomains" width="120" style="display: block; margin: 0 auto"/>  
-
-Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation.  
-Offensichtlich benötigen RestconfConnectionManager und NetconfInterfaceManager nun auch Funktionen um den operativen Status der vom ihnen verantworteten Verbindungen permanent messen zu können.  
+<font color="blue">Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation.</font>  
+<font color="blue">Offensichtlich benötigen RestconfConnectionManager und NetconfInterfaceManager nun auch Funktionen um den operativen Status der vom ihnen verantworteten Verbindungen permanent messen zu können.</font>  
 
 
 ### Zustandsbasiertes Design
@@ -186,9 +182,6 @@ Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
 Autonome Funktionen sind im Diagramm durch Uhren gekennzeichnet.  
 Offensichtlich ist lediglich das Validieren und Eintragen in die AdministrativeState Datenbank von außen getriggert.  
 
-Die dargestellte Struktur stellt den Stand der Überlegungen zum 27. März 2025 dar.  
-Es ist nun geplant, zunächst den NetconfConnectionManager und danach den RestconfConnectionManager nach diesem Konzept zu spezifizieren.  
-
 
 ### Kapselung nicht kontrollierter Schnittstellen
 
@@ -202,7 +195,7 @@ Elemente, deren Schnittstellenentwicklung wir nicht kontrollieren, sollten nur d
 Hier scheint sich eine mögliche Inkonsistenz aufzutun.  
 Einerseits sollte eine Domäne autonom arbeiten und mit generischen Anfragen adressiert werden, andererseits werden Interfaces mit konkreten technischen Attributen benötigt.  
 
-Die Fälle in denen ein konkrete Interface genutzt wird, sind wie folgt abgegrenzt:  
+Die Fälle in denen ein konkretes Interface genutzt wird, sind wie folgt abgegrenzt:  
 - Der Gegenstand und die Maßnahme auf diesem Gegenstand fallen in den Verantwortungsbereich einer anderen Domäne.  
 - Ausschließlich die verantwortliche Domäne darf das konkrete Interface nutzen.  
 - Das konkrete Interface wirkt im Sinne eines Services unmittelbar auf den betreffenden Gegenstand, d. h.  
@@ -222,18 +215,15 @@ Wie im letzten Abschnitt des Kapitels zum Zuschnitt der Domänen angemerkt, soll
 
 RestconfConnectionManager, NetconfInterfaceManager und SnmpConnectionManager verantworten jedoch jeweils nur einen Abschnitt der Verbindung zwischen RestconfClient an der MicroWaveDeviceInventory Applikation und dem SnmpServer am Gerät.  
 
-Sollen diese Applikationen den operativen Status der von ihnen verantworteten Verbindungen ... 
+Es gibt keine Domäne, kein LinkObject und folglich auch keinen operativen Status für die Gesamtverbindung.  
 
-<img src="./diagrams/11_ConnectionStatus.png" alt="ConnectionStatus" width="600" style="display: block; margin: 0 auto"/>  
+Eine Lösung könnte wie folgt aussehen:  
 
-... oder den Status der Aggregation von Verbindungen bis zum Gerät 
+<img src="./diagrams/12_AggregatedConnectionStatus.png" alt="AggregatedConnectionStatus" width="800" style="display: block; margin: 0 auto"/>  
 
-<img src="./diagrams/12_AggregatedConnectionStatus.png" alt="AggregatedConnectionStatus" width="600" style="display: block; margin: 0 auto"/>  
+Wie könnten jedoch die operativen Status der Streckensegemente (RestconfConnection, MountPointFc, NetconfConnection, mMdiatorProcessFc, SnmpConnection) überhaupt gemessen werden?  
 
-berichten?  
-
-Wie könnte der Verbindungsstatus überhaupt gemessen werden?
-Wäre es am Ende vielleicht nicht sogar das Beste, wenn das MicroWaveDeviceInventory den Status des Gesamtverbindung selbst messen würde?
+Wäre es am Ende vielleicht das Beste, wenn das MicroWaveDeviceInventory den Status des Gesamtverbindung selbst messen würde? (hoffentlich nicht)
 
 
 ### Schlussgedanke
