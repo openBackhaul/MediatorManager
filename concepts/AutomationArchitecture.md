@@ -157,23 +157,6 @@ Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status d
 Offensichtlich benötigen RestconfConnectionManager und NetconfInterfaceManager nun auch Funktionen um den operativen Status der vom ihnen verantworteten Verbindungen permanent messen zu können.  
 
 
-### Inkonsistenz?
-
-Der verbindungsbasierte Zuschnitt der Domänen bedeutet im Beispiel, dass sowohl RestconfConnectionManager als auch NetconfConnectionManager auf den MountPoint im Controller wirken.  
-Sollte die Controllersoftware aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an ihrer Managementschnittstelle auf beide Applikationen auswirken.  
-Das wäre nicht ideal.  
-Um die Auswirkung einer solchen Änderung zu begrenzen, ist es notwendig, dass nur eine Applikation unmittelbar auf das Element zugreift.  
-Für die Konfiguration des Interfaces, das eigentlich zu einer anderen Domäne gehört, muss diese Applikation einen Service anbieten.  
-
-Hier scheint sich eine mögliche Inkonsistenz aufzutun:  
-Zum einen sollte eine Domäne möglichst autonom arbeiten und mit möglichst generischen Anfragen adressiert werden, zum anderen wird hier ein Interface mit konkreten technischen Attributen erforderlich.  
-
-Klar ist, dass Elemente deren Schnittstellenentwicklung wir nicht kontrollieren, nur durch exakt eine Applikation angesprochen werden dürfen, bzw. einer Domäne konkret zugeordnet werden müssen.  
-Die Bedingungen, unter denen sehr konkrete Schnittstellen an der Domänengrenze exponiert werden müssen, sind jedoch (noch) nicht allgemeingültig formuliert (eventuell für reine Übersetzung).  
-
-Im Beispiel der Automatisierung des Mountings, wird der Controller durch den RestconfConnectionManager gekapselt. Dieser erstellt die MountPoints, konfiguriert die RestconfServer und repräsentiert deren operativen Status. Lediglich für die Konfiguration der NetconfClients stellt der RestconfConnectionManager einen Service, der exklusiv durch den NetconfConnectionManager genutzt werden darf, zur Verfügung.  
-
-
 ### Zustandsbasiertes Design
 
 Eingangs wird beschrieben, dass der Aufruf des MountingOrchestrators ursprünglich den Charakter eines Services (z.B. /v1/mount-device) haben sollte.  
@@ -205,6 +188,32 @@ Offensichtlich ist lediglich das Validieren und Eintragen in die AdministrativeS
 
 Die dargestellte Struktur stellt den Stand der Überlegungen zum 27. März 2025 dar.  
 Es ist nun geplant, zunächst den NetconfConnectionManager und danach den RestconfConnectionManager nach diesem Konzept zu spezifizieren.  
+
+
+### Kapselung nicht kontrollierter Schnittstellen
+
+Der verbindungsbasierte Zuschnitt der Domänen bedeutet im Beispiel, dass sowohl RestconfConnectionManager als auch NetconfConnectionManager auf den MountPoint im Controller wirken.  
+Sollte die Controllersoftware aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an ihrer Managementschnittstelle auf beide Applikationen auswirken.  
+Das wäre nicht ideal.  
+
+**Erkenntnis**  
+Elemente, deren Schnittstellenentwicklung wir nicht kontrollieren, sollten nur durch exakt eine Applikation angesprochen werden.  
+
+Hier scheint sich eine mögliche Inkonsistenz aufzutun.  
+Einerseits sollte eine Domäne autonom arbeiten und mit generischen Anfragen adressiert werden, andererseits werden Interfaces mit konkreten technischen Attributen benötigt.  
+
+Die Fälle in denen ein konkrete Interface genutzt wird, sind wie folgt abgegrenzt:  
+- Der Gegenstand und die Maßnahme auf diesem Gegenstand fallen in den Verantwortungsbereich einer anderen Domäne.  
+- Ausschließlich die verantwortliche Domäne darf das konkrete Interface nutzen.  
+- Das konkrete Interface wirkt im Sinne eines Services unmittelbar auf den betreffenden Gegenstand, d. h.  
+  - die Information wird ausgelesen und synchron zurückgegeben oder  
+  - der Konfigurationsversuch wird unmittelbar ausgeführt und synchron beantwortet.  
+-	Das konkrete Interface wirkt niemals auf den AdministrativeState der Applikation; es wird ausschließlich übersetzt und durchgereicht.  
+
+Im Beispiel der Automatisierung des Mountings, wird die Managementschnittstelle des Controllers durch den RestconfConnectionManager gekapselt.  
+Der RestconfConnectionManager erstellt die MountPoints und konfiguriert die RestconfServer.  
+Lediglich für die Konfiguration der NetconfClients stellt der RestconfConnectionManager einen Service zur Verfügung.  
+Dieser Service darf exklusiv durch den NetconfConnectionManager genutzt werden. 
 
 
 **Noch offen - Status der Verbindung zum Gerät**  
