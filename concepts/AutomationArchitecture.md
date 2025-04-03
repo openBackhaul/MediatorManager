@@ -144,13 +144,70 @@ Eine effektivere Kontrolle erscheint möglich. Hierfür sollte ...
 **Erkenntnis**  
 Beim Zuschnitt der Domänen sollte in Verbindungen, nicht in Endstellen, gedacht werden.  
 
-Im Falle der Automatisierung des Mountings, wurde der Zuschnitt der Domänen noch einmal überarbeitet, so dass nun Verbindungen im Zentrum der jeweiligen Verantwortung stehen.  
-- Der MountingOrchestrator wird in RestconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy).  
-- Der NetconfInterfaceManager wird in NetconfConnectionManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der NETCONF Verbindungen vom Mediator zum Controller.  
-- (Der MediatorInstanceManager würde in SnmpConnectionManager umbenannt werden und das Vorhandensein und den Betrieb der Verbindungen vom Gerät zum Mediator verantworten. Da der MediatorInstanceManager durch die Hardwarehersteller bereitgestellt wird, ist der Einfluss auf sein Interface, seine Funktionen und seine Implementierung begrenzt. Er wird im NetconfInterfaceManager gekapselt (siehe auch Abschnitt zu Kapselung nicht kontrollierter Schnittstellen).)
+Operation Domains:  
+Innerhalb des ApplicationPatterns werden die Pfade, die auf einer API angeboten oder als Callbacks angesprochen werden, als OperationServer und OperationClient Objekte verwaltet.  
+- Wenn eine beliebige Applikation innerhalb der MW SDN Domäne das MicroWaveDeviceInventory adressiert, um Informationen über ein Gerät zu bekommen, geschieht dies über einen Pfad (OperationServer), der wie folgt strukturiert ist:  
+/core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}  
+Offensichtlich befinden sich unterhalb des MicroWaveDeviceInventory die zwei Subdomänen Cache und Live, die parallel neben einander existieren.  
+- Sobald die Anfrage über einen OperationClient des MicroWaveDeviceInventory in die Live Domäne übertragen wurde, ist der Pfad wie folgt strukturiert:  
+/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+Innerhalb dieses Pfades werden zwei neue Ebenen von Subdomänen aufgespannt.
+  - Es werden Domänen für verschiedene Protokolle unterschieden.  
+  Da wir gegenwärtig ausschließlich NETCONF nutzen, wird diese Zwischenebene nicht weiter betrachtet.  
+  - Innerhalb der NETCONF Domäne wird für jedes der Geräte eine eigene Domäne aufgespannt.  
+- Sobald die Anfrage über den MountPoint im Controller in die Domäne eines Gerätes übertragen wurde, ist der Pfad wie folgt strukturiert:  
+/core-model-1-4:control-construct/equipment={uuid}
 
-<font color="blue">Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation.</font>  
-<font color="blue">Offensichtlich benötigen RestconfConnectionManager und NetconfInterfaceManager nun auch Funktionen um den operativen Status der vom ihnen verantworteten Verbindungen permanent messen zu können.</font>  
+Innerhalb der Domäne eines Gerätes ist eine Unterscheidung in Live und Cache unbekannt, dass weitere Geräte parallel existieren könnten, ist ebenfalls unbekannt.  
+Als Folge der Translation im Mediator könnte sich nicht nur der Pfad, sondern auch die Anzahl der Requests ändern. Da sich der Informationsraum jedoch nicht ändert, soll hier keine Domängrenze definiert werden.  
+
+Würden die Domänen wie hier dargestellt strukturiert werden, würde weder auf dem Operation Layer noch darunter eine Verbindung durchschnitten werden:  
+
+<img src="./diagrams/08_OperationDomains.png" alt="OperationDomains" width="700" style="display: block; margin: 0 auto"/>  
+
+In folgendem Bild sollen die Terminierungsstellen von Verbindungen noch einmal anhand von ungefähren Zahlen verdeutlicht werden:  
+
+<img src="./diagrams/09_Connections.png" alt="Connections" width="700" style="display: block; margin: 0 auto"/>  
+
+
+### Kapselung nicht kontrollierter Schnittstellen
+
+Der verbindungsbasierte Zuschnitt der Domänen bedeutet im Beispiel, dass auch aus den Domänen der Geräte heraus die MountPoints im Controller konfiguriert werden.  
+Sollte die Controllersoftware aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an ihrer Managementschnittstelle auf mehrere Domänen auswirken.  
+Das wäre nicht ideal.  
+
+**Erkenntnis**  
+Elemente, deren Schnittstellenentwicklung wir nicht kontrollieren, sollten innerhalb einer Domäne gekapselt werden.  
+
+<img src="./diagrams/10_ControllerEncapsulation.png" alt="ControllerEncapsulation" width="700" style="display: block; margin: 0 auto"/>  
+
+Hier scheint sich eine mögliche Inkonsistenz aufzutun.  
+Einerseits sollte eine Domäne autonom arbeiten und mit generischen Anfragen adressiert werden, andererseits werden Interfaces mit konkreten technischen Attributen benötigt.  
+
+Die Fälle in denen ein konkretes Interface genutzt wird, sind wie folgt abgegrenzt:  
+- Der Gegenstand und die Maßnahme auf diesem Gegenstand fallen in den Verantwortungsbereich einer anderen Domäne.  
+- Ausschließlich die verantwortliche Domäne darf das konkrete Interface nutzen.  
+- Das konkrete Interface wirkt im Sinne eines Services unmittelbar auf den betreffenden Gegenstand, d.h.  
+  - die Information wird ausgelesen und synchron zurückgegeben oder  
+  - der Konfigurationsversuch wird unmittelbar ausgeführt und synchron beantwortet.  
+-	Das konkrete Interface wirkt niemals auf den AdministrativeState (siehe unten) der Applikation; es wird ausschließlich übersetzt und durchgereicht.  
+
+Im Beispiel der Automatisierung des Mountings, wird die Managementschnittstelle des Controllers innerhalb der ControllerDomain gekapselt.  
+Die ControllerDomain erstellt die MountPoints und konfiguriert die RestconfServer.  
+Lediglich für die Konfiguration der NetconfClients stellt die ControllerDomain einen Service nach extern zur Verfügung.  
+
+Eigentlich werden die Domänen der Geräte durch den MediatorInstanceManager verwaltet.  
+Aber auch in diesem Fall haben wir nur eingeschränkte Kontrolle über dessen Funktionen und seine Schnittstelle.  
+Zum Beispiel wird die Konfiguration der NetconfClients nicht unterstützt und keine Statusinformationen bereitgestellt.  
+Aus diesem Grund wird um alle Domänen der Geräte eine weitere Hülle gebildet.  
+Die resultierende DeviceDomain darf den Service für die Konfiguration der NetconfClients an der ControllerDomain exklusiv nutzen.  
+
+Im Falle der Automatisierung des Mountings, werden die Namen und die Veranwortlichkeiten der Applikationen an den veränderten Zuschnitt der Domänen angepasst:  
+- Der MountingOrchestrator wird in ControllerDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy) und die Kapselung der Managementschnittstelle des Controllers.  
+- Der NetconfInterfaceManager wird in DeviceDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der SNMP und der NETCONF Verbindungen von den Geräten zum Controller, sowie die Kapselung der Managementschnittstellen an den mediatorVms und den Geräten.  
+- Zur Aggregation der beiden Domänen auf dem Operation Layer wird zusätzlich der LiveDomainManager eingeführt. Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern vom LiveDomainManager.  
+
+<img src="./diagrams/11_DeviceEncapsulation.png" alt="DeviceEncapsulation" width="700" style="display: block; margin: 0 auto"/>  
 
 
 ### Zustandsbasiertes Design
@@ -181,32 +238,6 @@ Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
 
 Autonome Funktionen sind im Diagramm durch Uhren gekennzeichnet.  
 Offensichtlich ist lediglich das Validieren und Eintragen in die AdministrativeState Datenbank von außen getriggert.  
-
-
-### Kapselung nicht kontrollierter Schnittstellen
-
-Der verbindungsbasierte Zuschnitt der Domänen bedeutet im Beispiel, dass sowohl RestconfConnectionManager als auch NetconfConnectionManager auf den MountPoint im Controller wirken.  
-Sollte die Controllersoftware aktualisiert oder durch einen anderen Typ ersetzt werden, würden sich Änderungen an ihrer Managementschnittstelle auf beide Applikationen auswirken.  
-Das wäre nicht ideal.  
-
-**Erkenntnis**  
-Elemente, deren Schnittstellenentwicklung wir nicht kontrollieren, sollten nur durch exakt eine Applikation angesprochen werden.  
-
-Hier scheint sich eine mögliche Inkonsistenz aufzutun.  
-Einerseits sollte eine Domäne autonom arbeiten und mit generischen Anfragen adressiert werden, andererseits werden Interfaces mit konkreten technischen Attributen benötigt.  
-
-Die Fälle in denen ein konkretes Interface genutzt wird, sind wie folgt abgegrenzt:  
-- Der Gegenstand und die Maßnahme auf diesem Gegenstand fallen in den Verantwortungsbereich einer anderen Domäne.  
-- Ausschließlich die verantwortliche Domäne darf das konkrete Interface nutzen.  
-- Das konkrete Interface wirkt im Sinne eines Services unmittelbar auf den betreffenden Gegenstand, d. h.  
-  - die Information wird ausgelesen und synchron zurückgegeben oder  
-  - der Konfigurationsversuch wird unmittelbar ausgeführt und synchron beantwortet.  
--	Das konkrete Interface wirkt niemals auf den AdministrativeState der Applikation; es wird ausschließlich übersetzt und durchgereicht.  
-
-Im Beispiel der Automatisierung des Mountings, wird die Managementschnittstelle des Controllers durch den RestconfConnectionManager gekapselt.  
-Der RestconfConnectionManager erstellt die MountPoints und konfiguriert die RestconfServer.  
-Lediglich für die Konfiguration der NetconfClients stellt der RestconfConnectionManager einen Service zur Verfügung.  
-Dieser Service darf exklusiv durch den NetconfConnectionManager genutzt werden. 
 
 
 **Noch offen - Status der Verbindung zum Gerät**  
