@@ -145,27 +145,28 @@ Eine effektivere Kontrolle erscheint möglich. Hierfür sollte ...
 Beim Zuschnitt der Domänen sollte in Verbindungen, nicht in Endstellen, gedacht werden.  
 
 Operation Domains:  
-Innerhalb des ApplicationPatterns werden die Pfade, die auf einer API angeboten oder als Callbacks angesprochen werden, als OperationServer und OperationClient Objekte verwaltet.  
+Innerhalb des ApplicationPatterns werden die Pfade, die auf einer API angeboten oder in Callbacks aufgerufen werden, als OperationServer und OperationClient Objekte verwaltet.  
 - Wenn eine beliebige Applikation innerhalb der MW SDN Domäne das MicroWaveDeviceInventory adressiert, um Informationen über ein Gerät zu bekommen, geschieht dies über einen Pfad (OperationServer), der wie folgt strukturiert ist:  
 /core-model-1-4:network-control-domain=live/control-construct={mountName}/equipment={uuid}  
 Offensichtlich befinden sich unterhalb des MicroWaveDeviceInventory die zwei Subdomänen Cache und Live, die parallel neben einander existieren.  
-- Sobald die Anfrage über einen OperationClient des MicroWaveDeviceInventory in die Live Domäne übertragen wurde, ist der Pfad wie folgt strukturiert:  
-/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}
+- Wenn die Anfrage über einen OperationClient des MicroWaveDeviceInventory in die Live Domäne übertragen wird, ist der Pfad wie folgt strukturiert:  
+/rests/data/network-topology:network-topology/topology=topology-netconf/node={mountName}/yang-ext:mount/core-model-1-4:control-construct/equipment={uuid}  
 Innerhalb dieses Pfades werden zwei neue Ebenen von Subdomänen aufgespannt.
   - Es werden Domänen für verschiedene Protokolle unterschieden.  
   Da wir gegenwärtig ausschließlich NETCONF nutzen, wird diese Zwischenebene nicht weiter betrachtet.  
   - Innerhalb der NETCONF Domäne wird für jedes der Geräte eine eigene Domäne aufgespannt.  
-- Sobald die Anfrage über den MountPoint im Controller in die Domäne eines Gerätes übertragen wurde, ist der Pfad wie folgt strukturiert:  
+- Sobald die Anfrage über den MountPoint im Controller in die Domäne eines der Geräte übertragen wurde, ist der Pfad wie folgt strukturiert:  
 /core-model-1-4:control-construct/equipment={uuid}
 
 Innerhalb der Domäne eines Gerätes ist eine Unterscheidung in Live und Cache unbekannt, dass weitere Geräte parallel existieren könnten, ist ebenfalls unbekannt.  
-Als Folge der Translation im Mediator könnte sich nicht nur der Pfad, sondern auch die Anzahl der Requests ändern. Da sich der Informationsraum jedoch nicht ändert, soll hier keine Domängrenze definiert werden.  
+Als Folge der Translation im Mediator könnte sich nicht nur der Pfad, sondern auch die Anzahl der Requests ändern.  
+Da sich der Informationsraum jedoch nicht ändert, soll hier keine Domängrenze definiert werden.  
 
 Würden die Domänen wie hier dargestellt strukturiert werden, würde weder auf dem Operation Layer noch darunter eine Verbindung durchschnitten werden:  
 
 <img src="./diagrams/08_OperationDomains.png" alt="OperationDomains" width="700" style="display: block; margin: 0 auto"/>  
 
-In folgendem Bild sollen die Terminierungsstellen von Verbindungen noch einmal anhand von ungefähren Zahlen verdeutlicht werden:  
+In folgendem Bild soll die Baumstruktur der Verbindungen noch einmal anhand ihrer ungefähren Anzahlen verdeutlicht werden:  
 
 <img src="./diagrams/09_Connections.png" alt="Connections" width="700" style="display: block; margin: 0 auto"/>  
 
@@ -198,17 +199,87 @@ Lediglich für die Konfiguration der NetconfClients stellt die ControllerDomain 
 
 Eigentlich werden die Domänen der Geräte durch den MediatorInstanceManager verwaltet.  
 Aber auch in diesem Fall haben wir nur eingeschränkte Kontrolle über dessen Funktionen und seine Schnittstelle.  
-Zum Beispiel wird die Konfiguration der NetconfClients nicht unterstützt und keine Statusinformationen bereitgestellt.  
+Zum Beispiel wird die Konfiguration der NetconfClients in den MountPoints nicht unterstützt und keine Statusinformationen bereitgestellt.  
 Aus diesem Grund wird um alle Domänen der Geräte eine weitere Hülle gebildet.  
-Die resultierende DeviceDomain darf den Service für die Konfiguration der NetconfClients an der ControllerDomain exklusiv nutzen.  
+Die resultierende DeviceDomain implementiert die benötigten Funktionen für alle Geräte und darf dabei den Service für die Konfiguration der NetconfClients an der ControllerDomain exklusiv nutzen.  
 
 Im Falle der Automatisierung des Mountings, werden die Namen und die Veranwortlichkeiten der Applikationen an den veränderten Zuschnitt der Domänen angepasst:  
 - Der MountingOrchestrator wird in ControllerDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy) und die Kapselung der Managementschnittstelle des Controllers.  
 - Der NetconfInterfaceManager wird in DeviceDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der SNMP und der NETCONF Verbindungen von den Geräten zum Controller, sowie die Kapselung der Managementschnittstellen an den mediatorVms und den Geräten.  
-- Zur Aggregation der beiden Domänen auf dem Operation Layer wird zusätzlich der LiveDomainManager eingeführt. Das MicroWaveDeviceInventory bezieht die Notifications über operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern vom LiveDomainManager.  
+- Zur Aggregation der beiden Domänen auf dem Operation Layer wird zusätzlich der LiveDomainManager eingeführt. Das MicroWaveDeviceInventory bezieht die Notifications über den operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern vom LiveDomainManager.  
 
 <img src="./diagrams/11_DeviceEncapsulation.png" alt="DeviceEncapsulation" width="700" style="display: block; margin: 0 auto"/>  
 
+
+### Bestimmung des OperationalState  
+
+Die Bereitstellung von Verbindungen ist eine Kernaufgabe der Domänen.  
+Aus der Motivation der Automatisierung des Mountings heraus, sind die Fälle, in denen die Managementverbindung zum Gerät (noch) nicht funktioniert, von besonderem Interesse.  
+Der OperationalState von Verbindungen muss effizient festgestellt und representiert werden.  
+
+
+#### LiveDomain
+
+Vereinfachung:  
+Eigentlich müsste für jeden OperationClient am MWDI eine Operation Verbindung instantiiert und ein zugehöriger OperationalState dokumentiert werden.  
+Die Operation Verbindungen zwischen MicroWaveDeviceInventory und Gerät haben jedoch immer einen identischen OperationalState (, außer die Operations sind auf dem Gerät oder im Mediator unvollständig unterstützt).  
+Zur Vereinfachung wird ein zusätzlicher Verbindungstyp eingeführt, der die Managementverbindung (inklusive aller Operationen) zum Gerät repräsentiert.  
+
+In der LiveDomain wird die Managementverbindung zum Gerät durch die ManagementPlane Verbindung representiert.  
+Sie beginnt am MicroWaveDeviceInventory und endet am Gerät.  
+Sie wird auf Verbindungen vom Typ ManagementPlaneTransport geroutet.  
+Die ManagementPlaneTransport Verbindungen stellen die durch die darunter liegenden Domänen bereitgestellten Pfadsegmente dar.  
+Eine ManagementPlane Verbindung ist available, wenn alle ManagementPlaneTransport Verbindungen auf denen sie geroutet ist, available sind.  
+
+| Name | Startpunkt | Endpunkt | Type of object | ClientLayer | ServingLayer |  
+| ---- | ---------- | -------- | -------------- | ----------- | ------------ |  
+| ManagementPlane | ManagementPlaneClient im MWDI | ManagementPlaneServer im Gerät | FC | ./. | ManagementPlaneTransport |
+| ManagementPlaneTransport | ManagementPlaneTransportClient im MWDI | ManagementPlaneTransportServer im mediatorProcess | FC | ManagementPlane | ./. |  
+| ManagementPlaneTransport | ManagementPlaneTransportClient im mediatorProcess | ManagementPlaneTransportServer im Gerät | FC | ManagementPlane | ./. |  
+
+
+#### ContollerDomain
+
+In der ControllerDomain ist der ManagementPlaneTransport die oberste Verbindung.  
+Sie beginnt am MicroWaveDeviceInventory und endet am NetconfClient im MountPoint.  
+Sie wird auf Verbindungen vom Typ RestconfLink und MountPointFc geroutet.  
+Eine ManagementPlaneTransport Verbindung ist available, wenn die RestconfLink Verbindung available ist, und der MountPointFc existiert.  
+Ob die RestconfLink Verbindung available ist, wird durch Aufrufen eines Dienstes am MicroWaveDeviceInventory, der eines Callbacks zum Controller bedarf, geprüft.  
+
+| Name | Startpunkt | Endpunkt | Type of object | ClientLayer | ServingLayer |  
+| ---- | ---------- | -------- | -------------- | ----------- | ------------ |  
+| ManagementPlaneTransport | ManagementPlaneTransportClient im MWDI | ManagementPlaneTransportServer im mediatorProcess | FC | ./. | RestconfLink, MountPointFc |  
+| RestconfLink | RestconfClient im MWDI | RestconfServer im MountPoint | Link | ManagementPlaneTransport | ./. |  
+| MountPointFc | RestconfServer im MountPoint | NetconfClient im MountPoint | FC | ManagementPlaneTransport | ./. |  
+
+
+#### DeviceDomain  
+
+In der DeviceDomain ist ebenfalls der ManagementPlaneTransport die oberste Verbindung.  
+Hier beginnt sie am NetconfClient im MountPoint und endet am Gerät.  
+Sie wird auf Verbindungen vom Typ NetconfLink, MediatorProcessFc und SnmpLink geroutet.  
+Die ManagementPlaneTransport Verbindung ist available, wenn der MountPoint im 'Connected' State ist.  
+
+| Name | Startpunkt | Endpunkt | Type of object | ClientLayer | ServingLayer |  
+| ---- | ---------- | -------- | -------------- | ----------- | ------------ |  
+| ManagementPlaneTransport | ManagementPlaneTransportClient im mediatorProcess | ManagementPlaneTransportServer im Gerät | FC | ./. | NetconfLink, MediatorProcessFc und SnmpLink |  
+| NetconfLink | NetconfClient im MountPoint | NetconfServer im mediatorProcess | Link | ManagementPlaneTransport | ./. |  
+| MediatorProcessFc | NetconfServer im mediatorProcess | SnmpClient im mediatorProcess | FC | ManagementPlaneTransport | ./. |  
+| SnmpLink | SnmpClient im mediatorProcess | SnmpServer im Gerät | Link | ManagementPlaneTransport | ./. |  
+
+
+### Mitteilung des OperationalState  
+
+Das MicroWaveDeviceInventory soll die Notifications über den operativen Status der Managementverbindung zum Gerät nicht länger vom Controller, sondern nun von der LiveDomainManager Applikation bekommen.  
+
+In einem zyklischen Prozess  
+- frägt der LiveDomainManager den jeweiligen operativen Status der beiden ManagementPlaneTransport Verbindungen bei der ControllerDomain und der DeviceDomain ab  
+- berechnet daraus den aktuellen operativen Status der ManagementPlane Verbindung  
+- vergleicht den aktuellen operativen Status mit dem vorherigen
+- sollte sich eine Änderung ergeben haben, sendet der LiveDomainManager eine Notification an das MicroWaveDeviceInventory.
+
+Die Periodizität dieses zyklischen Prozesses soll konfigurierbar sein.  
+Es wird davon ausgegangen, dass bei ausreichend hoher Periodenlänge, der Umschaltmoment beim Umzug eines mediatorProzesses im Rahmen eines Updates ausreichend häufig keine Notification auslöst.  
 
 ### Zustandsbasiertes Design
 
@@ -225,8 +296,8 @@ Dass eine Automatisierung nur dann aktiv wird, wenn sie durch den Serviceaufruf 
 Sinnvoller ist, dass der Mensch einen Zielzustand beschreibt und die Automatisierung fortwährend und autonom auf die Herbeiführung dieses Zielzustandes wirkt.  
 
 Im Falle der Automatisierung des Mountings, bedeutet dies:  
-- Der Aufruf des RestconfConnectionManager beschreibt nun einen Zielzustand (z.B. /v1/establish-restconf-connection)  
-- Der RestconfConnectionManager prüft lediglich, ob dieser Zielzustand grundsätzlich erreicht werden kann (sind Fähigkeiten und Ressourcen vorhanden?)  
+- Der Aufruf des ControllerDomainManager beschreibt nun einen Zielzustand (z.B. /v1/establish-restconf-connection)  
+- Der ControllerDomainManager prüft lediglich, ob dieser Zielzustand grundsätzlich erreicht werden kann (sind Fähigkeiten und Ressourcen vorhanden?)  
 - Kann der Zielzustand grundsätzlich erreicht werden, wird eine positive Antwort gesendet  
 - Das Erreichen des Zielzustands kann im Anschluss natürlich aus den selben Gründen scheitern wie der ursprüngliche Serviceaufruf  
 - Die Gründe des Scheiterns werde jedoch nicht mehr als Ursache für den erfolglosen Abbruch einer Auftragsausführung, sondern als gegenwärtiger Status dargestellt (z.B. "Gerät nicht unter der geplanten IP Adresse erreichbar")  
@@ -238,23 +309,6 @@ Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
 
 Autonome Funktionen sind im Diagramm durch Uhren gekennzeichnet.  
 Offensichtlich ist lediglich das Validieren und Eintragen in die AdministrativeState Datenbank von außen getriggert.  
-
-
-**Noch offen - Status der Verbindung zum Gerät**  
-
-Wie im letzten Abschnitt des Kapitels zum Zuschnitt der Domänen angemerkt, soll das MicroWaveDeviceInventory die Notifications über den operativen Status der Verbindung zum Gerät nicht länger vom Controller, sondern von einer Applikation bekommen.  
-
-RestconfConnectionManager, NetconfInterfaceManager und SnmpConnectionManager verantworten jedoch jeweils nur einen Abschnitt der Verbindung zwischen RestconfClient an der MicroWaveDeviceInventory Applikation und dem SnmpServer am Gerät.  
-
-Es gibt keine Domäne, kein LinkObject und folglich auch keinen operativen Status für die Gesamtverbindung.  
-
-Eine Lösung könnte wie folgt aussehen:  
-
-<img src="./diagrams/12_AggregatedConnectionStatus.png" alt="AggregatedConnectionStatus" width="800" style="display: block; margin: 0 auto"/>  
-
-Wie könnten jedoch die operativen Status der Streckensegemente (RestconfConnection, MountPointFc, NetconfConnection, mMdiatorProcessFc, SnmpConnection) überhaupt gemessen werden?  
-
-Wäre es am Ende vielleicht das Beste, wenn das MicroWaveDeviceInventory den Status des Gesamtverbindung selbst messen würde? (hoffentlich nicht)
 
 
 ### Schlussgedanke
