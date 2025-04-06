@@ -1,0 +1,14 @@
+# Custom Dictionary Words
+
+APTP
+mountName
+MWDI
+netconf
+Netconf
+NETCONF
+restconf
+Restconf
+RESTCONF
+rückwärtskompatible
+Snmp
+SNMP

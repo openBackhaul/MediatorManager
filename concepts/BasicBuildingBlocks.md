@@ -1,6 +1,7 @@
 # Basic building blocks  
 
 **The MediatorManager is distinguishing three categories of things**  
+
 - **mediatorVmTemplate**  
 The mediatorVmTemplate defines a set of characteristics that are filled with values that are specific to a mediator software. It exists in the MediatorManager only.  
 - **mediatorVM**  
@@ -13,7 +14,7 @@ The mediatorVmTemplate, from which the mediatorVMs were generated, still determi
 (You could also say that the characteristics in the mediatorVmTemplate are defined like static variables that can only be changed in the class (mediatorVmTemplate) but not in the derived objects (mediatorVms).)  
 
 Example:  
-If a new device type is added to the list of supported device types at a mediatorVmTemplate, all mediatorVMs that have been genered from this mediatorVmTemplate will connect with this device type in future.  
+If a new device type is added to the list of supported device types at a mediatorVmTemplate, all mediatorVMs that have been generated from this mediatorVmTemplate will connect with this device type in future.  
 
 Remark:  
 The risk inherent in lowering the engineering limit in the mediatorVmTemplate is known and accepted.  

@@ -10,7 +10,7 @@ The following tasks are autonomously executed
   - when existing resources are marked as obsolete  
   - when existing resources fail  
 - Clean dismantling of the network behind an obsolete NETCONF interface  
-- Continuous purging of obsolete configuration artefacts  
+- Continuous purging of obsolete configuration artifacts  
 
 **Modules**  
 The MediatorManager consists of several modules that communicate with each other.  
