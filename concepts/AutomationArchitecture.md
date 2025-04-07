@@ -329,7 +329,7 @@ Nach erfolgreicher Validierung wird der Inhalt des CandidateDS in den RunningDS 
 OperationalDS  
 Beschreibung des Istzustandes im flüchtigen Speicher der Domäne.  
 
-IntendedDS
+IntendedDS  
 Eine wichtige Funktion einer Domäne ist der permanente Vergleich des Inhalts des RunningDS mit dem des OperationalDS.  
 Sollte eine wichtige Funktion einer Domäne darin bestehen, ein Element mit nicht-kontrollierter Schnittstelle zu kapseln, könnte man die Information im OperationalDS gemäß dieses Elementes strukturieren.  
 In diesem Fall sollte der Inhalt des RunningDS ebenfalls gemäß dieses Elementes strukturiert und in einem IntendedDS abgespeichert werden.  
@@ -350,7 +350,7 @@ Hier ist das Grundprinzip noch einmal am Beispiel des ControllerDomainManagers e
 
 Vermeidung redundanter Informationen  
 Sollte ein Interface gestört sein, ist es die Verbindung, die es abschließen soll, in der Regel ebenfalls.  
-D.h. in der internen Alarmliste könnte prinzipiell sowohl das Interface als auch die Verbindung als das gestörte Element referenziert werden.  
+D.h. die interne Alarmliste könnte sowohl nach gestörtem Interface als auch nach gestörter Verbindung geordnet sein.  
 Aufgrund des auf Verbindungen basierenden Zuschnitts der Domänen sollte jedoch die Verbindung als gestörtes Element referenziert werden.  
 Da an jedem Verbindungsobjekt, jene Verbindungen, über die es geroutet ist, gelistet werden, lassen sich die Alarme, die eine Verbindung auf höherer Ebene betreffen, schnell ermitteln.  
 Für diesen Zweck hat jede Domäne einen Service anzubieten, der sämtliche Alarme listet, die eine Verbindung oder jene Verbindungen, auf die sie geroutet ist, betreffen.  
@@ -361,7 +361,7 @@ Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
 <img src="./diagrams/40_AutomationApplication.png" alt="AutomationApplication" width="600" style="display: block; margin: 0 auto"/>  
 
 Autonome Funktionen sind im Diagramm durch Uhren gekennzeichnet.  
-Offensichtlich ist lediglich das Validieren und Eintragen in die CandidateDS von außen getriggert.  
+Offensichtlich ist lediglich das Eintragen in die CandidateDS und die anschließende Validierung von außen getriggert.  
 
 
 ### Schlussgedanke
