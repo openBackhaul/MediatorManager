@@ -1,0 +1,121 @@
+logical-termination-point:
+  type: array
+  uniqueItems: true
+  items:
+    oneOf:
+      - description: 'managementPlaneTransportClient'
+        type: object
+        required:
+          - uuid
+          - layer-protocol-name
+          - client-ltp
+          - server-ltp
+          - device-name
+        properties:
+          uuid:
+            type: string
+          layer-protocol-name:
+            type: string
+            enum:
+              - 'managementPlaneTransportLayer'
+          client-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 0
+            maxItems: 0
+            items:
+              type: string
+          server-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            maxItems: 1
+            items:
+              type: string
+              description: 'Identifier of the netconfClient'
+          device-name:
+            type: string
+            description: >
+              'Network Element ID
+              from [DDM://v1/establish-management-plane-transport$request.body#mount-name]'
+      - description: 'netconfClient'
+        type: object
+        required:
+          - uuid
+          - layer-protocol-name
+          - client-ltp
+          - server-ltp
+          - device-name
+        properties:
+          uuid:
+            type: string
+          layer-protocol-name:
+            type: string
+            enum:
+              - 'netconfLayer'
+          client-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            maxItems: 1
+            items:
+              type: string
+              description: 'Identifier of the managementPlaneTransportClient'
+          server-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            maxItems: 1
+            items:
+              type: string
+              description: 'Identifier of the tcpClient'
+          device-name:
+            type: string
+            description: >
+              'Network Element ID
+              from [DDM://v1/establish-management-plane-transport$request.body#mount-name]'
+      - description: 'tcpClient'
+        type: object
+        required:
+          - uuid
+          - layer-protocol-name
+          - client-ltp
+          - server-ltp
+          - remote-ip-address
+          - remote-port
+        properties:
+          uuid:
+            type: string
+          layer-protocol-name:
+            type: string
+            enum:
+              - 'tcpLayer'
+          client-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 1
+            maxItems: 1
+            items:
+              type: string
+              description: 'Identifier of the netconfClient'
+          server-ltp:
+            type: array
+            uniqueItems: true
+            minItems: 0
+            maxItems: 0
+            items:
+              type: string
+          remote-ip-address:
+            type: string
+            description: >
+              'IP address of the mediatorProcess to which the mountPoint is connected to
+              candidate: cannot be changed
+              running: initially empty; filled by auto function that prepares for configuring the mountPoint based on operational data about the tcpServer beneath the same netconfConnection
+              operational: initially empty; filled by auto function that reads the list of mountPoints at the controller'
+          remote-port:
+            type: integer
+            description: >
+              'TCP port of the mediatorProcess to which the mountPoint is connected to
+              candidate: cannot be changed
+              running: initially empty; filled by auto function that prepares for configuring the mountPoint based on operational data about the tcpServer beneath the same netconfConnection
+              operational: initially empty; filled by auto function that reads the list of mountPoints at the controller'

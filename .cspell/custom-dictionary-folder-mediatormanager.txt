@@ -6,9 +6,11 @@ MWDI
 netconf
 Netconf
 NETCONF
+NMDA
 restconf
 Restconf
 RESTCONF
 rückwärtskompatible
 Snmp
 SNMP
+Thorsten

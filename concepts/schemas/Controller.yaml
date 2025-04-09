@@ -1,0 +1,25 @@
+core-model-1-4:control-construct:
+  type: array
+  uniqueItems: true
+  items:
+    type: object
+    required:
+      - uuid
+      - logical-termination-point
+    properties:
+      uuid:
+        type: string
+        description: >
+          'Unique identifier of the controller
+          from [MM://v1/regard-controller$request.body#controller-name]'
+      logical-termination-point:
+        type: array
+        uniqueItems: true
+        items:
+          oneOf:
+            - description: 'managementPlaneTransportClient - see MountPoint.yaml'
+              type: object
+            - description: 'netconfClient - see MountPoint.yaml'
+              type: object
+            - description: 'tcpClient - see MountPoint.yaml'
+              type: object

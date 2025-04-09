@@ -64,15 +64,24 @@ servers:
           uuid: mm-1-0-0-op-s-is-001
         - operation-name: /v1/list-mediator-vm-templates
           uuid: mm-1-0-0-op-s-is-002
+
+        # Thorsten added
+        - operation-name: /v1/regard-controller_(in:controllerName)
+          uuid: 
+
+
+
+
+
         - operation-name: /v1/regard-mediator-instance-manager
           uuid: mm-1-0-0-op-s-im-001
         - operation-name: /v1/disregard-mediator-instance-manager
           uuid: mm-1-0-0-op-s-im-002
         - operation-name: /v1/list-mediator-instance-managers
           uuid: mm-1-0-0-op-s-is-003
-        - operation-name: /v1/establish-netconf-connection
+        - operation-name: /v1/establish-management-plane-transport
           uuid: mm-1-0-0-op-s-is-004     
-        - operation-name: /v1/dismantle-netconf-connection
+        - operation-name: /v1/dismantle-management-plane-transport
           uuid: mm-1-0-0-op-s-is-005
         - operation-name: /v1/provide-alarms-for-connection
           uuid: mm-1-0-0-op-s-is-100

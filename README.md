@@ -14,9 +14,11 @@ This includes the following aspects:
   - representing the network topology behind the NETCONF interface  
 
 More detailed information about the MM's concepts:  
-- [Basic Building Blocks](./concepts/BasicBuildingBlocks.md)  
-- [Network Topology Representation](./concepts/NetworkTopologyRepresentation.md)  
-- [Automated Operation](./concepts/AutomatedOperation.md)  
+- [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
+- [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
+- [Network Topology Representation](./concepts/05_NetworkTopologyRepresentation.md)  
+- [Automated Operation](./concepts/07_AutomatedOperation.md)  
+
 
 ### Relevance  
 The MediatorManager is required for connecting devices to the controller.  
