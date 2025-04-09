@@ -16,7 +16,7 @@ This includes the following aspects:
 More detailed information about the MM's concepts:  
 - [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
 - [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
-- [Network Topology Representation](./concepts/05_NetworkTopologyRepresentation.md)  
+- [Network Topology](./concepts/05_NetworkTopology.md)  
 - [Automated Operation](./concepts/07_AutomatedOperation.md)  
 
 
