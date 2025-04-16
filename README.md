@@ -1,23 +1,27 @@
-# MediatorManager  
+# DeviceDomainManager (former MediatorManager)  
 
 ### Location  
-The MediatorManager (MM) is part of the OperationSupport.  
+The DeviceDomainManager (DDM) is part of the OperationSupport.  
 
 ### Description  
-The MediatorManager manages and encapsulates all necessary activities for providing and maintaining NETCONF interfaces to the devices.  
+The DeviceDomainManager manages and encapsulates all necessary activities for providing and maintaining  
+- the NETCONF connections between MountPoint (inside the Controller) and mediatorProcess (inside the mediatorVM)  
+- the mediatorVmTemplates, the mediatorVms and the ~ 42,000 mediatorProcesses
+- the ~ 42,000 SNMP connections between mediatorProcess and device.  
 
 This includes the following aspects:  
   - establishing the interface (incl. initiating the necessary device preparation)  
-  - sharing the load accross mediatorVMs  
+  - sharing the load across mediatorVMs  
   - supporting non-traffic affecting mediator release updates  
   - load sharing based protection of mediatorVMs  
-  - representing the network topology behind the NETCONF interface  
+  - representing the network topology beneath the NETCONF interface  
 
-More detailed information about the MM's concepts:  
+A lot of conceptual work has been done, during specifying the application.  
+It lead to an entirely different architectural concept.  
+Below documents are summarizing the thoughts made during the development process:  
 - [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
 - [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
 - [Network Topology](./concepts/05_NetworkTopology.md)  
-- [Automated Operation](./concepts/07_AutomatedOperation.md)  
 
 
 ### Relevance  
