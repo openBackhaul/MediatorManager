@@ -1,0 +1,81 @@
+link:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'snmpLink'
+        type: object
+        required:
+          - local-id
+          - linktp
+        properties:
+          local-id:
+            type: string
+            description: 'Identifier that is unique within the list of Links'
+          linktp:
+            type: array
+            x-key: local-id
+            minItems: 2
+            maxItems: 2
+            items:
+              oneOf:
+                - description: snmpClient
+                  type: object
+                  required:
+                    - local-id
+                    - _cc
+                    - _ltp
+                    - _lp
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - snmp-client
+                    _cc:
+                      type: string
+                      description: >
+                        'mediatorVmName
+                        candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
+                        running: from candidate
+                        operational: from ???
+                    _ltp:
+                      type: string
+                      description: >
+                        'deviceName
+                        candidate: ???is it required to reference???
+                        running: from candidate
+                        operational: from ???
+                    _lp:
+                      type: string
+                      enum:
+                        - snmp-client
+                - description: snmpServer
+                  type: object
+                  required:
+                    - local-id
+                    - _cc
+                    - _ltp
+                    - _lp
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - snmp-server
+                    _cc:
+                      type: string
+                      description: >
+                        'deviceName
+                        candidate: ???is it required to reference???
+                        running: from candidate
+                        operational: from ???
+                    _ltp:
+                      type: string
+                      enum:
+                        - management
+                    _lp:
+                      type: string
+                      description: >
+                        'mediatorUserName
+                        candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name]
+                        running: from candidate
+                        operational: from ???

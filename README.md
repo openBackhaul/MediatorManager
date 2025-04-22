@@ -10,22 +10,22 @@ The DeviceDomainManager manages and encapsulates all necessary activities for pr
 - the ~ 42,000 SNMP connections between mediatorProcess and device.  
 
 This includes the following aspects:  
-  - establishing the interface (incl. initiating the necessary device preparation)  
+  - establishing the management connection (incl. initiating the necessary device preparation)  
   - sharing the load across mediatorVMs  
   - supporting non-traffic affecting mediator release updates  
   - load sharing based protection of mediatorVMs  
   - representing the network topology beneath the NETCONF interface  
 
 A lot of conceptual work has been done, during specifying the application.  
-It lead to an entirely different architectural concept.  
-Below documents are summarizing the thoughts made during the development process:  
+It lead to an entirely new architectural concept.  
+Below documents are summarizing the thoughts made during the development process and the resulting information structure:  
 - [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
 - [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
 - [Network Topology](./concepts/05_NetworkTopology.md)  
 
 
 ### Relevance  
-The MediatorManager is required for connecting devices to the controller.  
+The DeviceDomainManager is required for connecting devices to the controller.  
 
 ### Resources  
 - [Specification](./spec/)  

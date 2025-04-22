@@ -1,0 +1,106 @@
+profile:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'mediatorVmTemplate'
+        type: object
+        required:
+          - local-id
+          - category
+          - default-mediator-user
+          - vendor-name
+          - supported-device-kind-list
+          - engineering-limit
+          - provide-mediator-instance-operation-name
+          - dismantle-mediator-instance-operation-name
+          - list-mediator-instances-operation-name
+        properties:
+          local-id:
+            type: string
+            description: >
+              'mediatorVmTemplateName
+              candidate: from [DDM://v1/create-mediator-vm-template$request.body#mediator-vm-template-name]
+              running: from candidate
+              operational: ???
+          category:
+            type: string
+            enum:
+              - 'mediator-vm'
+          default-mediator-user:
+            type: array
+            x-key: default-mediator-user-name
+            minItems: 1
+            items:
+              type: object
+              required:
+                - default-mediator-user-name
+                - default-mediator-user-password
+              properties:
+                default-mediator-user-name:
+                  type: string
+                  description: >
+                    'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device.
+                    If several value pairs are listed, DDM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm.'
+                default-mediator-user-password:
+                  type: string
+                  description: 'Password that has to be applied in combination with the user name.'
+          vendor-name:
+            type: string
+            description: 'Name of the microwave vendor'
+          supported-device-kind-list:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              description: >
+                'Names of the device models for which the derived mediatorVms can be used
+                Values must be identical with the values that are used in DDM://v1/establish-management-plane-transport$request.body#device-kind-name'
+          engineering-limit:
+            type: integer
+            description: 'Maximum number of mediatorProcesses that could be operated in mediatorVms derived from this mediatorVmTemplate'
+          provide-mediator-instance-operation-name:
+            type: string
+            description: 'Name of the operation for creating a new mediatorProcess at the xMediatorInstanceManager'
+          dismantle-mediator-instance-operation-name:
+            type: string
+            description: 'Name of the operation for dismantling an obsolete mediatorProcess at the xMediatorInstanceManager'
+          list-mediator-instances-operation-name:
+            type: string
+            description: 'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm'
+
+
+
+          # Is this username/password required to request for create/delete/list processes?
+
+          admin-user-name:
+            type: string
+            description: 'User name for manual access to the mediatorVms derived from this mediatorVmTemplate'
+          admin-user-password:
+            type: string
+            description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
+
+
+          # What shall be done with the following parameters inside the DDM?
+
+          tcp-port-range-list:
+            type: array
+            minItems: 1
+            description: >
+              'The mediatorVms derived from this mediatorVmTemplate create NETCONF interfaces with TCP ports equal or between the lowestTcpPort and the highestTcpPort
+              Defining several separated ranges is supported'
+            items:
+              type: object
+              required:
+                - lowestTcpPort
+                - highestTcpPort
+              properties:
+                lowestTcpPort:
+                  type: integer
+                  description: 'lowest possible TCP port in this range definition'
+                highestTcpPort:
+                  type: integer
+                  description: 'highest possible TCP port in this range definition'
+          java-version:
+            type: string
+            description: 'Java Release applied for this mediator release'

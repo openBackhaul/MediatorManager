@@ -1,0 +1,112 @@
+control-construct:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'device'
+        type: object
+        required:
+          - local-id
+          - category
+          - _template
+          - logical-termination-point
+        properties:
+          local-id:
+            type: string
+            description: >
+              'Network Element ID
+              candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+              running: from candidate
+              operational: ???from reading the control-construct/externalLabel from documented devices???'
+          category:
+            type: string
+            enum:
+              - 'device'
+          _template:
+            type: string
+            description: >
+              'deviceTemplateName (must match the local-id of a DeviceProfile definition)
+              candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
+              running: from candidate
+              operational: ???from reading the control-construct/deviceModelName from documented devices???'
+          logical-termination-point:
+            type: array
+            x-key: local-id
+            minItems: 1
+            maxItems: 1
+            items:
+              type: object
+              required:
+                - local-id
+                - layer-protocol
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - 'management'
+                layer-protocol:
+                  type: array
+                  x-key: local-id
+                  minItems: 3
+                  items:
+                    oneOf:
+                      - description: 'managementPlaneTransportServer'
+                        type: object
+                        required:
+                          - local-id
+                        properties:
+                          local-id:
+                            type: string
+                            enum:
+                              - 'management-plane-transport-server'
+                      - description: 'snmpServer'
+                        type: object
+                        required:
+                          - local-id
+                          - mediator-user-name
+                          - mediator-user-password
+                        properties:
+                          local-id:
+                            type: string
+                            description: >
+                              'mediatorUserName, an instance of snmpServer is to be created for every defaultMediatorUserName in [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]]
+                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                              running: from candidate
+                              operational: ???Expanding CP by some service for reading the configured users???'
+                          mediator-user-name:
+                            type: string
+                            description: >
+                              'mediatorUserName that might potentially be used for managing this device
+                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                              running: from candidate
+                              operational: ???Expanding CP by some service for reading the configured users???'
+                          mediator-user-password:
+                            type: string
+                            description: >
+                              'Password that is expected together with some mediatorUserName that might potentially be used for managing this device
+                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-password]
+                              running: from candidate
+                              operational: ???Expanding CP by some service for reading the configured users???'
+                      - description: 'tcpServer'
+                        type: object
+                        required:
+                          - local-id
+                          - local-ip-address
+                          - local-port
+                        properties:
+                          local-id:
+                            type: string
+                            enum:
+                              - 'tcp-server'
+                          local-ip-address:
+                            type: string
+                            description: >
+                              'IP address of the device
+                              candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-ip-address]
+                              running: from candidate
+                              operational: from running, ???if device could not be reached while attempting to read the control-construct/externalLabel, the entire ControlConstruct to be deleted from network-control-domain=operational???'
+                          local-port:
+                            type: integer
+                            minimum: 161
+                            maximum: 161
+                            description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'

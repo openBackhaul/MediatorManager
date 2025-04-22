@@ -1,0 +1,38 @@
+control-construct:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'controller'
+        type: object
+        required:
+          - local-id
+          - category
+          - _template
+          - logical-termination-point
+        properties:
+          local-id:
+            type: string
+            description: >
+              'controllerName
+              candidate: from [DDM://v1/regard-controller$request.body#controller-name]
+              running: from candidate
+              operational: from [CDM://v1/provide-list-of-controllers/controller-name], delete entire CC from list if not in response'
+          category:
+            type: string
+            enum:
+              - 'controller'
+          _template:
+            type: string
+            description: >
+              'controllerTemplateName (must match the local-id of a ControllerProfile definition)
+              candidate: from [DDM://v1/regard-controller$request.body#controller-template-name]
+              running: from candidate
+              operational: ???we could add a service to CDM for reading this information???'
+          logical-termination-point:
+            type: array
+            x-key: local-id
+            items:
+              oneOf:
+                - description: 'mountPoint - see 12_MountPoint.yaml'
+                  type: object

@@ -13,7 +13,7 @@ The following tasks are autonomously executed
 - Continuous purging of obsolete configuration artifacts  
 
 **Modules**  
-The MediatorManager consists of several modules that communicate with each other.  
+The DeviceDomainManager consists of several modules that communicate with each other.  
 This modular structure makes it easier to provide and develop the individual functions independently of each other.  
 The following is an overview:  
 

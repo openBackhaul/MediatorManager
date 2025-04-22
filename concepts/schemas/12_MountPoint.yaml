@@ -1,0 +1,66 @@
+logical-termination-point:
+  type: array
+  x-key: local-id
+  items:
+    type: object
+    required:
+      - local-id
+      - layer-protocol
+    properties:
+      local-id:
+        type: string
+        description: >
+          'Network Element ID
+          candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+          running: from candidate
+          operational: from [CDM://v1/provide-list-of-mount-points-at-controller$response.body#mount-names], delete entire LTP, if deviceName cannot be found in list'
+      layer-protocol:
+        type: array
+        x-key: local-id
+        minItems: 3
+        maxItems: 3
+        items:
+          oneOf:
+            - description: 'managementPlaneTransportClient'
+              type: object
+              required:
+                - local-id
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - 'management-plane-transport-client'
+            - description: 'netconfClient'
+              type: object
+              required:
+                - local-id
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - 'netconf-client'
+            - description: 'tcpClient'
+              type: object
+              required:
+                - local-id
+                - remote-ip-address
+                - remote-port
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - 'tcp-client'
+                remote-ip-address:
+                  type: string
+                  description: >
+                    'IP address of the mediatorProcess to which the mountPoint is connected to
+                    candidate: initially empty; from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]
+                    running: from candidate
+                    operational: from [CDM://v1/inform-about-mount-point$response.body#remote-ip-address]'
+                remote-port:
+                  type: integer
+                  description: >
+                    'TCP port of the mediatorProcess to which the mountPoint is connected to
+                    candidate: initially empty; from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-netconf-port]
+                    running: from candidate
+                    operational: from [CDM://v1/inform-about-mount-point$response.body#remote-port]'

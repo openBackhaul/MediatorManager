@@ -1,4 +1,4 @@
-# OfficialApplicationName Testing
+# DeviceDomainManager Testing
 
 ### Test Cases (Postman Export)
 - [ApplicationPattern+testcases](./ApplicationPattern+testcases.json)

@@ -1,0 +1,37 @@
+profile:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'deviceTemplate'
+        type: object
+        required:
+          - local-id
+          - category
+          - default-mediator-user
+        properties:
+          local-id:
+            type: string
+            description: >
+              'deviceTemplateName needs to cover all values potentially send in [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
+              candidate: from [DDM://v1/create-device-template$request.body#device-template-name]
+              running: from candidate
+              operational: ???
+          category:
+            type: string
+            enum:
+              - 'device'
+          default-mediator-user:
+            type: array
+            x-key: default-mediator-user-name
+            minItems: 1
+            items:
+              type: object
+              required:
+                - default-mediator-user-name
+                - default-mediator-user-password
+              properties:
+                default-mediator-user-name:
+                  type: string
+                default-mediator-user-password:
+                  type: string

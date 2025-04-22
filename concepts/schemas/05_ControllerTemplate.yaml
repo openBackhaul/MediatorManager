@@ -1,0 +1,22 @@
+profile:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'controllerTemplate'
+        type: object
+        required:
+          - local-id
+          - category
+        properties:
+          local-id:
+            type: string
+            description: >
+              'controllerTemplateName
+              candidate: from [DDM://v1/create-controller-template$request.body#controller-template-name]
+              running: from candidate
+              operational: ???
+          category:
+            type: string
+            enum:
+              - 'controller'

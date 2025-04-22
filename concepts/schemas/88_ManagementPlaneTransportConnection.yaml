@@ -1,0 +1,116 @@
+forwarding-construct:
+  type: array
+  x-key: local-id
+  items:
+    type: object
+    required:
+      - local-id
+      - fctp
+      - route
+    properties:
+      local-id:
+        type: string
+        description: >
+          'Network Element ID
+          candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+          running: from candidate
+          operational: from [module OperationalManagementPlaneTransportList]
+      fctp:
+        type: array
+        x-key: local-id
+        minItems: 2
+        maxItems: 2
+        items:
+          oneOf:
+            - description: managementPlaneTransportClient
+              type: object
+              required:
+                - local-id
+                - _cc
+                - _ltp
+                - _lp
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - management-plane-transport-client
+                _cc:
+                  type: string
+                  description: >
+                    'ControllerName
+                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
+                    running: from candidate
+                    operational: from ???
+                _ltp:
+                  type: string
+                  description: >
+                    'MountName of Device
+                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                    running: from candidate
+                    operational: from ???
+                _lp:
+                  type: string
+                  enum:
+                    - management-plane-transport-client
+            - description: managementPlaneTransportServer
+              type: object
+              required:
+                - local-id
+                - _cc
+                - _ltp
+                - _lp
+              properties:
+                local-id:
+                  type: string
+                  enum:
+                    - management-plane-transport-server
+                _cc:
+                  type: string
+                  description: >
+                    'MountName of Device
+                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                    running: from candidate
+                    operational: from ???
+                _ltp:
+                  type: string
+                  description: >
+                    'Sequence number of the control plane interface
+                    candidate: created while processing DDM://v1/establish-management-plane-transport
+                    running: from candidate
+                    operational: from ???
+                _lp:
+                  type: string
+                  enum:
+                    - management-plane-transport-server
+      route:
+        type: array
+        x-key: local-id
+        items:
+          type: object
+          required:
+            - local-id
+            - _link
+          properties:
+            local-id:
+              type: string
+              description: >
+                'Sequence number of the route
+                candidate: created while/after module ??? created a new mediatorProcess
+                running: from candidate
+                operational: from ???
+            _link:
+              type: array
+              minItems: 2
+              maxItems: 2
+              items:
+                type: string
+                description: >
+                  'Pair of the two localIds of the netconfLink and the snmpLink on the transport path of the managementPlaneTransport
+                  netconfLink:
+                    candidate: from ???
+                    running: from ???
+                    operational: from ???
+                  snmpLink:
+                    candidate: from ???
+                    running: from ???
+                    operational: from ???'

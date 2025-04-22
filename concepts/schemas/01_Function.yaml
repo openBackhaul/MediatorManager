@@ -1,0 +1,36 @@
+function:
+  type: array
+  x-key: function-name
+  description: 'List of Functions inside DDM incl. their parameter settings'
+  items:
+    type: object
+    required:
+      - function-name
+      - parameter
+    properties:
+      function-name:
+        type: string
+        pattern: '^(v[0-9]{1,2})((-[a-z]{1,}){1,})$'
+        description: 'In case of externally available services, the path has to be translated to fit the pattern.'
+        example: 'v1-establish-management-plane-transport'
+      parameter:
+        type: array
+        x-key: parameter-name
+        description: 'List of Parameters of the Function'
+        items:
+          type: object
+          required:
+            - parameter-name
+            - parameter-value
+            - parameter-definition
+          properties:
+            parameter-name:
+              type: string
+              pattern: '^([a-z]{1,})((-[a-z]{1,}){0,})$'
+              description: 'Invariant name of the parameter'
+            parameter-value:
+              type: string
+              description: 'Configurable value of the parameter. Datatype needs to be internally converted, if required'
+            parameter-definition:
+              type: string
+              description: 'Invariant description of the parameter'

@@ -1,23 +1,23 @@
-# MediatorManager Specification
+# DeviceDomainManager Specification
 
 ### Diagrams  
 - [Collection of Diagrams](./diagrams)
 
 ### ServiceList
-- [MediatorManager+services](./MediatorManager+services.yaml)
+- [DeviceDomainManager+services](./DeviceDomainManager+services.yaml)
 
 ### ProfileList and ProfileInstanceList
-- [MediatorManager+profiles](./MediatorManager+profiles.yaml)
-- [MediatorManager+profileInstances](./MediatorManager+profileInstances.yaml)
+- [DeviceDomainManager+profiles](./DeviceDomainManager+profiles.yaml)
+- [DeviceDomainManager+profileInstances](./DeviceDomainManager+profileInstances.yaml)
 
 ### ForwardingList
-- [MediatorManager+forwardings](./MediatorManager+forwardings.yaml)
+- [DeviceDomainManager+forwardings](./DeviceDomainManager+forwardings.yaml)
 
 ### Open API specification (Swagger)
-- [MediatorManager](./MediatorManager.yaml)
+- [DeviceDomainManager](./DeviceDomainManager.yaml)
 
 ### CONFIGfile (JSON)
-- [MediatorManager+config](./MediatorManager+config.json)
+- [DeviceDomainManager+config](./DeviceDomainManager+config.json)
 
 ### Comments
 ./.

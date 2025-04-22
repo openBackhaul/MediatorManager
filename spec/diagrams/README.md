@@ -1,4 +1,4 @@
-# MediatorManager Diagrams
+# DeviceDomainManager Diagrams
 
 
 

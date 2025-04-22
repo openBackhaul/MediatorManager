@@ -1,0 +1,107 @@
+logical-termination-point:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'mediatorProcess'
+        type: object
+        required:
+          - local-id
+          - layer-protocol
+        properties:
+          local-id:
+            type: string
+            description: >
+              'deviceName
+              candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+              running: from candidate
+              operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-name], delete entire LTP, if deviceName cannot be found in list'
+          layer-protocol:
+            type: array
+            x-key: local-id
+            minItems: 4
+            maxItems: 4
+            items:
+              oneOf:
+                - description: 'netconfServer'
+                  type: object
+                  required:
+                    - local-id
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - 'netconf-server'
+                - description: 'tcpServer'
+                  type: object
+                  required:
+                    - local-id
+                    - local-ip-address
+                    - local-port
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - 'tcp-server'
+                    local-ip-address:
+                      type: string
+                      description: >
+                        'IP address of the mediatorProcess
+                        candidate: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]
+                        running: from candidate
+                        operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-ip-address]'
+                    local-port:
+                      type: integer
+                      description: >
+                        'TCP port of the mediatorProcess
+                        candidate: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]
+                        running: from candidate
+                        operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]'
+                - description: 'snmpClient'
+                  type: object
+                  required:
+                    - local-id
+                    - mediator-user-name
+                    - mediator-user-password
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - 'snmp-client'
+                    mediator-user-name:
+                      type: string
+                      description: >
+                        'User name that is used by this mediatorProcess
+                        candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-name] when mediatorProcess got created
+                        running: from candidate
+                        operational: from running (not included in xMIM://v1/list-mediator-instances)'
+                    mediator-user-password:
+                      type: string
+                      description: >
+                        'Password that is used by this mediatorProcess
+                        candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-password] when mediatorProcess got created
+                        running: from candidate
+                        operational: from running (not included in xMIM://v1/list-mediator-instances)'
+                - description: 'tcpClient'
+                  type: object
+                  required:
+                    - local-id
+                    - remote-ip-address
+                    - remote-port
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - 'tcp-client'
+                    remote-ip-address:
+                      type: string
+                      description: >
+                        'IP address of the device to which the mediatorProcess is connected to
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-ip-address]
+                        running: from candidate
+                        operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-ip-address]'
+                    remote-port:
+                      type: integer
+                      minimum: 161
+                      maximum: 161
+                      description: 'TCP port of the device to which the mediatorProcess is connected to'

@@ -1,0 +1,157 @@
+control-construct:
+  type: array
+  x-key: local-id
+  items:
+    oneOf:
+      - description: 'mediatorVm'
+        type: object
+        required:
+          - local-id
+          - category
+          - _template
+          - logical-termination-point
+        properties:
+          local-id:
+            type: string
+            description: >
+              'mediatorVmName
+              candidate: from [MM://v1/regard-mediator-vm$request.body#mediator-vm-name]
+              running: from candidate
+              operational: from running, but deleted entire CC from list if not responding on xMIM://v1/list-mediator-instances'
+          category:
+            type: string
+            enum:
+              - 'mediatorVm'
+          _template:
+            type: string
+            description: >
+              'mediatorVmTemplateName from which this mediatorVm is derived from
+              candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-template-name]
+              running: from candidate
+              operational: from running (xMIM does not provide the information)'
+          logical-termination-point:
+            type: array
+            x-key: local-id
+            minItems: 1
+            items:
+              oneOf:
+                - description: 'mediatorInstanceManager'
+                  type: object
+                  required:
+                    - local-id
+                    - layer-protocol
+                  properties:
+                    local-id:
+                      type: string
+                      enum:
+                        - 'mediator-instance-manager'
+                    layer-protocol:
+                      type: array
+                      x-key: local-id
+                      minItems: 5
+                      maxItems: 5
+                      items:
+                        oneOf:
+                          - description: 'operationServer - provide-mediator-instance'
+                            type: object
+                            required:
+                              - local-id
+                              - operation-name
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mim-operation-server-create'
+                              operation-name:
+                                type: string
+                                description: >
+                                  'Name of the operation for creating a new mediatorProcess at the xMediatorInstanceManager
+                                  candidate: from [/network-control-domain=candidate/profile=[_template]/provide-mediator-instance-operation-name]
+                                  running: from candidate
+                                  operational: from running (xMIM does not provide the information)'
+                          - description: 'operationServer - dismantle-mediator-instance'
+                            type: object
+                            required:
+                              - local-id
+                              - operation-name
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mim-operation-server-dismantle'
+                              operation-name:
+                                type: string
+                                description: >
+                                  'Name of the operation for dismantling an obsolete mediatorProcess at the xMediatorInstanceManager
+                                  candidate: from [/network-control-domain=candidate/profile=[_template]/dismantle-mediator-instance-operation-name]
+                                  running: from candidate
+                                  operational: from running (xMIM does not provide the information)'
+                          - description: 'operationServer - list-mediator-instances'
+                            type: object
+                            required:
+                              - local-id
+                              - operation-name
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mim-operation-server-list'
+                              operation-name:
+                                type: string
+                                description: >
+                                  'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm
+                                  candidate: from [/network-control-domain=candidate/profile=[_template]/list-mediator-instances-operation-name]
+                                  running: from candidate
+                                  operational: from running (xMIM does not provide the information)'
+                          - description: 'httpServer'
+                            type: object
+                            required:
+                              - local-id
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mim-http-server'
+                              mediator-user-name:
+                                type: string
+                                description: >
+                                  'User name that is to be used by mediatorProcesses that will be created inside this mediatorVm
+                                  candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-user-name]
+                                              or if not sent, mediator-user-name = one value from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]/default-mediator-user-name] is to be taken
+                                  running: from candidate
+                                  operational: from ???Huawei_specific_service_for_GET_PUT_defaultMediatorUserName???'
+                              mediator-user-password:
+                                type: string
+                                description: >
+                                  'Password that is to be used by mediatorProcesses that will be created inside this mediatorVm
+                                  candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-user-password]
+                                              or if not sent, from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediator-user-name]/default-mediator-user-password] is to be taken
+                                  running: from candidate
+                                  operational: from ???Huawei_specific_service_for_GET_PUT_defaultMediatorUserPassword???'
+                          - description: 'tcpServer'
+                            type: object
+                            required:
+                              - local-id
+                              - local-ip-address
+                              - local-port
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mim-tcp-server'
+                              local-ip-address:
+                                type: string
+                                description: >
+                                  'IP address of the mediatorVm
+                                  candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-ip-address]
+                                  running: from candidate
+                                  operational: from running, but entire ControlConstruct to be deleted if not responding on xMIM://v1/list-mediator-instances in module OperationalMediatorVmAndProcesses'
+                              local-port:
+                                type: integer
+                                description: >
+                                  'TCP port of the management interface (xMediatorInstanceManager) of the mediatorVm
+                                  candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-port]
+                                  running: from candidate
+                                  operational: from running, but entire ControlConstruct to be deleted if not responding on xMIM://v1/list-mediator-instances in module OperationalMediatorVmAndProcesses'
+                - description: 'mediatorProcess - see 22_MediatorProcess.yaml'
+                  type: object

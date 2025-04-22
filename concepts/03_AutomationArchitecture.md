@@ -211,39 +211,23 @@ Die resultierende DeviceDomain implementiert die benötigten Funktionen für all
 Im Falle der Automatisierung des Mountings, werden die Namen und die Verantwortlichkeiten der Applikationen an den veränderten Zuschnitt der Domänen angepasst:  
 - Der MountingOrchestrator wird in ControllerDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der RESTCONF Verbindungen vom Controller zu den Applikationen (MicroWaveDeviceInventory, MicroWaveDeviceGatekeeper, NotificationProxy) und die Kapselung der Managementschnittstelle des Controllers.  
 - Der NetconfInterfaceManager wird in DeviceDomainManager umbenannt, und verantwortet nun Vorhandensein und Betrieb der SNMP und der NETCONF Verbindungen von den Geräten zum Controller, sowie die Kapselung der Managementschnittstellen an den mediatorVms und den Geräten.  
-- Zur Aggregation der beiden Domänen auf dem OperationLayer wird zusätzlich der LiveDomainManager eingeführt.  
+- Zur Aggregation der beiden Domänen auf dem OperationLayer wird zusätzlich der ManagementPlaneManager eingeführt.  
 
 Zu Beginn des Kapitels "Zuschnitt der Domänen" wurde beschrieben, dass eine Aktualisierung der MediatorSoftware zu einer Entleerung des MicroWaveDeviceInventory führt.  
-Dieses Problem wird nun dadurch gelöst, dass das MicroWaveDeviceInventory die Notifications über den OperationalState der Verbindung zum Gerät nicht länger vom Controller, sondern vom LiveDomainManager bezieht.  
-Die Umstände, unter denen der LiveDomainManager eine solche Notification sendet, kann nun in seiner Spezifikation bestimmt werden.  
+Dieses Problem wird nun dadurch gelöst, dass das MicroWaveDeviceInventory die Notifications über den OperationalState der Verbindung zum Gerät nicht länger vom Controller, sondern vom ManagementPlaneManager bezieht.  
+Die Umstände, unter denen der ManagementPlaneManager eine solche Notification sendet, kann nun in seiner Spezifikation bestimmt werden.  
 
 <img src="./diagrams/11_DeviceEncapsulation.png" alt="DeviceEncapsulation" width="700" style="display: block; margin: 0 auto"/>  
 
 
-### Bestimmung des OperationalState  
-
-Die Bereitstellung von Verbindungen ist eine Kernaufgabe der Domänen.  
-Aus der Motivation der Automatisierung des Mountings heraus, sind die Fälle, in denen die Managementverbindung zum Gerät (noch) nicht funktioniert, von besonderem Interesse.  
-Der OperationalState von Verbindungen muss effizient festgestellt und repräsentiert werden.  
-
-In einem zyklischen Prozess werden folgende Schritte durchlaufen:  
-- Der LiveDomainManager fragt den jeweiligen OperationalState der beiden ManagementPlaneTransport Verbindungen bei der ControllerDomain und der DeviceDomain ab.  
-- Er berechnet daraus den aktuellen OperationalState der ManagementPlane Verbindung.  
-- Er vergleicht den aktuellen OperationalState mit dem vorherigen.  
-- Sollte sich eine Änderung ergeben haben, sendet der LiveDomainManager eine AttributeValueChanged Notification an das MicroWaveDeviceInventory.  
-
-Die Periodizität dieses zyklischen Prozesses soll konfigurierbar sein.  
-Es wird davon ausgegangen, dass bei ausreichend hoher Periodenlänge, der Umschaltmoment beim Umzug eines mediatorProcesses im Rahmen eines Updates ausreichend häufig keine Notification auslöst.  
-
-
-#### LiveDomain
+#### ManagementPlane
 
 Vereinfachung:  
 Eigentlich müsste für jeden OperationClient am MWDI eine Operation Verbindung instantiiert und ein zugehöriger OperationalState dokumentiert werden.  
 Die Operation Verbindungen zwischen MicroWaveDeviceInventory und Gerät haben jedoch alle stets den identischen OperationalState (, außer die Operations sind auf dem Gerät oder im Mediator unvollständig unterstützt).  
 Zur Vereinfachung wird ein zusätzlicher Verbindungstyp, der die gesamte Managementverbindung (inklusive aller Operationen) zum Gerät repräsentiert, eingeführt.  
 
-In der LiveDomain wird die Managementverbindung zum Gerät durch die ManagementPlane Verbindung repräsentiert.  
+In der ManagementPlane (Domäne) wird die Managementverbindung zum Gerät durch die ManagementPlane Verbindung repräsentiert.  
 Sie beginnt am MicroWaveDeviceInventory und endet am Gerät.  
 Sie wird auf Verbindungen vom Typ ManagementPlaneTransport geroutet.  
 Die ManagementPlaneTransport Verbindungen stellen die durch die darunter liegenden Domänen bereitgestellten Pfadsegmente dar.  
@@ -257,20 +241,32 @@ Eine ManagementPlane Verbindung ist available, wenn alle ManagementPlaneTranspor
 
 <img src="./diagrams/20_ManagementPlaneFc.png" alt="ManagementPlaneFc" width="700" style="display: block; margin: 0 auto"/>  
 
+Die Bereitstellung von Verbindungen ist eine Kernaufgabe der Domänen.  
+Aus der Motivation der Automatisierung des Mountings heraus, sind die Fälle, in denen die Managementverbindung zum Gerät (noch) nicht funktioniert, von besonderem Interesse.  
+Der OperationalState von Verbindungen muss effizient festgestellt und repräsentiert werden.  
+
+In einem zyklischen Prozess werden folgende Schritte durchlaufen:  
+- Der ManagementPlaneManager fragt den jeweiligen OperationalState der beiden ManagementPlaneTransport Verbindungen bei der ControllerDomain und der DeviceDomain ab.  
+- Er berechnet daraus den aktuellen OperationalState der ManagementPlane Verbindung.  
+- Er vergleicht den aktuellen OperationalState mit dem vorherigen.  
+- Sollte sich eine Änderung ergeben haben, sendet der ManagementPlaneManager eine AttributeValueChanged Notification an das MicroWaveDeviceInventory.  
+
+Die Periodizität dieses zyklischen Prozesses soll konfigurierbar sein.  
+Es wird davon ausgegangen, dass bei ausreichend hoher Periodenlänge, der Umschaltmoment beim Umzug eines mediatorProcesses im Rahmen eines Updates ausreichend häufig keine Notification auslöst.  
+
 
 #### ControllerDomain
 
 In der ControllerDomain ist die ManagementPlaneTransport Verbindung die oberste.  
-Sie beginnt am MicroWaveDeviceInventory und endet am NetconfClient im MountPoint.  
-Sie wird auf Verbindungen vom Typ RestconfLink und MountPointFc geroutet.  
-Ein ManagementPlaneTransport Verbindung ist available, wenn die Restconf Verbindung available ist, und der MountPointFc existiert.  
+Sie beginnt am MicroWaveDeviceInventory und endet im MountPoint.  
+Sie wird auf Verbindungen vom Typ RestconfLink geroutet.  
+Ein ManagementPlaneTransport Verbindung ist available, wenn die Restconf Verbindung available ist.  
 Ob die Restconf Verbindung available ist, wird geprüft, indem ein Dienst, der einen Callback zum Controller auslöst, am MicroWaveDeviceInventory aufgerufen wird.  
 
 | Name | Startpunkt | Endpunkt | ClientLayer | ServingLayer |  
 | ---- | ---------- | -------- | ----------- | ------------ |  
-| ManagementPlaneTransportFc | ManagementPlaneTransportClient im MWDI | ManagementPlaneTransportServer im MountPoint | ./. | RestconfLink, MountPointFc |  
+| ManagementPlaneTransportFc | ManagementPlaneTransportClient im MWDI | ManagementPlaneTransportServer im MountPoint | ./. | RestconfLink |  
 | RestconfLink | RestconfClient im MWDI | RestconfServer im MountPoint | ManagementPlaneTransportFc | ./. |  
-| MountPointFc | RestconfServer im MountPoint | NetconfClient im MountPoint | ManagementPlaneTransportFc | ./. |  
 
 <img src="./diagrams/21_ControllerDomainFc.png" alt="ControllerDomainFc" width="700" style="display: block; margin: 0 auto"/>  
 
@@ -278,20 +274,19 @@ Ob die Restconf Verbindung available ist, wird geprüft, indem ein Dienst, der e
 #### DeviceDomain  
 
 In der DeviceDomain ist ebenfalls die ManagementPlaneTransport Verbindung die oberste.  
-Hier beginnt sie am NetconfClient im MountPoint und endet am Gerät.  
-Sie wird auf der NETCONF Verbindung, der SNMP Verbindung und dem MediatorProcess geroutet.  
+Hier beginnt sie im MountPoint und endet am Gerät.  
+Sie wird auf der NETCONF und der SNMP Verbindung geroutet.  
 Die ManagementPlaneTransport Verbindung ist available, wenn der MountPoint im 'Connected' State ist.  
 Sollte die ManagementPlaneTransport Verbindung nicht available sein, wird der OperationalState der darunter liegenden Ebenen wie folgt gemessen:  
-- Sollte kein mediatorProcess existieren, gelten NETCONF Verbindung, SNMP Verbindung und MediatorProcess als unavailable.
+- Sollte kein mediatorProcess existieren, gelten NETCONF und SNMP Verbindung als unavailable.
 - Sollte ein mediatorProcess existieren, wird dieser mit einem NetconfClient der DeviceDomäne zu Testzwecken angesprochen
-  - Sollte das Gerät korrekt antworten, gilt die NETCONF Verbindung als unavailable, und die SNMP Verbindung und der MediatorProcess gelten als available.  
-  - Sollte das Gerät nicht korrekt antworten, gilt die SNMP Verbindung als unavailable, und die NETCONF Verbindung und der MediatorProcess gelten als available.  
+  - Sollte das Gerät korrekt antworten, gilt die SNMP Verbindung als available und die NETCONF Verbindung als unavailable.  
+  - Sollte das Gerät nicht korrekt antworten, gilt die NETCONF Verbindung als available und die SNMP Verbindung als unavailable.  
 
 | Name | Startpunkt | Endpunkt | ClientLayer | ServingLayer |  
 | ---- | ---------- | -------- | ----------- | ------------ |  
-| ManagementPlaneTransportFc | ManagementPlaneTransportClient im mediatorProcess | ManagementPlaneTransportServer im Gerät | ./. | NetconfLink, MediatorProcessFc und SnmpLink |  
+| ManagementPlaneTransportFc | ManagementPlaneTransportClient im mediatorProcess | ManagementPlaneTransportServer im Gerät | ./. | NetconfLink, SnmpLink |  
 | NetconfLink | NetconfClient im MountPoint | NetconfServer im mediatorProcess | ManagementPlaneTransportFc | ./. |  
-| MediatorProcessFc | NetconfServer im mediatorProcess | SnmpClient im mediatorProcess | ManagementPlaneTransportFc | ./. |  
 | SnmpLink | SnmpClient im mediatorProcess | SnmpServer im Gerät| ManagementPlaneTransportFc | ./. |  
 
 <img src="./diagrams/22_DeviceDomainFc.png" alt="DeviceDomainFc" width="700" style="display: block; margin: 0 auto"/>  
@@ -337,23 +332,16 @@ Auf diese Weise muss die Übersetzung nicht bei jedem Vergleich erneut durchgef�
 Das IntendedDS wird also nur benötigt, wenn die Struktur der Informationen im OperationalDS nicht mit der im RunningDS übereinstimmt.  
 
 Hier ist das Grundprinzip noch einmal am Beispiel des ControllerDomainManagers erklärt:  
-- Der LiveDomainManager ruft den ControllerDomainManager mit der abstrakten Beschreibung eines Zielzustands auf (z.B. /v1/establish-restconf-connection).  
+- Der ManagementPlaneManager ruft den ControllerDomainManager mit der abstrakten Beschreibung eines Zielzustands auf (z.B. /v1/establish-restconf-connection).  
 - Der ControllerDomainManager erstellt einen frischen CandidateDS mit den Informationen des RunningDS.  
 - In den CandidateDS trägt er nun die konkreten Änderungen, die zum Erreichen des gewünschten Zielzustands erforderlich sind, ein. (Während der Aufruf darin bestand, irgendeine RESTCONF Verbindung zu etablieren, würde nun ein konkreter MountPoint im CandidateDS angelegt werden.)  
 - Nun prüft der ControllerDomainManager, ob der resultierende Inhalt der CandidateDS ein legaler Zielzustand sein wird.  
-  - Sollte die Prüfung zu einem negativen Ergebnis führen, beantwortet der ControllerDomainManager die Anfrage des LiveDomainManager mit einem Fehlercode.  
-  - Sollte die Prüfung zu einem positiven Ergebnis führen, beantwortet der ControllerDomainManager die Anfrage des LiveDomainManager mit 204 und der Inhalt des CandidateDS wird in den RunningDS kopiert.  
+  - Sollte die Prüfung zu einem negativen Ergebnis führen, beantwortet der ControllerDomainManager die Anfrage des ManagementPlaneManager mit einem Fehlercode.  
+  - Sollte die Prüfung zu einem positiven Ergebnis führen, beantwortet der ControllerDomainManager die Anfrage des ManagementPlaneManager mit 204 und der Inhalt des CandidateDS wird in den RunningDS kopiert.  
 - Im weiteren Verlauf stellen die Module des ControllerDomainManager eine (weitere) Abweichung zwischen dem RunningDS und dem OperationalDS fest und versuchen die Abweichung durch Konfiguration der untergeordneten Elemente zu beseitigen.  
-- Das Erreichen des Zielzustands kann im Anschluss natürlich aus den selben Gründen scheitern wie der  Serviceaufruf im ursprünglichen Design.  
+- Das Erreichen des Zielzustands kann im Anschluss natürlich aus den selben Gründen scheitern wie der Serviceaufruf im ursprünglichen Design.  
 - Die Gründe des Scheiterns werde jedoch nicht mehr als Ursache für den erfolglosen Abbruch einer Auftragsausführung dargestellt. Statt dessen wird aus der Abweichung zwischen dem RunningDS und dem OperationalDS ein Eintrag in der internen Alarmliste abgeleitet, und die Fehlermeldung des untergeordneten Elementes an diesen Eintrag angeheftet.  
 - Sollte sich die Ursache für die Abweichung zwischen dem RunningDS und dem OperationalDS über die Zeit ändern, wird der Eintrag in der Alarmliste aktualisiert.  
-
-Vermeidung redundanter Informationen  
-Sollte ein Interface gestört sein, ist es die Verbindung, die es abschließen soll, in der Regel ebenfalls.  
-D.h. die interne Alarmliste könnte sowohl nach gestörtem Interface als auch nach gestörter Verbindung geordnet sein.  
-Aufgrund des auf Verbindungen basierenden Zuschnitts der Domänen sollte jedoch die Verbindung als gestörtes Element referenziert werden.  
-Da an jedem Verbindungsobjekt, jene Verbindungen, über die es geroutet ist, gelistet werden, lassen sich die Alarme, die eine Verbindung auf höherer Ebene betreffen, schnell ermitteln.  
-Für diesen Zweck hat jede Domäne einen Service anzubieten, der sämtliche Alarme listet, die eine Verbindung oder jene Verbindungen, auf die sie geroutet ist, betreffen.  
 
 
 Es ergäbe sich folgender Aufbau einer Applikation zu Automatisierungszwecken:
