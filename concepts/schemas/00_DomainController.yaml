@@ -1,6 +1,7 @@
 domain-controller:
   type: object
   required:
+    - function
     - alarm-pac
     - network-control-domain
   properties:

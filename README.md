@@ -22,6 +22,7 @@ Below documents are summarizing the thoughts made during the development process
 - [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
 - [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
 - [Network Topology](./concepts/05_NetworkTopology.md)  
+- [HL Design of Functions](./concepts/07_Functions.md)
 
 
 ### Relevance  

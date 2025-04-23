@@ -7,6 +7,7 @@ network-control-domain:
     type: object
     required:
       - local-id
+      - profile
       - control-construct
       - link
       - forwarding-domain
