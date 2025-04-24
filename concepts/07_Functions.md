@@ -1,22 +1,9 @@
 # Functions
 
-## Concept:  
-Functions shall group around a managed object.  
-The following managed objects are seen:  
-- ControllerTemplate  
-- MediatorVmTemplate  
-- DeviceTemplate  
-- Controller  
-- MediatorVm  
-- ManagementPlaneTransportConnection, includes:  
-  - Device  
-  - mountPoint
-  - SnmpConnection  
-    - mediatorProcess  
-  - NetconfConnection  
 
-Functions shall distinguish by kind of task.  
-The following kinds of tasks are seen:  
+## Concept:  
+
+Functions shall be categorized into the following kinds of activities:  
 - Interpretation  
   - Abstracted intends (e.g. incoming requests or internal tasks) get translated into creation/change/deletion of concrete logical objects in the CandidateDS  
 - Validation  
@@ -34,38 +21,35 @@ The following kinds of tasks are seen:
   - Translating divergences between RunningDS and OperationalDS into concrete creation/change/deletion operations on the managed elements  
   - Transaction management (incl. determining the sequence of operations, pre-test, try run, re-try and potential roll-back, if just a sub-set of operations could be executed successfully)  
 
-| Object | Interpretation | Validation | Measurement | Management | Implementation |  
-| ------ | -------------- | ---------- | ----------- | ---------- | -------------- |  
-| ControllerTemplate | X | X |  |  |  |  
-| MediatorVmTemplate | X | X |  |  |  |  
-| DeviceTemplate | X | X |  |  |  |  
-| Controller | X | X | X | X | X |  
-| MediatorVm | X | X | X | X | X |  
-| ManagementPlaneTransport | X | X | X | X | X |  
+Functions shall relate to the following managed objects:  
+- ControllerTemplate  
+- MediatorVmTemplate  
+- DeviceTemplate  
+- Controller  
+- MediatorVm  
+- ManagementPlaneTransportConnection, includes:  
+  - Device  
+  - mountPoint
+  - SnmpConnection  
+    - mediatorProcess  
+  - NetconfConnection  
 
 
 ## High Level Design of Functions  
 
-### ControllerTemplate  
 
-#### Interpretation  
+### Interpretation  
+
+#### ControllerTemplate  
 
 - functionName: **v1-create-controller-template**  
   t.b.d.
 - functionName: **v1-delete-controller-template**  
   t.b.d.
-
-#### Validation  
-
-- functionName: **v1-create-controller-template-validation**  
-  t.b.d.
-- functionName: **v1-delete-controller-template-validation**  
+- functionName: **v1-list-controller-templates**  
   t.b.d.
 
-
-### MediatorVmTemplate  
-
-#### Interpretation  
+#### MediatorVmTemplate  
 
 - functionName: **v1-create-mediator-vm-template**  
   - public: true  
@@ -86,8 +70,11 @@ The following kinds of tasks are seen:
     - name: v1-create-mediator-vm-template-validation
   - parameters:
   - comments:  
-    - changing is made by calling with existing mediator-vm-template-name  
-    - incomplete requestBody is accepted for changing only  
+    - changing templates is made by calling with existing mediator-vm-template-name  
+    - incomplete requestBody is accepted for changing templates only  
+
+(click to enlarge example)
+<img src="./diagrams/v1-create-mediator-vm-template.png" alt="exampleSequence" width="350" style="display: block; margin: 0 auto"/>  
 
 - functionName: **v1-delete-mediator-vm-template**  
   - public: true  
@@ -109,7 +96,45 @@ The following kinds of tasks are seen:
   - comments:  
     - if not operational, deleting referencing mediatorVms from RunningDS is initiated  
 
-#### Validation  
+- functionName: **v1-list-mediator-vm-templates**  
+  - public: true  
+  - idempotent: true  
+  - inputs:  
+  - outputs:  
+    - to: response-body#mediator-vm-templates  
+      from: /network-control-domain=running/profile=* for all instances with category=='mediator-vm'
+  - servers:  
+  - parameters:
+  - comments:  
+
+#### DeviceTemplate  
+
+- functionName: **v1-create-device-template**  
+  t.b.d.
+- functionName: **v1-delete-device-template**  
+  t.b.d.
+- functionName: **v1-list-device-templates**  
+  t.b.d.
+
+#### Controller  
+
+- functionName: **v1-regard-controller**  
+  t.b.d.
+- functionName: **v1-disregard-controller**  
+  t.b.d.
+- functionName: **v1-list-controllers**  
+  t.b.d.
+
+### Validation  
+
+#### ControllerTemplateValidation  
+
+- functionName: **v1-create-controller-template-validation**  
+  t.b.d.
+- functionName: **v1-delete-controller-template-validation**  
+  t.b.d.
+
+#### MediatorVmTemplateValidation  
 
 - functionName: **v1-create-mediator-vm-template-validation**  
   - public: false  
@@ -145,27 +170,21 @@ The following kinds of tasks are seen:
   - parameters:
   - comments:  
 
-
-### DeviceTemplate  
-
-#### Interpretation  
-
-- functionName: **v1-create-device-template**  
-  t.b.d.
-- functionName: **v1-delete-device-template**  
-  t.b.d.
-
-#### Validation  
+#### DeviceTemplateValidation  
 
 - functionName: **v1-create-device-template-validation**  
   t.b.d.
 - functionName: **v1-delete-device-template-validation**  
   t.b.d.
 
+#### ControllerValidation  
 
-### Common
+- functionName: **v1-regard-controller-validation**  
+  t.b.d.
+- functionName: **v1-disregard-controller-validation**  
+  t.b.d.
 
-#### Validation
+#### Common
 
 - functionName: **v1-confirm-number-of-processes-less-than-limit**  
   - public: false  

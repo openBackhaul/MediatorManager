@@ -1,0 +1,96 @@
+@startuml v1-create-mediator-vm-template
+skinparam responseMessageBelowArrow true
+
+title
+Function - v1-create-mediator-vm-template
+end title
+
+participant "Human\nOperator" as External
+participant "DDM://v1/create-mediator-vm-template" as Interpretation
+database "/ncd=candidate" as CDS
+participant "v1-create-mediator-vm-template-validation" as Validation
+participant "v1-confirm-number-of-processes-less-than-limit" as CheckNumberOfProcesses
+participant "[further-validation-tests]" as furtherTests
+database "/ncd=running" as RDS
+
+note over Interpretation
+  Interpretation
+end note
+note over Validation
+  Orchestration of Validation
+end note
+note over CheckNumberOfProcesses
+  Validation test #1
+end note
+note over furtherTests
+  Validation test #n
+end note
+
+External -> Interpretation : {mediator-vm-template-name,\n[{default-mediator-user-name,\ndefault-mediator-user-password}],\nvendor-name,\nsupported-device-kind-list,\nengineering-limit,\nprovide-mediator-instance-operation-name,\ndismantle-mediator-instance-operation-name,\nlist-mediator-instance-operation-name}
+activate Interpretation
+
+  note over Interpretation
+    IF request would be syntactically faulty
+  end note
+  External <-- Interpretation : {error-code, error-message}
+  note over Interpretation
+    ELSE
+  end note
+  Interpretation --> CDS : Initiate Copy
+  CDS -> RDS
+  CDS <-- RDS : {entire content}
+
+  Interpretation -> CDS : Create Profile Object for holding:\n{mediator-vm-template-name,\n[{default-mediator-user-name,\ndefault-mediator-user-password}],\nvendor-name,\nsupported-device-kind-list,\nengineering-limit,\nprovide-mediator-instance-operation-name,\ndismantle-mediator-instance-operation-name,\nlist-mediator-instance-operation-name}
+  Interpretation -> Validation : {mediator-vm-template-name}
+
+  activate Validation
+
+    Validation -> CheckNumberOfProcesses : {mediator-vm-template-name}
+    activate CheckNumberOfProcesses
+      note over Validation
+        IF numberOfMediatorProcesses > new engineeringLimit
+      end note
+      Validation <-- CheckNumberOfProcesses : {409 (Conflict),\n'Number of mediatorProcesses is\n exceeding engineering-limit'}
+      note over Validation
+        ELSE
+      end note
+      Validation <-- CheckNumberOfProcesses : 204
+    deactivate CheckNumberOfProcesses
+
+    Validation -> furtherTests : {...}
+    activate furtherTests
+      note over Validation
+        IF test failed
+      end note
+      Validation <-- furtherTests : {error-code, error-message}
+      note over Validation
+        ELSE
+      end note
+      Validation <-- furtherTests : 204
+    deactivate furtherTests
+
+    note over Validation
+      IF any Validation would fail
+    end note
+    Interpretation <-- Validation : {error-code, error-message}
+    note over Validation
+      ELSE
+    end note
+    Interpretation <-- Validation : 204
+  deactivate Validation
+
+  note over Interpretation
+    IF any Validation would have failed
+  end note
+  External <-- Interpretation : {error-code, error-message}
+
+  note over Interpretation
+    ELSE
+  end note
+  Interpretation --> RDS : Initiate Copy
+  RDS -> CDS
+  RDS <-- CDS : {entire content}
+  External <-- Interpretation : 204
+deactivate Interpretation
+
+@enduml
