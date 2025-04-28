@@ -1,42 +1,4 @@
-# Functions
-
-
-## Concept:  
-
-Functions shall be categorized into the following kinds of activities:  
-- Interpretation  
-  - Abstracted intends (e.g. incoming requests or internal tasks) get translated into creation/change/deletion of concrete logical objects in the CandidateDS  
-- Validation  
-  - Diverse tests on the content of the CandidateDS  
-  - Copying from CandidateDS to RunningDS and vice versa  
-  - Orchestration of the process (choosing the correct set of tests, dealing with the composition of tests changing over time, assuring all necessary being executed,...)  
-- Measurement  
-  - Actual status of the managed elements gets detected and documented into the OperationalDS  
-- Management  
-  - Divergences between RunningDS and OperationalDS are continuously searched  
-  - Detected divergences are classified into error codes and messages (results get documented and notified)  
-  - Countermeasures are chosen and scheduled
-  - Documentation is updated based on results of countermeasures  
-- Implementation  
-  - Translating divergences between RunningDS and OperationalDS into concrete creation/change/deletion operations on the managed elements  
-  - Transaction management (incl. determining the sequence of operations, pre-test, try run, re-try and potential roll-back, if just a sub-set of operations could be executed successfully)  
-
-Functions shall relate to the following managed objects:  
-- ControllerTemplate  
-- MediatorVmTemplate  
-- DeviceTemplate  
-- Controller  
-- MediatorVm  
-- ManagementPlaneTransportConnection, includes:  
-  - Device  
-  - mountPoint
-  - SnmpConnection  
-    - mediatorProcess  
-  - NetconfConnection  
-
-
-## High Level Design of Functions  
-
+# High Level Design of Functions  
 
 ### Interpretation  
 
@@ -72,9 +34,6 @@ Functions shall relate to the following managed objects:
   - comments:  
     - changing templates is made by calling with existing mediator-vm-template-name  
     - incomplete requestBody is accepted for changing templates only  
-
-(click to enlarge example)
-<img src="./diagrams/v1-create-mediator-vm-template.png" alt="exampleSequence" width="350" style="display: block; margin: 0 auto"/>  
 
 - functionName: **v1-delete-mediator-vm-template**  
   - public: true  
@@ -124,6 +83,7 @@ Functions shall relate to the following managed objects:
   t.b.d.
 - functionName: **v1-list-controllers**  
   t.b.d.
+
 
 ### Validation  
 
@@ -215,42 +175,4 @@ Functions shall relate to the following managed objects:
   - servers:  
   - parameters:
   - comments:  
-
-.  
-.  
------
-
-### Definition of the Notation
-
-```
-functionName:
-  type: string
-public:
-  type: boolean
-inputs:
-  type: array
-  items:
-    type: object
-    properties:
-      from:
-        type: string
-      to:
-        type: string
-outputs:
-  type: array
-  items:
-    type: object
-    properties:
-      to:
-        type: string
-      from:
-        type: string
-servers:
-  type: string
-parameters:
-  type: array
-    type: string
-comments:
-  type: array
-```
 

@@ -1,7 +1,9 @@
 # DeviceDomainManager (former MediatorManager)  
 
+
 ### Location  
 The DeviceDomainManager (DDM) is part of the OperationSupport.  
+
 
 ### Description  
 The DeviceDomainManager manages and encapsulates all necessary activities for providing and maintaining  
@@ -19,19 +21,23 @@ This includes the following aspects:
 A lot of conceptual work has been done, during specifying the application.  
 It lead to an entirely new architectural concept.  
 Below documents are summarizing the thoughts made during the development process and the resulting information structure:  
-- [Basic Building Blocks](./concepts/01_BasicBuildingBlocks.md)  
+- [BasicBuildingBlocks](./concepts/01_BasicBuildingBlocks.md)  
 - [AutomationArchitecture](./concepts/03_AutomationArchitecture.md)  
-- [Network Topology](./concepts/05_NetworkTopology.md)  
-- [HL Design of Functions](./concepts/07_Functions.md)
+- [NetworkTopology](./concepts/05_NetworkTopology.md)  
+- [FunctionConcepts](./concepts/07_FunctionConcepts.md)
+- [FunctionsList](./concepts/09_FunctionsList.md)  
+- [FunctionsHld](./concepts/11_FunctionsHld.md)
 
 
 ### Relevance  
 The DeviceDomainManager is required for connecting devices to the controller.  
 
+
 ### Resources  
 - [Specification](./spec/)  
 - [TestSuite](./testing/)  
 - [Implementation](./server/)  
+
 
 ### Comments  
 ./.

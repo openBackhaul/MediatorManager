@@ -387,6 +387,3 @@ clients:
             uuid: 
           - operation-name: /v1/inform-about-mount-point
             uuid: 
-          - operation-name: /v1/test-mount-point
-            uuid: 
-
