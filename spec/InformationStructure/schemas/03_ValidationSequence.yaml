@@ -1,0 +1,56 @@
+validation-sequence:
+  type: array
+  x-key: _trigger-function
+  description: >
+    'List of the definitions of validation sequences
+    The defined sequences are input to the generic ValidationOrchestrator Function
+    ValidationOrchestrator is responding 204, if all Functions in the sequence responded 204, or any other response code that resulted during executing the sequence'
+  items:
+    type: object
+    required:
+      - _trigger-function
+      - sequence
+    properties:
+      _trigger-function:
+        type: string
+        description: >
+          'Reference towards an entry in the list of Functions (value must be unique and invariant)
+          Only Functions for changing the contents of the CandidateDS are allowed to be referenced'
+        example: 'v1-add-planned-microwave-link'
+      sequence:
+        type: array
+        x-key: step-number
+        description: 'Sequence of validation test Functions that shall be executed on the contents of the CandidateDS'
+        items:
+          type: object
+          required:
+            - step-number
+            - _validation-function
+          properties:
+            step-number:
+              type: integer
+              description: 'Sequential number of the validation test (value must be unique and invariant)'
+            _validation-function:
+              type: string
+              description: >
+                'Reference towards an entry in the list of Functions
+                Only Functions for executing a validation test on the contents of the CandidateDS are allowed to be referenced'
+example:
+  - _trigger-function: v1-add-planned-microwave-link 
+    sequence:
+      - step-number: 0
+        _validation-function: v1-ensure-unique-link-ids
+      - step-number: 1
+        _validation-function: 
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:

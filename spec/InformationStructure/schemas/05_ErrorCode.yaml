@@ -1,0 +1,40 @@
+error-code:
+  type: array
+  x-key: error-code
+  description: 'List of ErrorCodes with descriptions and corresponding ImplementationFunction'
+  items:
+    type: object
+    required:
+      - error-code
+      - description
+    properties:
+      error-code:
+        type: integer
+        description: >
+          'Code for identifying the finding (value must be unique and invariant)
+          Internal code definitions to start with 600'
+      description:
+        type: string
+        description: >
+          'Internal codes: Meaningful description of the finding needed for understanding the mechanics of the application
+          External codes: Also used as ErrorMessage'
+      _implementation-function:
+        type: string
+        description: >
+          'Internal codes: Ideally, each finding would be handled by a function'
+example:
+  - error-code: 601
+    description: 'OperationalDS::Ltp::externalLabel contains wrong value'
+    _implementation-function: 'p1-delete-external-label'
+  - error-code: 602
+    description: 'OperationalDS::Ltp::externalLabel does not contain value of OperationalDS::Link::calculatedLinkId'
+    _implementation-function: 'p1-copy-calculated-linkid-to-external-label'
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
