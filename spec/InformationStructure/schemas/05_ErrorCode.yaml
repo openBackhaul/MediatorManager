@@ -24,11 +24,11 @@ error-code:
           'Internal codes: Ideally, each finding would be handled by a function'
 example:
   - error-code: 601
-    description: 'OperationalDS::Ltp::externalLabel contains wrong value'
-    _implementation-function: 'p1-delete-external-label'
-  - error-code: 602
-    description: 'OperationalDS::Ltp::externalLabel does not contain value of OperationalDS::Link::calculatedLinkId'
-    _implementation-function: 'p1-copy-calculated-linkid-to-external-label'
+    description: 'OperationalDS::Ltp::mediator-user-name contains wrong value'
+    _implementation-function: 'v1-prepare-connection'
+  - error-code:
+    description:
+    _implementation-function:
   - error-code:
     description:
     _implementation-function:

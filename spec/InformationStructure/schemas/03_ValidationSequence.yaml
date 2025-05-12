@@ -16,7 +16,7 @@ validation-sequence:
         description: >
           'Reference towards an entry in the list of Functions (value must be unique and invariant)
           Only Functions for changing the contents of the CandidateDS are allowed to be referenced'
-        example: 'v1-add-planned-microwave-link'
+        example: 'v1-establish-management-plane-transport'
       sequence:
         type: array
         x-key: step-number
@@ -36,10 +36,10 @@ validation-sequence:
                 'Reference towards an entry in the list of Functions
                 Only Functions for executing a validation test on the contents of the CandidateDS are allowed to be referenced'
 example:
-  - _trigger-function: v1-add-planned-microwave-link 
+  - _trigger-function: 'v1-establish-management-plane-transport'
     sequence:
       - step-number: 0
-        _validation-function: v1-ensure-unique-link-ids
+        _validation-function: 'v1-ensure-single-management-plane-transport-per-device'
       - step-number: 1
         _validation-function: 
   - _trigger-function:

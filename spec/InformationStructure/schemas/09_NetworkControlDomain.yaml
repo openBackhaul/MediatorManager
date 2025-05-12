@@ -1,8 +1,6 @@
 network-control-domain:
   type: array
   x-key: local-id
-  minItems: 4
-  maxItems: 4
   items:
     type: object
     required:
@@ -25,11 +23,11 @@ network-control-domain:
         x-key: local-id
         items:
           oneOf:
-            - description: 'controllerTemplate - see 05_ControllerTemplate.yaml'
+            - description: 'controllerTemplate - see 10_ControllerTemplate.yaml'
               type: object
-            - description: 'mediatorVmTemplate - see 06_MediatorVmTemplate.yaml'
+            - description: 'mediatorVmTemplate - see 20_MediatorVmTemplate.yaml'
               type: object
-            - description: 'deviceTemplate - see 07_DeviceTemplate.yaml'
+            - description: 'deviceTemplate - see 30_DeviceTemplate.yaml'
               type: object
       control-construct:
         type: array

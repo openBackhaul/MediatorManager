@@ -2,6 +2,8 @@ domain-controller:
   type: object
   required:
     - function
+    - validation-sequence
+    - error-code
     - alarm-pac
     - network-control-domain
   properties:
@@ -10,7 +12,19 @@ domain-controller:
       x-key: function-name
       items:
         type: object
-        description: 'function - see 01_Function.yaml'
+        description: 'function - see 02_Function.yaml'
+    validation-sequence:
+      type: array
+      x-key: _trigger-function
+      items:
+        type: object
+        description: 'ValidationSequence - see 03_ValidationSequence.yaml'
+    error-code:
+      type: array
+      x-key: error-code
+      items:
+        type: object
+        description: 'ErrorCode - see 05_ErrorCode.yaml'
     alarm-pac:
       type: object
       required:
@@ -19,19 +33,15 @@ domain-controller:
         current-alarms:
           type: object
           required:
-            - time-of-latest-change
             - affected-fc
           properties:
-            time-of-latest-change:
-              type: string
-              pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
             affected-fc:
               type: array
               x-key: _affected-fc
               description: 'List of ForwardingConstructs that have problems'
               items:
                 type: object
-                description: 'currentAlarm at a ForwardingConstruct - see 02_CurrentAlarm.yaml'
+                description: '_AffectedFc - see 06_CurrentAlarm.yaml'
     network-control-domain:
       type: array
       x-key: local-id
@@ -40,5 +50,5 @@ domain-controller:
       items:
         type: object
         description: >
-          'candidate, startup, running or operational - see 03_NetworkControlDomain.yaml
+          'NetworkControlDomain for CandidateDS, RunningDS, OperationalDS or StartupDS - see 09_NetworkControlDomain.yaml
           Four identical information structures describing candidate, startup, running and operational data store according to NMDA concept'

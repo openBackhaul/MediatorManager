@@ -1,7 +1,7 @@
 function:
   type: array
   x-key: function-name
-  description: 'List of Functions inside DDM incl. their parameter settings'
+  description: 'List of Functions incl. their parameter settings'
   items:
     type: object
     required:
@@ -11,7 +11,7 @@ function:
       function-name:
         type: string
         pattern: '^(v[0-9]{1,2})((-[a-z]{1,}){1,})$'
-        description: 'In case of externally available services, the path has to be translated to fit the pattern.'
+        description: 'In case of externally available services, the syntax of the path has to be translated to fit the pattern'
         example: 'v1-establish-management-plane-transport'
       parameter:
         type: array
@@ -34,3 +34,24 @@ function:
             parameter-definition:
               type: string
               description: 'Invariant description of the parameter'
+example:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:

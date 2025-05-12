@@ -98,7 +98,7 @@ forwarding-construct:
                 candidate: created while/after module ??? created a new mediatorProcess
                 running: from candidate
                 operational: from ???
-            _link:
+            _links:
               type: array
               minItems: 2
               maxItems: 2

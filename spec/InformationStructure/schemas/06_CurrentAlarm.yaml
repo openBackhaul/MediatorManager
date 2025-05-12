@@ -1,7 +1,9 @@
 affected-fc:
   type: array
   x-key: _affected-fc
-  description: 'List of ForwardingConstructs that have problems'
+  description: > 
+    'List of ForwardingConstructs that have problems
+    All references (_affected-fc, _affected-cc, _affected-ltp) relate to objects in RunningDS'
   items:
     type: object
     required:
@@ -15,7 +17,9 @@ affected-fc:
         type: array
         x-key: _affected-link
         minItems: 1
-        description: 'List of Links that have problems. As the ForwardingConstruct with problems is exclusively composed from Links, at least one Link must have a problem.'
+        description: >
+          'List of Links that have problems
+          As the ForwardingConstruct with problems is exclusively composed from Links, at least one Link must have a problem'
         items:
           type: object
           required:
@@ -29,101 +33,106 @@ affected-fc:
               type: array
               x-key: _affected-cc
               minItems: 1
-              description: 'List of ControlConstructs that have problems. As problems of a Link are always associated with one of its termination points, at least one ControlConstruct must have a problem.'
+              description: >
+                'List of ControlConstructs that have problems
+                As problems of a Link are always associated with one of its termination points, at least one ControlConstruct must have a problem'
               items:
                 type: object
+                minProperties: 2
                 required:
                   - _affected-cc
-                  - affected-ltp
                 properties:
                   _affected-cc:
                     type: string
-                    description: 'local-id of one of the ControlConstructs with problems'
+                    description: 'local-id (MountName) of a ControlConstruct that has problems (value must be unique and invariant)'
+                  error:
+                    type: array
+                    x-key: _error-code
+                    minItems: 1
+                    description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
+                    items:
+                      $ref: "#/components/schemas/errorDescription"
                   affected-ltp:
                     type: array
                     x-key: _affected-ltp
                     minItems: 1
-                    description: 'List of LogicalTerminationPoints that have problems. As problems of a Link are always associated with one of its termination points, at least one LogicalTerminationPoint must have a problem.'
+                    description: >
+                      'List of LogicalTerminationPoints that have problems
+                      affected-ltp attribute exclusively occurs, if there is at least one LTP affected by an error'
                     items:
                       type: object
+                      minProperties: 2
                       required:
                         - _affected-ltp
-                        - affected-lp
                       properties:
                         _affected-ltp:
                           type: string
-                          description: 'local-id of one of the LogicalTerminationPoint with problems'
+                          description: 'local-id of one of the LogicalTerminationPoint with problems (value must be unique and invariant)'
+                        error:
+                          type: array
+                          x-key: _error-code
+                          minItems: 1
+                          description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
+                          items:
+                            $ref: "#/components/schemas/errorDescription"
                         affected-lp:
                           type: array
                           x-key: _affected-lp
                           minItems: 1
-                          description: 'List of LayerProtocols that have problems. As problems of a Link are always associated with one of its termination points, at least one LayerProtocol must have a problem.'
+                          description: >
+                            'List of LayerProtocols that have problems
+                            affected-lp attribute exclusively occurs, if there is at least one LP affected by an error'
                           items:
                             type: object
                             required:
                               - _affected-lp
-                              - error-code
-                              - error-message
-                              - date-of-creation
-                              - past-attempts-to-fix
-                              - next-attempt-to-fix
+                              - error
                             properties:
                               _affected-lp:
                                 type: string
                                 description: 'local-id of one of the LayerProtocols with problems'
-                              error-code:
-                                type: integer
-                                minimum: 300
-                                maximum: 999
-                                description: >
-                                  'Code that describes the problem at this termination point in the context of the DDM.
-                                  Compared to the codes received from outside or sub-modules as they are listed in the past-attempts-to-fix, this code might abstract the problem.'
-                              error-message:
-                                type: string
-                                description: >
-                                  'Human readable message that describes the problem at this termination in the context of the DDM.
-                                  Compared to the messages received from outside or sub-modules as they are listed in the past-attempts-to-fix, this message might abstract the problem.'
-                              date-of-creation:
-                                type: string
-                                pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
-                                description: 'Date and time when the problem at this termination point has been detected'
-                              past-attempts-to-fix:
+                              error:
                                 type: array
-                                x-key: date-of-failed-fix
-                                description: 'List of past attempts to fix the problem'
+                                x-key: _error-code
+                                minItems: 1
+                                description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
                                 items:
-                                  type: object
-                                  required:
-                                    - date-of-failed-fix
-                                    - failed-request
-                                    - error-code
-                                    - error-message
-                                  properties:
-                                    date-of-failed-fix:
-                                      type: string
-                                      pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
-                                      description: 'Date and time when it was attempted to fix the problem'
-                                    failed-request:
-                                      type: string
-                                      description: 'Request or name of the internal activity that failed'
-                                    error-code:
-                                      type: integer
-                                      minimum: 300
-                                      maximum: 999
-                                      description: 'Code that resulted from the failed request or internal activity'
-                                    error-message:
-                                      type: string
-                                      description: 'Human readable message that resulted from the failed request or internal activity'
-                              next-attempt-to-fix:
-                                type: object
-                                required:
-                                  - date-of-next-attempt-to-fix
-                                  - planned-request
-                                properties:
-                                  date-of-next-attempt-to-fix:
-                                    type: string
-                                    pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
-                                    description: 'Scheduled date and time for making the next attempt to fix the problem'
-                                  planned-request:
-                                    type: string
-                                    description: 'Request or name of the internal activity that is planned to be executed'
+                                  $ref: "#/components/schemas/errorDescription"
+components:
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - _error-code
+        - date-of-creation
+        - past-attempts-to-fix
+        - date-of-next-attempt-to-fix
+      properties:
+        _error-code:
+          type: integer
+          description: 'local-id (ErrorCode) of the definition of the problem in context of this application (value must be unique and invariant)'
+        date-of-creation:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+          description: 'Date and time when this problem has been detected'
+        past-attempts-to-fix:
+          type: array
+          x-key: date-of-attempt
+          description: 'List of past attempts to fix the problem'
+          items:
+            type: object
+            required:
+              - date-of-attempt
+              - response-code
+            properties:
+              date-of-attempt:
+                type: string
+                pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+                description: 'Date and time when it was attempted to fix the problem'
+              response-code:
+                type: integer
+                description: 'Code that resulted from the attempt to fix the problem'
+        date-of-next-attempt-to-fix:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+          description: 'Next attempt to fix this problem shall not be made before this date'

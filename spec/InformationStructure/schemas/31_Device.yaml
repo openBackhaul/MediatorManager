@@ -14,10 +14,10 @@ control-construct:
           local-id:
             type: string
             description: >
-              'Network Element ID
+              'MountName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
-              operational: ???from reading the control-construct/externalLabel from documented devices???'
+              operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
           category:
             type: string
             enum:
