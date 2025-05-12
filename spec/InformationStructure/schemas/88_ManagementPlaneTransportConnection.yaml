@@ -14,10 +14,10 @@ forwarding-construct:
           'Network Element ID
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
-          operational: from [module OperationalManagementPlaneTransportList]
+          operational: from [module OperationalManagementPlaneTransportList]'
       fctp:
         type: array
-        x-key: local-id
+        x-key: _cc
         minItems: 2
         maxItems: 2
         items:
@@ -25,15 +25,8 @@ forwarding-construct:
             - description: managementPlaneTransportClient
               type: object
               required:
-                - local-id
                 - _cc
-                - _ltp
-                - _lp
               properties:
-                local-id:
-                  type: string
-                  enum:
-                    - management-plane-transport-client
                 _cc:
                   type: string
                   description: >
@@ -41,47 +34,18 @@ forwarding-construct:
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                     running: from candidate
                     operational: from ???
-                _ltp:
-                  type: string
-                  description: >
-                    'MountName of Device
-                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
-                    running: from candidate
-                    operational: from ???
-                _lp:
-                  type: string
-                  enum:
-                    - management-plane-transport-client
             - description: managementPlaneTransportServer
               type: object
               required:
-                - local-id
                 - _cc
-                - _ltp
-                - _lp
               properties:
-                local-id:
-                  type: string
-                  enum:
-                    - management-plane-transport-server
                 _cc:
                   type: string
                   description: >
                     'MountName of Device
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                     running: from candidate
-                    operational: from ???
-                _ltp:
-                  type: string
-                  description: >
-                    'Sequence number of the control plane interface
-                    candidate: created while processing DDM://v1/establish-management-plane-transport
-                    running: from candidate
-                    operational: from ???
-                _lp:
-                  type: string
-                  enum:
-                    - management-plane-transport-server
+                    operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
       route:
         type: array
         x-key: local-id

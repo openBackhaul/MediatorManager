@@ -47,18 +47,9 @@ control-construct:
                 layer-protocol:
                   type: array
                   x-key: local-id
-                  minItems: 3
+                  minItems: 2
                   items:
                     oneOf:
-                      - description: 'managementPlaneTransportServer'
-                        type: object
-                        required:
-                          - local-id
-                        properties:
-                          local-id:
-                            type: string
-                            enum:
-                              - 'management-plane-transport-server'
                       - description: 'snmpServer'
                         type: object
                         required:

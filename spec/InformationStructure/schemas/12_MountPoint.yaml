@@ -17,19 +17,10 @@ logical-termination-point:
       layer-protocol:
         type: array
         x-key: local-id
-        minItems: 3
-        maxItems: 3
+        minItems: 2
+        maxItems: 2
         items:
           oneOf:
-            - description: 'managementPlaneTransportClient'
-              type: object
-              required:
-                - local-id
-              properties:
-                local-id:
-                  type: string
-                  enum:
-                    - 'management-plane-transport-client'
             - description: 'netconfClient'
               type: object
               required:
