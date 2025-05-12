@@ -1,5 +1,6 @@
 # Function Concepts  
-
+_(This is a conceptual document that is not directly part of the DDM specification.  
+It reflects the status as of early May 2025 and has not been updated since that time.)_  
 
 ### Functions shall be categorized into the following kinds of activities  
 - Interpretation  
@@ -10,7 +11,7 @@
   - Orchestration of the process (choosing the correct set of tests, dealing with the composition of tests changing over time, assuring all necessary being executed,...)  
 - Measurement  
   - Actual status of the managed elements gets detected and documented into the OperationalDS  
-- Management  
+- Monitoring  
   - Divergences between RunningDS and OperationalDS are continuously searched  
   - Detected divergences are classified into error codes and messages (results get documented and notified)  
   - Countermeasures are chosen and scheduled

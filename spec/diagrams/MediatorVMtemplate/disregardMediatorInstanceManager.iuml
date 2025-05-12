@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-MediatorManager /v1/disregard-mediator-instance-manager
+DeviceDomainManager /v1/disregard-mediator-instance-manager
 end title
 
 participant "OperationsTeam" as OT

@@ -1,4 +1,6 @@
 # Domain Contents  
+_(This is a conceptual document that is not directly part of the DDM specification.  
+It reflects the status as of early May 2025 and has not been updated since that time.)_  
 
 We cannot control the management interfaces and functions of the xMediatorInstanceManager and the Controller.  
 While both elements are present within our network infrastructure, they do not integrate into the MW SDN application layer.  
@@ -24,16 +26,4 @@ The documentation of the network topology inside the DeviceDomainManager shall f
 
 
 
-The DeviceDomainManager's internal data structure is outlined in the following picture.
-
-<img src="./diagrams/InternalDataStructure.png" alt="InternalDataStructure" width="800" style="display: block; margin: 0 auto"/> 
-
-Its top level element is a [DomainController](./schemas/00_DomainController.yaml) that holds the parameter settings of the [Functions](./schemas/01_Function.yaml) and the [CurrentAlarms](./schemas/02_CurrentAlarm.yaml) within the DeviceDomain.  
-
-Apart from that it holds four different documentations of the same [Network](./schemas/03_NetworkControlDomain.yaml) (running, operational, startup and candidate).  
-
-[ControllerTemplates](./schemas/05_ControllerTemplate.yaml), [mediatorVmTemplates](./schemas/06_MediatorVmTemplate.yaml) and [DeviceTemplates](./schemas/07_DeviceTemplate.yaml) are defined for each of the network documentations.  
-
-These templates get referenced whenever a new [Controller](./schemas/11_Controller.yaml), [mediatorVm](./schemas/21_MediatorVm.yaml) or Device gets instantiated.  
-
-Additional instances of [MountPoint](./schemas/12_MountPoint.yaml), [MediatorProcess](./schemas/22_MediatorProcess.yaml), [Device](./schemas/31_Device.yaml), [NetconfConnection](./schemas/81_NetconfConnection.yaml) and [SnmpConnection](./schemas/82_SnmpConnection.yaml) get created, whenever a new [ManagementPlaneTransportConnection](./schemas/88_ManagementPlaneTransportConnection.yaml) is requested to be established.  
+The detailed definition of the DeviceDomainManager's internal data structure can be found [here](../InformationStructure/InformationStructure.md).

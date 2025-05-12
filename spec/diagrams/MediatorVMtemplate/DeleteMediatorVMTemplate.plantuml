@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-MediatorManager /v1/delete-mediator-vm-template
+DeviceDomainManager /v1/delete-mediator-vm-template
 end title
 
 participant "OperationsTeam" as OT

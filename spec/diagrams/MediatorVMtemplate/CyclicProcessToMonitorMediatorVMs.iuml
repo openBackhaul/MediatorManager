@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-MediatorManager CyclicProcessToMonitorMediatorVMs
+DeviceDomainManager CyclicProcessToMonitorMediatorVMs
 end title
 
 participant "MM://v1/embed-yourself" as EmbedYourself

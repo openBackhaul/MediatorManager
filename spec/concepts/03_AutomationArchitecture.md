@@ -1,7 +1,8 @@
 <!--- spell-checker: locale de,en --->
 
 # Entwicklung einer Architektur für Netzwerkautomatisierungsaufgaben
-
+_(This is a conceptual document that is not directly part of the DDM specification.  
+It reflects the status as of early May 2025 and has not been updated since that time.)_  
 
 ### Vorgeschichte  
 Die ersten Überlegungen zur Automatisierung des Mountings wurden bereits Anfang 2021 gemacht.  

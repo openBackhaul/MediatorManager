@@ -2,7 +2,7 @@
 skinparam responseMessageBelowArrow true
 
 title
-MediatorManager /v1/provide-netconf-interface
+DeviceDomainManager /v1/provide-netconf-interface
 end title
 
 participant "MountingOrchestrator" as MO

@@ -2,14 +2,14 @@
 
 First ideas:
 - [Overview MediatorInstanceManager](./xMIM.PNG)
-- [Overview MediatorManager](./MediatorManager.PNG)
+- [Overview DeviceDomainManager](./DeviceDomainManager.PNG)
 - [Overview MountingOrchestrator](./MountingOrchestrator.PNG)
 - [Papyrus Export](./MediatorManagement_1.0.0-tsp.230327.1825.zip)
 - [Operation by LoadSharing](./DraftingOperationSupportByLoadBalancer.md)
 
 # Drafting the idea of supporting operations through constant load sharing
 
-The MediatorManager shall support continuous operation of the platform by automatically shifting the mediators processes between the available, but not marked deprecated mediatorVMs.  
+The DeviceDomainManager shall support continuous operation of the platform by automatically shifting the mediators processes between the available, but not marked deprecated mediatorVMs.  
 
 ![SketchOperationByLoadSharing](./SketchOperationByLoadSharing.png)
 

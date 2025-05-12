@@ -934,7 +934,7 @@
                         "layer-protocol-name": "http-server-interface-1-0:LAYER_PROTOCOL_NAME_TYPE_HTTP_LAYER",
                         "http-server-interface-1-0:http-server-interface-pac": {
                             "http-server-interface-capability": {
-                                "application-name": "MediatorManager",
+                                "application-name": "DeviceDomainManager",
                                 "release-number": "1.0.0",
                                 "application-purpose": "Preparing the connection between device and mediator/controller",
                                 "data-update-period": "http-server-interface-1-0:DATA_UPDATE_PERIOD_TYPE_REAL_TIME",

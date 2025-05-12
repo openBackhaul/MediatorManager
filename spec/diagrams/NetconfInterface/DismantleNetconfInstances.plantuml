@@ -2,13 +2,13 @@
 skinparam responseMessageBelowArrow true
 
 title
-MediatorManager /v1/dismantle-netconf-instances
+DeviceDomainManager /v1/dismantle-netconf-instances
 end title
 
 participant "MountingOrchestrator" as MO
 participant "MM://v1/dismantle-netconf-instances" as MM
 participant "*MIM://v1/delete-mediator-instance" as AMIMDel
-database "MediatorManager:APPDataFile" as AppData
+database "DeviceDomainManager:APPDataFile" as AppData
 collections "*MIM://list-mediator-instances" as AMIM
 
 

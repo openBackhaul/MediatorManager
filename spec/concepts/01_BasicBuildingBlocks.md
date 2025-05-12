@@ -1,6 +1,8 @@
 # Basic building blocks  
+_(This is a conceptual document that is not directly part of the DDM specification.  
+It reflects the status as of early May 2025 and has not been updated since that time.)_  
 
-**The DeviceDomainManager is distinguishing three categories of things**  
+**In regards with the mediator management, the DeviceDomainManager is distinguishing three categories of things**  
 
 - **mediatorVmTemplate**  
 The mediatorVmTemplate defines a set of characteristics that are filled with values that are specific to a mediator software. It exists in the DeviceDomainManager only.  

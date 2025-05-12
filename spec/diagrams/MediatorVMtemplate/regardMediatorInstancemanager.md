@@ -1,6 +1,6 @@
 # /v1/regard-mediator-instance-manager
 
-This service is used to create or update a MediatorInstanceManager to the MediatorManager application.
+This service is used to create or update a MediatorInstanceManager to the DeviceDomainManager application.
 
 **Request body** :
 ```json
