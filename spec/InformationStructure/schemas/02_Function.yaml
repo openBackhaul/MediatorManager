@@ -35,6 +35,237 @@ function:
               type: string
               description: 'Invariant description of the parameter'
 example:
+  - function-name: 'v1-create-controller-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-controller-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-controller-templates'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-controller-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-controller-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-create-mediator-vm-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-mediator-vm-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-mediator-vm-templates'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-mediator-vm-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-mediator-vm-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-create-device-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-device-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-device-templates'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-device-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-device-template'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-regard-controller'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-disregard-controller'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-controllers'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-regard-mediator-vm'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-disregard-mediator-vm'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-mediator-vms'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-establish-management-plane-transport'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-dismantle-management-plane-transport'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-management-plane-transports'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-management-plane-transport'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-provide-alarms-for-management-plane-transport'
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
   - function-name:
     parameter:
       - parameter-name:

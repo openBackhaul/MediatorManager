@@ -36,21 +36,183 @@ validation-sequence:
                 'Reference towards an entry in the list of Functions
                 Only Functions for executing a validation test on the contents of the CandidateDS are allowed to be referenced'
 example:
+  - _trigger-function: 'v1-create-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-delete-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-update-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
+  - _trigger-function: 'v1-create-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-delete-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-update-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
+  - _trigger-function: 'v1-create-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-delete-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-update-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
+  - _trigger-function: 'v1-regard-controller'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-disregard-controller'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
+  - _trigger-function: 'v1-regard-mediator-vm'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-disregard-mediator-vm'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
   - _trigger-function: 'v1-establish-management-plane-transport'
     sequence:
       - step-number: 0
-        _validation-function: 'v1-ensure-single-management-plane-transport-per-device'
+        _validation-function:
       - step-number: 1
-        _validation-function: 
+        _validation-function:
+  - _trigger-function: 'v1-dismantle-management-plane-transport'
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+
   - _trigger-function:
     sequence:
       - step-number: 0
+        _validation-function:
+      - step-number: 1
         _validation-function:
   - _trigger-function:
     sequence:
       - step-number: 0
         _validation-function:
+      - step-number: 1
+        _validation-function:
   - _trigger-function:
     sequence:
       - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
         _validation-function:

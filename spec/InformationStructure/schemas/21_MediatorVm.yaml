@@ -1,17 +1,17 @@
 control-construct:
   type: array
-  x-key: local-id
+  x-key: element-name
   items:
     oneOf:
       - description: 'mediatorVm'
         type: object
         required:
-          - local-id
+          - element-name
           - category
           - _template
           - logical-termination-point
         properties:
-          local-id:
+          element-name:
             type: string
             description: >
               'mediatorVmName
@@ -25,7 +25,7 @@ control-construct:
           _template:
             type: string
             description: >
-              'mediatorVmTemplateName from which this mediatorVm is derived from
+              'mediatorVmTemplateName (must match the template-name of a MediatorVmProfile definition)
               candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-template-name]
               running: from candidate
               operational: from running (xMIM does not provide the information)'
@@ -47,7 +47,7 @@ control-construct:
                         - 'mediator-instance-manager'
                     layer-protocol:
                       type: array
-                      x-key: local-id
+                      x-key: server-name
                       minItems: 5
                       maxItems: 5
                       items:
@@ -55,10 +55,10 @@ control-construct:
                           - description: 'operationServer - provide-mediator-instance'
                             type: object
                             required:
-                              - local-id
+                              - server-name
                               - operation-name
                             properties:
-                              local-id:
+                              server-name:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-create'
@@ -72,10 +72,10 @@ control-construct:
                           - description: 'operationServer - dismantle-mediator-instance'
                             type: object
                             required:
-                              - local-id
+                              - server-name
                               - operation-name
                             properties:
-                              local-id:
+                              server-name:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-dismantle'
@@ -89,10 +89,10 @@ control-construct:
                           - description: 'operationServer - list-mediator-instances'
                             type: object
                             required:
-                              - local-id
+                              - server-name
                               - operation-name
                             properties:
-                              local-id:
+                              server-name:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-list'
@@ -106,9 +106,9 @@ control-construct:
                           - description: 'httpServer'
                             type: object
                             required:
-                              - local-id
+                              - server-name
                             properties:
-                              local-id:
+                              server-name:
                                 type: string
                                 enum:
                                   - 'mim-http-server'
@@ -131,11 +131,11 @@ control-construct:
                           - description: 'tcpServer'
                             type: object
                             required:
-                              - local-id
+                              - server-name
                               - local-ip-address
                               - local-port
                             properties:
-                              local-id:
+                              server-name:
                                 type: string
                                 enum:
                                   - 'mim-tcp-server'

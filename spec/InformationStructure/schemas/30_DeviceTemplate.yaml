@@ -1,16 +1,16 @@
 profile:
   type: array
-  x-key: local-id
+  x-key: template-name
   items:
     oneOf:
       - description: 'deviceTemplate'
         type: object
         required:
-          - local-id
+          - template-name
           - category
           - default-mediator-user
         properties:
-          local-id:
+          template-name:
             type: string
             description: >
               'deviceTemplateName needs to cover all values potentially send in [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
@@ -21,6 +21,9 @@ profile:
             type: string
             enum:
               - 'device'
+
+          # Please add, remove and change the parameters that need to be managed by template here
+
           default-mediator-user:
             type: array
             x-key: default-mediator-user-name

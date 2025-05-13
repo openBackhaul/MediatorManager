@@ -1,17 +1,17 @@
 forwarding-construct:
   type: array
-  x-key: local-id
+  x-key: mount-name
   items:
     type: object
     required:
-      - local-id
+      - mount-name
       - fctp
       - route
     properties:
-      local-id:
+      mount-name:
         type: string
         description: >
-          'Network Element ID
+          'MountName
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
           operational: from [module OperationalManagementPlaneTransportList]'
@@ -58,7 +58,7 @@ forwarding-construct:
             local-id:
               type: string
               description: >
-                'Sequence number of the route
+                'Identifier that is unique within the list of Routes
                 candidate: created while/after module ??? created a new mediatorProcess
                 running: from candidate
                 operational: from ???

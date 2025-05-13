@@ -1,17 +1,17 @@
 control-construct:
   type: array
-  x-key: local-id
+  x-key: element-name
   items:
     oneOf:
       - description: 'controller'
         type: object
         required:
-          - local-id
+          - element-name
           - category
           - _template
           - logical-termination-point
         properties:
-          local-id:
+          element-name:
             type: string
             description: >
               'controllerName
@@ -25,14 +25,14 @@ control-construct:
           _template:
             type: string
             description: >
-              'controllerTemplateName (must match the local-id of a ControllerProfile definition)
+              'controllerTemplateName (must match the template-name of a ControllerProfile definition)
               candidate: from [DDM://v1/regard-controller$request.body#controller-template-name]
               running: from candidate
               operational: ???we could add a service to CDM for reading this information???'
           logical-termination-point:
             type: array
-            x-key: local-id
+            x-key: mount-name
             items:
               oneOf:
-                - description: 'mountPoint - see 12_MountPoint.yaml'
+                - description: 'LogicalTerminationPoint - see 12_MountPoint.yaml'
                   type: object

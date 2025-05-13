@@ -1,17 +1,17 @@
 control-construct:
   type: array
-  x-key: local-id
+  x-key: element-name
   items:
     oneOf:
       - description: 'device'
         type: object
         required:
-          - local-id
+          - element-name
           - category
           - _template
           - logical-termination-point
         properties:
-          local-id:
+          element-name:
             type: string
             description: >
               'MountName
@@ -25,7 +25,7 @@ control-construct:
           _template:
             type: string
             description: >
-              'deviceTemplateName (must match the local-id of a DeviceProfile definition)
+              'deviceTemplateName (must match the template-name of a DeviceProfile definition)
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
               running: from candidate
               operational: ???from reading the control-construct/deviceModelName from documented devices???'

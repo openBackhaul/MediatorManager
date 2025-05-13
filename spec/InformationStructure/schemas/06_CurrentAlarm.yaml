@@ -12,7 +12,7 @@ affected-fc:
     properties:
       _affected-fc:
         type: string
-        description: 'local-id of one of the ForwardingConstructs with problems'
+        description: 'mount-name of one of the ForwardingConstructs with problems'
       affected-link:
         type: array
         x-key: _affected-link
@@ -44,12 +44,12 @@ affected-fc:
                 properties:
                   _affected-cc:
                     type: string
-                    description: 'local-id (MountName) of a ControlConstruct that has problems (value must be unique and invariant)'
+                    description: 'element-name of a ControlConstruct (Controller, MediatorVM or Device) that has problems (value must be unique and invariant)'
                   error:
                     type: array
                     x-key: _error-code
                     minItems: 1
-                    description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
+                    description: 'error attribute exclusively occurs, if there is at least one error directly associated with the ControlConstruct (Controller, MediatorVM or Device)'
                     items:
                       $ref: "#/components/schemas/errorDescription"
                   affected-ltp:
@@ -67,12 +67,12 @@ affected-fc:
                       properties:
                         _affected-ltp:
                           type: string
-                          description: 'local-id of one of the LogicalTerminationPoint with problems (value must be unique and invariant)'
+                          description: 'key of a LogicalTerminationPoint (MountPoint, MediatorProcess) that has problems (value must be unique and invariant)'
                         error:
                           type: array
                           x-key: _error-code
                           minItems: 1
-                          description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
+                          description: 'error attribute exclusively occurs, if there is at least one error directly associated with the LogicalTerminationPoint (MountPoint, MediatorProcess)'
                           items:
                             $ref: "#/components/schemas/errorDescription"
                         affected-lp:
@@ -90,12 +90,12 @@ affected-fc:
                             properties:
                               _affected-lp:
                                 type: string
-                                description: 'local-id of one of the LayerProtocols with problems'
+                                description: 'key of a LayerProtocol (NetconfClient, NetconfServer, TcpClient, TcpServer, SnmpClient, SnmpServer) with problems'
                               error:
                                 type: array
                                 x-key: _error-code
                                 minItems: 1
-                                description: 'error attribute exclusively occurs, if there is at least one error directly associated with the CC'
+                                description: 'Error associated with the LayerProtocol (NetconfClient, NetconfServer, TcpClient, TcpServer, SnmpClient, SnmpServer) with problems'
                                 items:
                                   $ref: "#/components/schemas/errorDescription"
 components:
@@ -110,7 +110,7 @@ components:
       properties:
         _error-code:
           type: integer
-          description: 'local-id (ErrorCode) of the definition of the problem in context of this application (value must be unique and invariant)'
+          description: 'error-code of the definition of the problem in context of this application (value must be unique and invariant)'
         date-of-creation:
           type: string
           pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'

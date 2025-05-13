@@ -1,15 +1,15 @@
 profile:
   type: array
-  x-key: local-id
+  x-key: template-name
   items:
     oneOf:
       - description: 'controllerTemplate'
         type: object
         required:
-          - local-id
+          - template-name
           - category
         properties:
-          local-id:
+          template-name:
             type: string
             description: >
               'controllerTemplateName
@@ -20,3 +20,5 @@ profile:
             type: string
             enum:
               - 'controller'
+
+          # Please add, remove and change the parameters that need to be managed by template here

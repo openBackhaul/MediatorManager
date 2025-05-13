@@ -1,16 +1,16 @@
 network-control-domain:
   type: array
-  x-key: local-id
+  x-key: storage
   items:
     type: object
     required:
-      - local-id
+      - storage
       - profile
       - control-construct
       - link
       - forwarding-domain
     properties:
-      local-id:
+      storage:
         type: string
         enum:
           - 'candidate'
@@ -20,54 +20,54 @@ network-control-domain:
         description: 'NMDA like data storages that document the NetworkControlDomain'
       profile:
         type: array
-        x-key: local-id
+        x-key: template-name
         items:
           oneOf:
-            - description: 'controllerTemplate - see 10_ControllerTemplate.yaml'
+            - description: 'Profile - see 10_ControllerTemplate.yaml'
               type: object
-            - description: 'mediatorVmTemplate - see 20_MediatorVmTemplate.yaml'
+            - description: 'Profile - see 20_MediatorVmTemplate.yaml'
               type: object
-            - description: 'deviceTemplate - see 30_DeviceTemplate.yaml'
+            - description: 'Profile - see 30_DeviceTemplate.yaml'
               type: object
       control-construct:
         type: array
-        x-key: local-id
+        x-key: element-name
         items:
           oneOf:
-            - description: 'controller - see 11_Controller.yaml'
+            - description: 'ControlConstruct - see 11_Controller.yaml'
               type: object
-            - description: 'mediatorVm - see 21_MediatorVm.yaml'
+            - description: 'ControlConstruct - see 21_MediatorVm.yaml'
               type: object
-            - description: 'device - see 31_Device.yaml'
+            - description: 'ControlConstruct - see 31_Device.yaml'
               type: object
       link:
         type: array
         x-key: local-id
         items:
           oneOf:
-            - description: 'netconfLink - see 81_NetconfConnection.yaml'
+            - description: 'Link - see 81_NetconfConnection.yaml'
               type: object
-            - description: 'snmpLink - see 82_SnmpConnection.yaml'
+            - description: 'Link - see 82_SnmpConnection.yaml'
               type: object
       forwarding-domain:
         type: array
-        x-key: local-id
+        x-key: forwarding-domain-name
         minItems: 1
         maxItems: 1
         items:
           type: object
           description: 'managementPlaneTransport'
           required:
-            - local-id
+            - forwarding-domain-name
             - forwarding-construct
           properties:
-            local-id:
+            forwarding-domain-name:
               type: string
               enum:
                 - 'management-plane-transport'
             forwarding-construct:
               type: array
-              x-key: local-id
+              x-key: mount-name
               items:
                 type: object
-                description: 'managementPlaneTransportFc - see 88_ManagementPlaneTransportConnection.yaml'
+                description: 'ForwardingConstruct - see 88_ManagementPlaneTransportConnection.yaml'

@@ -1,12 +1,12 @@
 profile:
   type: array
-  x-key: local-id
+  x-key: template-name
   items:
     oneOf:
       - description: 'mediatorVmTemplate'
         type: object
         required:
-          - local-id
+          - template-name
           - category
           - default-mediator-user
           - vendor-name
@@ -16,7 +16,7 @@ profile:
           - dismantle-mediator-instance-operation-name
           - list-mediator-instances-operation-name
         properties:
-          local-id:
+          template-name:
             type: string
             description: >
               'mediatorVmTemplateName
@@ -27,6 +27,9 @@ profile:
             type: string
             enum:
               - 'mediator-vm'
+
+          # Please add, remove and change the parameters that need to be managed by template here
+
           default-mediator-user:
             type: array
             x-key: default-mediator-user-name
@@ -40,11 +43,11 @@ profile:
                 default-mediator-user-name:
                   type: string
                   description: >
-                    'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device.
-                    If several value pairs are listed, DDM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm.'
+                    'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device
+                    If several value pairs are listed, DDM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm'
                 default-mediator-user-password:
                   type: string
-                  description: 'Password that has to be applied in combination with the user name.'
+                  description: 'Password that has to be applied in combination with the user name'
           vendor-name:
             type: string
             description: 'Name of the microwave vendor'
@@ -58,7 +61,7 @@ profile:
                 Values must be identical with the values that are used in DDM://v1/establish-management-plane-transport$request.body#device-kind-name'
           engineering-limit:
             type: integer
-            description: 'Maximum number of mediatorProcesses that could be operated in mediatorVms derived from this mediatorVmTemplate'
+            description: 'Maximum number of mediatorProcesses that shall be configured in mediatorVms derived from this mediatorVmTemplate'
           provide-mediator-instance-operation-name:
             type: string
             description: 'Name of the operation for creating a new mediatorProcess at the xMediatorInstanceManager'
@@ -69,8 +72,6 @@ profile:
             type: string
             description: 'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm'
 
-
-
           # Is this username/password required to request for create/delete/list processes?
 
           admin-user-name:
@@ -79,7 +80,6 @@ profile:
           admin-user-password:
             type: string
             description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
-
 
           # What shall be done with the following parameters inside the DDM?
 

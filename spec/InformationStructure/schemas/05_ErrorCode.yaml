@@ -12,20 +12,68 @@ error-code:
         type: integer
         description: >
           'Code for identifying the finding (value must be unique and invariant)
-          Internal code definitions to start with 600'
+          400-599: Standard response codes are preferably to be used for responding and notifying to external
+          600-899: Self-defined response codes can be used also for responding and notifying to external, but re-use across applications must be managed via the documentation of the ApplicationPattern
+          900-999: Self-defined response codes can be used for internal management, without alignment between applications'
       description:
         type: string
         description: >
           'Internal codes: Meaningful description of the finding needed for understanding the mechanics of the application
-          External codes: Also used as ErrorMessage'
+          External codes: Also used as ErrorMessage for addressing humans'
       _implementation-function:
         type: string
         description: >
-          'Internal codes: Ideally, each finding would be handled by a function'
+          'Only applicable for internal codes
+          Ideally, each internal code would be handled by a function'
 example:
-  - error-code: 601
-    description: 'OperationalDS::Ltp::mediator-user-name contains wrong value'
-    _implementation-function: 'v1-prepare-connection'
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
+  - error-code:
+    description:
+    _implementation-function:
   - error-code:
     description:
     _implementation-function:

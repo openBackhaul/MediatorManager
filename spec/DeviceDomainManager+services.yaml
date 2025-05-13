@@ -58,19 +58,27 @@ servers:
           uuid: mm-1-0-0-op-s-bs-005
           operation-key: n.a.
       individual:
-        - operation-name: /v1/create-mediator-vm-template_(in:mediator-vm-template-name)
-          uuid: mm-1-0-0-op-s-is-000
-        - operation-name: /v1/delete-mediator-vm-template
-          uuid: mm-1-0-0-op-s-is-001
-        - operation-name: /v1/list-mediator-vm-templates
-          uuid: mm-1-0-0-op-s-is-002
 
-        # Thorsten added
         - operation-name: /v1/create-controller-template_(in:controller-template-name)
           uuid: 
         - operation-name: /v1/delete-controller-template
           uuid: 
         - operation-name: /v1/list-controller-templates
+          uuid: 
+        - operation-name: /v1/inform-about-controller-template
+          uuid: 
+        - operation-name: /v1/update-controller-template
+          uuid: 
+
+        - operation-name: /v1/create-mediator-vm-template_(in:mediator-vm-template-name)
+          uuid:
+        - operation-name: /v1/delete-mediator-vm-template
+          uuid:
+        - operation-name: /v1/list-mediator-vm-templates
+          uuid: 
+        - operation-name: /v1/inform-about-mediator-vm-template
+          uuid: 
+        - operation-name: /v1/update-mediator-vm-template
           uuid: 
 
         - operation-name: /v1/create-device-template_(in:device-template-name)
@@ -79,36 +87,46 @@ servers:
           uuid: 
         - operation-name: /v1/list-device-templates
           uuid: 
+        - operation-name: /v1/inform-about-device-template
+          uuid: 
+        - operation-name: /v1/update-device-template
+          uuid: 
 
         - operation-name: /v1/regard-controller_(in:controller-name, controller-template-name)
           uuid: 
         - operation-name: /v1/disregard-controller_(in:controller-name)
           uuid: 
+        - operation-name: /v1/list-controllers_(in:controller-name)
+          uuid: 
+
         - operation-name: /v1/regard-mediator-vm_(in:mediator-vm-name, mediator-vm-template-name, mediator-vm-ip-address, mediator-vm-port, mediator-user-name, mediator-user-password)
-          uuid: mm-1-0-0-op-s-im-001
+          uuid: 
         - operation-name: /v1/disregard-mediator-vm_(in:mediator-vm-name)
-          uuid: mm-1-0-0-op-s-im-002
+          uuid: 
+        - operation-name: /v1/list-mediator-vms_(in:mediator-vm-name)
+          uuid: 
 
-
-        - operation-name: /v1/list-mediator-vms
-          uuid: mm-1-0-0-op-s-is-003
         - operation-name: /v1/establish-management-plane-transport_(in:controller-name, device-name, device-kind-name, device-ip-address, mediator-user-name, mediator-user-password)
-          uuid: mm-1-0-0-op-s-is-004     
+          uuid: 
         - operation-name: /v1/dismantle-management-plane-transport
-          uuid: mm-1-0-0-op-s-is-005
-        - operation-name: /v1/provide-alarms-for-connection
-          uuid: mm-1-0-0-op-s-is-100
+          uuid: 
+        - operation-name: /v1/list-management-plane-transports
+          uuid: 
+        - operation-name: /v1/inform-about-management-plane-transport
+          uuid: 
+        - operation-name: /v1/provide-alarms-for-management-plane-transport
+          uuid: 
 
   http-server:
     own-application-name: DeviceDomainManager
     own-release-number: 1.0.0
     uuid: mm-1-0-0-http-s-000
-    application-purpose: Preparing the connection between device and mediator/controller
-    owner-name: Owner name
-    owner-email-address: andreas.haack@telefonica.com
+    application-purpose: Establishes and maintains the connections between controllers and devices
+    owner-name: Thorsten Heinze
+    owner-email-address: thorsten.heinze@telefonica.com
     release-list:
       - release-number: 1.0.0
-        release-date: 12.12.2024
+        release-date: 31.05.2025
         changes: Initial version
   tcp-server:
     - description: Without TLS layer
@@ -381,9 +399,9 @@ clients:
             uuid: mm-1-0-0-op-c-is-mo-1-0-0-001
 
         # Thorsten added
-          - operation-name: /v1/provide-list-of-controllers
+          - operation-name: /v1/list-controllers
             uuid: 
-          - operation-name: /v1/provide-list-of-mount-points-at-controller
+          - operation-name: /v1/list-mount-points-at-controller
             uuid: 
           - operation-name: /v1/inform-about-mount-point
             uuid: 

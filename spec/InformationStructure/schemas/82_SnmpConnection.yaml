@@ -14,7 +14,7 @@ link:
             description: 'Identifier that is unique within the list of Links'
           linktp:
             type: array
-            x-key: local-id
+            x-key: interface-type
             minItems: 2
             maxItems: 2
             items:
@@ -22,12 +22,12 @@ link:
                 - description: snmpClient
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                     - _cc
                     - _ltp
                     - _lp
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - snmp-client
@@ -42,7 +42,7 @@ link:
                       type: string
                       description: >
                         'deviceName
-                        candidate: ???is it required to reference???
+                        candidate: from ???
                         running: from candidate
                         operational: from ???
                     _lp:
@@ -52,12 +52,12 @@ link:
                 - description: snmpServer
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                     - _cc
                     - _ltp
                     - _lp
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - snmp-server
@@ -65,7 +65,7 @@ link:
                       type: string
                       description: >
                         'deviceName
-                        candidate: ???is it required to reference???
+                        candidate: from ???
                         running: from candidate
                         operational: from ???
                     _ltp:

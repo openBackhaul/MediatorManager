@@ -12,13 +12,13 @@ logical-termination-point:
           local-id:
             type: string
             description: >
-              'deviceName
+              'MountName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
               operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-name], delete entire LTP, if deviceName cannot be found in list'
           layer-protocol:
             type: array
-            x-key: local-id
+            x-key: interface-type
             minItems: 4
             maxItems: 4
             items:
@@ -26,20 +26,20 @@ logical-termination-point:
                 - description: 'netconfServer'
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - 'netconf-server'
                 - description: 'tcpServer'
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                     - local-ip-address
                     - local-port
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - 'tcp-server'
@@ -60,11 +60,11 @@ logical-termination-point:
                 - description: 'snmpClient'
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                     - mediator-user-name
                     - mediator-user-password
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - 'snmp-client'
@@ -85,11 +85,11 @@ logical-termination-point:
                 - description: 'tcpClient'
                   type: object
                   required:
-                    - local-id
+                    - interface-type
                     - remote-ip-address
                     - remote-port
                   properties:
-                    local-id:
+                    interface-type:
                       type: string
                       enum:
                         - 'tcp-client'

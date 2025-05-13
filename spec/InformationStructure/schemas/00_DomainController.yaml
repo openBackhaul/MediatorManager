@@ -41,12 +41,10 @@ domain-controller:
               description: 'List of ForwardingConstructs that have problems'
               items:
                 type: object
-                description: '_AffectedFc - see 06_CurrentAlarm.yaml'
+                description: 'AffectedFc - see 06_CurrentAlarm.yaml'
     network-control-domain:
       type: array
-      x-key: local-id
-      minItems: 4
-      maxItems: 4
+      x-key: storage
       items:
         type: object
         description: >
