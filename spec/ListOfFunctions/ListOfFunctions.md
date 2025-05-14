@@ -13,24 +13,69 @@ _muss von LILW nach DDM angepasst werden_
 
 
 ### Interpretation  
-_(potentially it would make sense to facilitate multiple microwave links being passed in a single request;_  
-_would that comply with the status of the consuming application?)_
-- /v1/add-planned-microwave-link  
+- v1-create-controller-template / v1-create-mediator-vm-template / v1-create-device-template  
   - Copies content of RunningDS into CandidateDS  
-  - Creates the specified CC objects and AirInterface LTPs in CandidateDS (may already be in place)  
-  - Creates an FC object between the specified CCs in CandidateDS (may already be in place)  
-  - Creates a new Link object between the specified AirInterface LTPs in CandidateDS  
+  - Creates the specified Profile object in CandidateDS  
   - Calls v1-validation-orchestrator  
   - IF ResponseCode==204  
     - Copies content of CandidateDS into RunningDS  
     - Responds 204 to requestor  
     ELSE  
     - Responds ResponseCode to requestor  
-- /v1/remove-planned-microwave-link  
+- v1-delete-controller-template / v1-delete-mediator-vm-template / v1-delete-device-template  
   - Copies content of RunningDS into CandidateDS  
-  - Deletes the Link object with the specified LinkID from CandidateDS  
-  - Deletes all FC objects that do not reference any Link object from CandidateDS  
-  - Deletes all CC objects that are not referenced by any FC object from CandidateDS  
+  - Deletes the specified Profile object from CandidateDS  
+  - Calls v1-validation-orchestrator  
+  - IF ResponseCode==204  
+    - Copies content of CandidateDS into RunningDS  
+    - Responds 204 to requestor  
+    ELSE  
+    - Responds ResponseCode to requestor  
+- v1-update-controller-template / v1-update-mediator-vm-template / v1-update-device-template  
+  - Copies content of RunningDS into CandidateDS  
+  - Updates the specified values of the specified Profile object in CandidateDS  
+  - Calls v1-validation-orchestrator  
+  - IF ResponseCode==204  
+    - Copies content of CandidateDS into RunningDS  
+    - Responds 204 to requestor  
+    ELSE  
+    - Responds ResponseCode to requestor  
+- v1-regard-controller / v1-regard-mediator-vm
+  - Copies content of RunningDS into CandidateDS  
+  - Creates the specified CC object in CandidateDS  
+  - Calls v1-validation-orchestrator  
+  - IF ResponseCode==204  
+    - Copies content of CandidateDS into RunningDS  
+    - Responds 204 to requestor  
+    ELSE  
+    - Responds ResponseCode to requestor  
+- v1-disregard-controller / v1-disregard-mediator-vm
+  - Copies content of RunningDS into CandidateDS  
+  - Deletes the specified CC object from CandidateDS  
+  - Calls v1-validation-orchestrator  
+  - IF ResponseCode==204  
+    - Copies content of CandidateDS into RunningDS  
+    - Responds 204 to requestor  
+    ELSE  
+    - Responds ResponseCode to requestor  
+- v1-establish-management-plane-transport  
+  - Copies content of RunningDS into CandidateDS  
+  - Creates the specified (Device) CC object (incl. LTP and LPs) in CandidateDS  
+  - Creates the specified (MountPoint, MediatorProcess) LTP objects (incl. LPs) in CandidateDS  
+  - Creates the Link objects (NetconfLink, SnmpLink) in CandidateDS  
+  - Creates the FC object in CandidateDS  
+  - Calls v1-validation-orchestrator  
+  - IF ResponseCode==204  
+    - Copies content of CandidateDS into RunningDS  
+    - Responds 204 to requestor  
+    ELSE  
+    - Responds ResponseCode to requestor  
+- v1-dismantle-management-plane-transport
+  - Copies content of RunningDS into CandidateDS  
+  - Deletes the LTP objects (MountPoint, MediatorProcess) that are referenced by the Links that are referenced by the specified FC from CandidateDS  
+  - Deletes the Link objects (NetconfLink, SnmpLink) that are referenced by the specified FC from CandidateDS  
+  - Deletes the CC objects (Device) that is referenced by the specified FC from CandidateDS  
+  - Deletes the specified FC from CandidateDS  
   - Calls v1-validation-orchestrator  
   - IF ResponseCode==204  
     - Copies content of CandidateDS into RunningDS  
@@ -39,47 +84,108 @@ _would that comply with the status of the consuming application?)_
     - Responds ResponseCode to requestor  
 
 ### Validation  
-- v1-validation-orchestrator  
+- p1-validation-orchestrator  
   - Calls a configurable set of the TestFunctions listed below  
   - IF all ResponseCodes==204  
     - Responds 204  
     ELSE  
     - Responds the first ResponseCode different from 204 and terminates  
-- v1-ensure-unique-link-ids  
-  Ensures that each LinkID is unique in the list of planned microwave links  
 
-_(further examples to be potentially removed by ApplicationOwner:)_
-- v1-prevent-redundant-fcs  
-  Ensures that each pair of CCs is referenced by a maximum of one FC object  
-- v1-prevent-redundant-links  
-  Ensures that each pair of AirInterface LTPs is referenced by a maximum of one Link object  
-- v1-ensure-every-fc-having-at-least-one-link
-  Ensures that each FC object is referencing at least one Link object  
+_(existing entries to be seen as examples, list of validation tests is to be defined by ApplicationOwner:)_  
+- p1-ensure-unique-template-names  
+  Ensures that all Profile definitions have unique template-names  
+- p1-ensure-all-elements-referencing-an-existing-template  
+  Ensures that all Profile definitions have unique template-names  
+- p1-ensure-all-existing-controllers-complying-with-template-definition  
+  Ensures that updated template is not in conflict with existing controllers  
+- p1-ensure-all-existing-mediator-vms-complying-with-template-definition  
+  Ensures that updated template is not in conflict with existing mediatorVms  
+- p1-ensure-all-existing-devices-complying-with-template-definition  
+  Ensures that updated template is not in conflict with existing devices  
+- p1-ensure-unique-element-names  
+  Ensures that all CC definitions have unique element-names  
+- p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate  
+  Ensures that no CC of an operational FC gets deleted  
+- p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate  
+  Ensures that no LP of an operational Link gets deleted  
+- p1-ensure-unique-local-ids-at-links  
+  Ensures that the local-ids at links are unique  
+- p1-ensure-unique-mount-names-at-fcs  
+  Ensures that there is just a single FC per MountName  
+- p1-ensure-every-fc-having-at-least-one-route  
+  Ensures every FC being routed
+- p1-ensure-every-route-connecting-end-to-end
+  Ensures every route referencing the links necessary for a path between the endpoints of the FC  
 
 ### Measurement  
-- v1-calculate-ltp-external-label (cyclic operation)  
+- p1-measure-management-plane-transport-availability  
   - Picks next FC object from rolling list in RunningDS  
-  - Updates OperationalDS by reading the necessary information about all AirInterface LTPs and the Equipment of the referenced devices from MWDI  
-  - IF device cannot be found in MWDI
-    - Creates an entry with ErrorCode [to be defined#1] that is referencing the FC object and the CC object (as in RunningDS) in the CurrentAlarms  
-    - Deletes existing FC object, referenced Link objects, affected CC object and attached AirInterface LTPs from OperationalDS  
-    - Terminates calculation of externalLabel for this FC  
-  - Creates Link objects between these AirInterface LTPs in OperationalDS (may already be in place; some may even be deleted, if AirInterface LTPs couldn't be found)  
-  - Updates FC object between the two CC objects in OperationalDS  
-  - Reads the LinkIDs of all Link objects referenced by the FC object in RunningDS  
-  - Adds these LinkIDs into the Score tables at all Link objects in OperationalDS (may already be in place)  
-  - Calculates the Scores for all LinkIDs at all Link objects referenced by the picked FC object and write them into the Score tables in OperationalDS  
-    - IF device data is incomplete and Scores cannot be calculated  
-      - Creates an entry with ErrorCode [to be defined#2] that is referencing the FC object, the affected CC and AirInterface LTP (as in RunningDS) in the CurrentAlarms  
-      - Deletes existing Scores for all LinkIDs at all Link objects referenced by the picked FC object in OperationalDS  
-      - Does not delete existing entries in the calculatedLinkId attribute at the Link objects referenced by the picked FC in OperationalDS  
-      - Terminates calculation of externalLabel for this FC  
-  - Calculates the most likely distribution of the LinkIDs on the Link objects referenced by the picked FC object and write the results into the calculatedLinkId attribute at the Link objects in OperationalDS (some may stay empty)  
-  - Compares calculatedLinkId attribute at the Link object with the externalLabel attributes at both referenced AirInterface (all in OperationalDS)  
-    - IF externalLabel != calculatedLinkId  
-      - creates an entry with ErrorCode [to be defined#3] that is referencing the Link object and the AirInterface LTP in the CurrentAlarms  
+  - Sends Restconf request to MountPoint to check ManagementPlaneTransport connection to Device  
+  - IF expected CC::externalLabel
+    - Creates FC object and all related objects (both Links, CC and both LTPs) similar to RunningDS in OperationalDS (might already have existed)  
+    - Deletes all entries related to the FC in the CurrentAlarms (there might be no entry)  
+    ELSE  
+    - Deletes FC object from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode [to be defined#1] at the FC object in the CurrentAlarms (might have already existed)  
+    - calls p1-measure-snmp-link-availability  
+    - IF available  
+      - calls p1-measure-netconf-link-availability  
+- p1-measure-snmp-link-availability  
+  - Sends Netconf request to MediatorProcess to check SnmpLink to Device  
+  - IF expected CC::externalLabel
+    - Creates Link object and all related objects (CC and LTP) similar to RunningDS in OperationalDS (might already have existed)  
+    - Deletes all entries related to the Link in the CurrentAlarms (there might be no entry)  
+    - Returns true
+    ELSE  
+    - Deletes Link object from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode [to be defined#2] at the Link object in the CurrentAlarms (might have already existed)  
+    - calls p1-measure-device-availability  
+    - IF available  
+      - calls p1-measure-mediator-process-availability  
+    - Returns false
+- p1-measure-device-availability  
+  - Pings TcpServer of Device  
+  - IF responding  
+    - Creates CC object (Device) similar to RunningDS in OperationalDS (might already exist)  
+    - Deletes all entries related to the CC in the CurrentAlarms (there might be no entry)  
+    - Returns true  
+    ELSE  
+    - Deletes CC object from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode 532 at the missing CC object in the CurrentAlarms (might have already existed)  
+    - Returns false  
+- p1-measure-mediator-process-availability  
+  - Request MIM://v1/list-mediator-instances  
+  - IF MountName of FC in the list of MediatorProcesses  
+    - Creates LTP object (MediatorProcess) similar to RunningDS in OperationalDS (might already exist)  
+    - Deletes all entries related to the LTP in the CurrentAlarms (there might be no entry)  
+    - Returns true  
+    ELSE  
+    - Deletes LTP object from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode [to be defined#3] at the missing LTP object in the CurrentAlarms (might have already existed)  
+    - Returns false  
+- p1-measure-netconf-link-availability
+  - Request CDM://v1/inform-about-mount-point
+  - IF MountPoint exists
+    - Creates LTP object (MountPoint) similar to RunningDS in OperationalDS (might already exist)  
+    - Deletes all entries related to the LTP in the CurrentAlarms (there might be no entry)  
+    - IF state==connected  
+      - Creates Link object (NetconfLink) similar to RunningDS in OperationalDS (might already have existed)  
+      - Deletes all entries related to the Link in the CurrentAlarms (there might be no entry)  
+      - Returns true
       ELSE  
-      - Checks CurrentAlarms at Link object and AirInterface LTP for potentially existing entries with ErrorCode [to be defined#3] and deletes them  
+      - Deletes Link object from OperationalDS (might not have existed)  
+      - Creates an entry with ErrorCode [to be defined#4] at the missing Link object in the CurrentAlarms (might have already existed)  
+      - Return false
+    ELSE  
+    - Deletes Link object (NetconfLink) from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode [to be defined#4] at the missing Link object in the CurrentAlarms (might have already existed)  
+    - Deletes LTP object (MountPoint) from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode [to be defined#5] at the missing LTP object in the CurrentAlarms (might have already existed)  
+    - Returns false  
+
+
+[Thorsten to continue here]
+
 
 ### Monitoring  
 - ./. (cyclic operation)  
@@ -130,7 +236,7 @@ _von DDM_
 
 ### Interpretation and Validation (>58)
 
-- v1-create-controller-template
+
   - v1-create-controller-template-validation
     - ...
 - v1-delete-controller-template

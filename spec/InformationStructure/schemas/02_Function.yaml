@@ -171,31 +171,32 @@ example:
         parameter-value:
         parameter-definition:
 
-  - function-name:
+  - function-name: 'p1-measure-management-plane-transport-availability'
     parameter:
       - parameter-name:
         parameter-value:
         parameter-definition:
-  - function-name:
+  - function-name: 'p1-measure-snmp-link-availability'
     parameter:
       - parameter-name:
         parameter-value:
         parameter-definition:
-  - function-name:
+  - function-name: 'p1-measure-device-availability'
     parameter:
       - parameter-name:
         parameter-value:
         parameter-definition:
-  - function-name:
+  - function-name: 'p1-measure-mediator-process-availability'
     parameter:
       - parameter-name:
         parameter-value:
         parameter-definition:
-  - function-name:
+  - function-name: 'p1-measure-netconf-link-availability'
     parameter:
       - parameter-name:
         parameter-value:
         parameter-definition:
+
   - function-name:
     parameter:
       - parameter-name:

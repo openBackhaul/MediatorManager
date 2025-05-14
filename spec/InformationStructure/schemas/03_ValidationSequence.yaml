@@ -39,97 +39,120 @@ example:
   - _trigger-function: 'v1-create-controller-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-unique-template-names'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-delete-controller-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-update-controller-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-existing-controllers-complying-with-updated-template-definition'
       - step-number: 1
         _validation-function:
 
   - _trigger-function: 'v1-create-mediator-vm-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-unique-template-names'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-delete-mediator-vm-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-update-mediator-vm-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-existing-mediator-vms-complying-with-updated-template-definition'
       - step-number: 1
         _validation-function:
 
   - _trigger-function: 'v1-create-device-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-unique-template-names'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-delete-device-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-update-device-template'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-existing-devices-complying-with-updated-template-definition'
       - step-number: 1
         _validation-function:
 
   - _trigger-function: 'v1-regard-controller'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-unique-element-names'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-disregard-controller'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate'
       - step-number: 1
-        _validation-function:
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate '
 
   - _trigger-function: 'v1-regard-mediator-vm'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-unique-element-names'
       - step-number: 1
         _validation-function:
   - _trigger-function: 'v1-disregard-mediator-vm'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate'
       - step-number: 1
         _validation-function:
 
   - _trigger-function: 'v1-establish-management-plane-transport'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: p1-ensure-all-elements-referencing-an-existing-template
       - step-number: 1
+        _validation-function: 'p1-ensure-all-existing-controllers-complying-with-template-definition'
+      - step-number: 2
+        _validation-function: 'p1-ensure-all-existing-mediator-vms-complying-with-template-definition'
+      - step-number: 3
+        _validation-function: 'p1-ensure-all-existing-devices-complying-with-template-definition'
+      - step-number: 4
+        _validation-function: 'p1-ensure-unique-element-names'
+      - step-number: 5
+        _validation-function: 'p1-ensure-unique-local-ids-at-links'
+      - step-number: 6
+        _validation-function: 'p1-ensure-unique-mount-names-at-fcs'
+      - step-number: 7
+        _validation-function: 'p1-ensure-every-fc-having-at-least-one-route'
+      - step-number: 8
+        _validation-function: 'p1-ensure-every-route-connecting-end-to-end'
+      - step-number: 9
         _validation-function:
+      - step-number: 10
+        _validation-function:
+
   - _trigger-function: 'v1-dismantle-management-plane-transport'
     sequence:
       - step-number: 0
-        _validation-function:
+        _validation-function: 'p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate'
       - step-number: 1
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate '
+      - step-number: 2
+        _validation-function:
+      - step-number: 3
         _validation-function:
 
   - _trigger-function:

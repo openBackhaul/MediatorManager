@@ -26,9 +26,8 @@ error-code:
           'Only applicable for internal codes
           Ideally, each internal code would be handled by a function'
 example:
-  - error-code:
-    description:
-    _implementation-function:
+  - error-code: 532
+    description: 'Response in case the server is acting as a gateway or proxy and was unable to connect to the upstream server (device or application providing a consumed service)'
   - error-code:
     description:
     _implementation-function:
