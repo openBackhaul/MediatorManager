@@ -36,6 +36,11 @@ validation-sequence:
                 'Reference towards an entry in the list of Functions
                 Only Functions for executing a validation test on the contents of the CandidateDS are allowed to be referenced'
 example:
+
+# See the following entries as examples
+# Exact validations sequences are to be defined by ApplicationOwner
+# (Please, delete this comment after reading)
+
   - _trigger-function: 'v1-create-controller-template'
     sequence:
       - step-number: 0

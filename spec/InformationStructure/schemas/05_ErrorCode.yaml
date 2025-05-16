@@ -12,9 +12,8 @@ error-code:
         type: integer
         description: >
           'Code for identifying the finding (value must be unique and invariant)
-          400-599: Standard response codes are preferably to be used for responding and notifying to external
-          600-899: Self-defined response codes can be used also for responding and notifying to external, but re-use across applications must be managed via the documentation of the ApplicationPattern
-          900-999: Self-defined response codes can be used for internal management, without alignment between applications'
+          Values between 600 and 999 can be freely used and without harmonization 
+          for expressing findings by the MeasurementFunctions, respectively for triggering ImplementationFunctions'
       description:
         type: string
         description: >
@@ -26,44 +25,67 @@ error-code:
           'Only applicable for internal codes
           Ideally, each internal code would be handled by a function'
 example:
-  - error-code: 532
-    description: 'Response in case the server is acting as a gateway or proxy and was unable to connect to the upstream server (device or application providing a consumed service)'
-  - error-code:
-    description:
+
+  # The following definitions have been transferred from somewhere else
+  # ApplicationOwner is free to delete and modify as wished
+  # (Please delete this comment after reading)
+
+  - error-code: 630
+    description: 'Device does not answer on Ping'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 631
+    description: 'Device does not answer on SNMP request'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 632
+    description: 'Addressed resource/service does not exist on the device'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 633
+    description: 'Authentication at the device failed'
     _implementation-function:
-  - error-code:
-    description:
+
+  - error-code: 640
+    description: 'MediatorVM (MIM) does not answer on Ping'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 641
+    description: 'MediatorVM (MIM) does not answer on HTTP requests'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 642
+    description: 'Addressed management resource/service does not exist on the MediatorVM (MIM)'
     _implementation-function:
-  - error-code:
-    description:
+
+  - error-code: 645
+    description: 'MediatorProcess is not configured'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 646
+    description: 'MediatorProcess is not active'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 647
+    description: 'MediatorProcess does not answer on HTTP requests'
     _implementation-function:
-  - error-code:
-    description:
+
+  - error-code: 650
+    description: 'Controller does not answer on Ping'
     _implementation-function:
-  - error-code:
-    description:
+  - error-code: 651
+    description: 'Controller does not answer on HTTP request'
     _implementation-function:
+  - error-code: 652
+    description: 'Addressed management resource/service does not exist on the controller'
+    _implementation-function:
+  - error-code: 653
+    description: 'Authentication at the controller failed'
+    _implementation-function:
+
+  - error-code: 655
+    description: 'MountPoint is not configured'
+    _implementation-function:
+  - error-code: 656
+    description: 'MountPoint is not in connected state'
+    _implementation-function:
+  - error-code: 657
+    description: 'MountPoint does not answer on HTTP requests'
+    _implementation-function:
+
   - error-code:
     description:
     _implementation-function:
