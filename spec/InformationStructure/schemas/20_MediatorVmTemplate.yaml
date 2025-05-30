@@ -23,6 +23,9 @@ profile:
               candidate: from [DDM://v1/create-mediator-vm-template$request.body#mediator-vm-template-name]
               running: from candidate
               operational: ???
+              # [Prathiba] ----------------------- 
+              from runningDS
+              ------------------------------------
           category:
             type: string
             enum:
