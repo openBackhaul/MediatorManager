@@ -30,7 +30,7 @@ link:
                     interface-type:
                       type: string
                       enum:
-                        - snmp-client
+                        - 'snmp-client'
                     _cc:
                       type: string
                       description: >
@@ -42,13 +42,13 @@ link:
                       type: string
                       description: >
                         'deviceName
-                        candidate: from ???
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
                         operational: from ???
                     _lp:
                       type: string
                       enum:
-                        - snmp-client
+                        - 'snmp-client'
                 - description: snmpServer
                   type: object
                   required:
@@ -60,22 +60,22 @@ link:
                     interface-type:
                       type: string
                       enum:
-                        - snmp-server
+                        - 'snmp-server'
                     _cc:
                       type: string
                       description: >
                         'deviceName
-                        candidate: from ???
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
                         operational: from ???
                     _ltp:
                       type: string
                       enum:
-                        - management
+                        - 'management'
                     _lp:
                       type: string
                       description: >
                         'mediatorUserName
-                        candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name]
+                        candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name] ???
                         running: from candidate
                         operational: from ???

@@ -17,7 +17,7 @@ forwarding-construct:
           operational: from [module OperationalManagementPlaneTransportList]'
       fctp:
         type: array
-        x-key: _cc
+        x-key: fctp-type
         minItems: 2
         maxItems: 2
         items:
@@ -25,27 +25,37 @@ forwarding-construct:
             - description: managementPlaneTransportClient
               type: object
               required:
+                - fctp-type
                 - _cc
               properties:
+                fctp-type:
+                  type: string
+                  enum:
+                    - 'management-plane-transport-client'
                 _cc:
                   type: string
                   description: >
                     'ControllerName
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                     running: from candidate
-                    operational: from ???
+                    operational: from running'
             - description: managementPlaneTransportServer
               type: object
               required:
+                - fctp-type
                 - _cc
               properties:
+                fctp-type:
+                  type: string
+                  enum:
+                    - 'management-plane-transport-server'
                 _cc:
                   type: string
                   description: >
                     'MountName of Device
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                     running: from candidate
-                    operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
+                    operational: from running'
       route:
         type: array
         x-key: local-id
@@ -58,10 +68,7 @@ forwarding-construct:
             local-id:
               type: string
               description: >
-                'Identifier that is unique within the list of Routes
-                candidate: created while/after module ??? created a new mediatorProcess
-                running: from candidate
-                operational: from ???
+                'Identifier that is unique within the list of Routes'
             _links:
               type: array
               minItems: 2
@@ -71,10 +78,10 @@ forwarding-construct:
                 description: >
                   'Pair of the two localIds of the netconfLink and the snmpLink on the transport path of the managementPlaneTransport
                   netconfLink:
-                    candidate: from ???
-                    running: from ???
-                    operational: from ???
+                    candidate: from [DDM://v1/establish-management-plane-transport interpreting the incoming request, creating a netconfLink in CandidateDS and inventing a local-id for that Link object]
+                    running: from candidate
+                    operational: from running'
                   snmpLink:
-                    candidate: from ???
-                    running: from ???
-                    operational: from ???'
+                    candidate: from [DDM://v1/establish-management-plane-transport interpreting the incoming request, creating an snmpLink in CandidateDS and inventing a local-id for that Link object]
+                    running: from candidate
+                    operational: from running'

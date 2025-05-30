@@ -857,7 +857,7 @@ domain-controller:
                               interface-type:
                                 type: string
                                 enum:
-                                  - netconf-client
+                                  - 'netconf-client'
                               _cc:
                                 type: string
                                 description: >
@@ -875,7 +875,7 @@ domain-controller:
                               _lp:
                                 type: string
                                 enum:
-                                  - netconf-client
+                                  - 'netconf-client'
                           - description: netconfServer
                             type: object
                             required:
@@ -887,7 +887,7 @@ domain-controller:
                               interface-type:
                                 type: string
                                 enum:
-                                  - netconf-server
+                                  - 'netconf-server'
                               _cc:
                                 type: string
                                 description: >
@@ -905,7 +905,7 @@ domain-controller:
                               _lp:
                                 type: string
                                 enum:
-                                  - netconf-server
+                                  - 'netconf-server'
                 - description: 'Link - see 82_SnmpConnection.yaml'
                   type: object
                   required:
@@ -933,7 +933,7 @@ domain-controller:
                               interface-type:
                                 type: string
                                 enum:
-                                  - snmp-client
+                                  - 'snmp-client'
                               _cc:
                                 type: string
                                 description: >
@@ -951,7 +951,7 @@ domain-controller:
                               _lp:
                                 type: string
                                 enum:
-                                  - snmp-client
+                                  - 'snmp-client'
                           - description: snmpServer
                             type: object
                             required:
@@ -963,7 +963,7 @@ domain-controller:
                               interface-type:
                                 type: string
                                 enum:
-                                  - snmp-server
+                                  - 'snmp-server'
                               _cc:
                                 type: string
                                 description: >
@@ -974,7 +974,7 @@ domain-controller:
                               _ltp:
                                 type: string
                                 enum:
-                                  - management
+                                  - 'management'
                               _lp:
                                 type: string
                                 description: >

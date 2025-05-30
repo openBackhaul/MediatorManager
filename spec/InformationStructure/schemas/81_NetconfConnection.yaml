@@ -30,25 +30,25 @@ link:
                     interface-type:
                       type: string
                       enum:
-                        - netconf-client
+                        - 'netconf-client'
                     _cc:
                       type: string
                       description: >
                         'ControllerName
-                        candidate: from [/network-control-domain=candidate/forwarding-domain=management-plane-transport/forwarding-construct=[deviceName]/fctp=management-plane-transport-client/_cc]
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                         running: from candidate
                         operational: from ???
                     _ltp:
                       type: string
                       description: >
                         'MountName of Device
-                        candidate: from ???
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
                         operational: from ???
                     _lp:
                       type: string
                       enum:
-                        - netconf-client
+                        - 'netconf-client'
                 - description: netconfServer
                   type: object
                   required:
@@ -60,7 +60,7 @@ link:
                     interface-type:
                       type: string
                       enum:
-                        - netconf-server
+                        - 'netconf-server'
                     _cc:
                       type: string
                       description: >
@@ -72,10 +72,10 @@ link:
                       type: string
                       description: >
                         'deviceName
-                        candidate: from ???
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
                         operational: from ???
                     _lp:
                       type: string
                       enum:
-                        - netconf-server
+                        - 'netconf-server'
