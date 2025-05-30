@@ -4,123 +4,124 @@ servers:
     own-oam:
       basic:
         - operation-name: /v1/register-yourself
-          uuid: mm-1-0-0-op-s-bm-000
+          uuid: ddm-1-0-0-op-s-bm-000
         - operation-name: /v1/embed-yourself
-          uuid: mm-1-0-0-op-s-bm-001
+          uuid: ddm-1-0-0-op-s-bm-001
         - operation-name: /v1/redirect-service-request-information
-          uuid: mm-1-0-0-op-s-bm-002
+          uuid: ddm-1-0-0-op-s-bm-002
         - operation-name: /v1/redirect-oam-request-information
-          uuid: mm-1-0-0-op-s-bm-003
+          uuid: ddm-1-0-0-op-s-bm-003
         - operation-name: /v1/end-subscription
-          uuid: mm-1-0-0-op-s-bm-004
+          uuid: ddm-1-0-0-op-s-bm-004
         - operation-name: /v1/inquire-oam-request-approvals
-          uuid: mm-1-0-0-op-s-bm-005
+          uuid: ddm-1-0-0-op-s-bm-005
         - operation-name: /v1/update-client
-          uuid: mm-1-0-0-op-s-bm-007
+          uuid: ddm-1-0-0-op-s-bm-007
         - operation-name: /v1/list-ltps-and-fcs
-          uuid: mm-1-0-0-op-s-bm-008
+          uuid: ddm-1-0-0-op-s-bm-008
         - operation-name: /v1/redirect-topology-change-information
-          uuid: mm-1-0-0-op-s-bm-009
+          uuid: ddm-1-0-0-op-s-bm-009
         - operation-name: /v1/update-operation-key
-          uuid: mm-1-0-0-op-s-bm-010
+          uuid: ddm-1-0-0-op-s-bm-010
         - operation-name: /v1/update-operation-client
-          uuid: mm-1-0-0-op-s-bm-011
+          uuid: ddm-1-0-0-op-s-bm-011
         - operation-name: /v1/inquire-basic-auth-approvals
-          uuid: mm-1-0-0-op-s-bm-012
+          uuid: ddm-1-0-0-op-s-bm-012
         - operation-name: /v1/dispose-remainders-of-deregistered-application
-          uuid: mm-1-0-0-op-s-bm-013
+          uuid: ddm-1-0-0-op-s-bm-013
         - operation-name: /v1/inform-about-preceding-release
-          uuid: mm-1-0-0-op-s-bm-014
+          uuid: ddm-1-0-0-op-s-bm-014
           operation-key: n.a.
         - operation-name: /v1/update-client-of-subsequent-release
-          uuid: mm-1-0-0-op-s-bm-015
+          uuid: ddm-1-0-0-op-s-bm-015
       individual:
         - operation-name: /v1/bequeath-your-data-and-die
-          uuid: mm-1-0-0-op-s-im-000
+          uuid: ddm-1-0-0-op-s-im-000
     service:
       basic:
         - operation-name: /v1/start-application-in-generic-representation
-          uuid: mm-1-0-0-op-s-bs-000
+          uuid: ddm-1-0-0-op-s-bs-000
           operation-key: n.a.
         - operation-name: /v1/inform-about-application
-          uuid: mm-1-0-0-op-s-bs-001
+          uuid: ddm-1-0-0-op-s-bs-001
           operation-key: n.a.
         - operation-name: /v1/inform-about-application-in-generic-representation
-          uuid: mm-1-0-0-op-s-bs-002
+          uuid: ddm-1-0-0-op-s-bs-002
           operation-key: n.a.
         - operation-name: /v1/inform-about-release-history
-          uuid: mm-1-0-0-op-s-bs-003
+          uuid: ddm-1-0-0-op-s-bs-003
           operation-key: n.a.
         - operation-name: /v1/inform-about-release-history-in-generic-representation
-          uuid: mm-1-0-0-op-s-bs-004
+          uuid: ddm-1-0-0-op-s-bs-004
           operation-key: n.a.
         - operation-name: /docs
-          uuid: mm-1-0-0-op-s-bs-005
+          uuid: ddm-1-0-0-op-s-bs-005
           operation-key: n.a.
       individual:
 
-        - operation-name: /v1/create-controller-template_(in:controller-template-name)
-          uuid: 
+        - operation-name: /v1/create-controller-template
+          uuid: ddm-1-0-0-op-s-im-000
         - operation-name: /v1/delete-controller-template
-          uuid: 
-        - operation-name: /v1/list-controller-templates
-          uuid: 
-        - operation-name: /v1/inform-about-controller-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-001
         - operation-name: /v1/update-controller-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-002
+        - operation-name: /v1/list-controller-templates
+          uuid: ddm-1-0-0-op-s-is-000
+        - operation-name: /v1/inform-about-controller-template
+          uuid: ddm-1-0-0-op-s-is-001
 
-        - operation-name: /v1/create-mediator-vm-template_(in:mediator-vm-template-name)
-          uuid:
+        - operation-name: /v1/create-mediator-vm-template
+          uuid: ddm-1-0-0-op-s-im-005
         - operation-name: /v1/delete-mediator-vm-template
-          uuid:
-        - operation-name: /v1/list-mediator-vm-templates
-          uuid: 
-        - operation-name: /v1/inform-about-mediator-vm-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-006
         - operation-name: /v1/update-mediator-vm-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-007
+        - operation-name: /v1/list-mediator-vm-templates
+          uuid: ddm-1-0-0-op-s-is-005
+        - operation-name: /v1/inform-about-mediator-vm-template
+          uuid: ddm-1-0-0-op-s-is-006
 
-        - operation-name: /v1/create-device-template_(in:device-template-name)
-          uuid: 
+        - operation-name: /v1/create-device-template
+          uuid: ddm-1-0-0-op-s-im-010
         - operation-name: /v1/delete-device-template
-          uuid: 
-        - operation-name: /v1/list-device-templates
-          uuid: 
-        - operation-name: /v1/inform-about-device-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-011
         - operation-name: /v1/update-device-template
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-012
+        - operation-name: /v1/list-device-templates
+          uuid: ddm-1-0-0-op-s-is-010
+        - operation-name: /v1/inform-about-device-template
+          uuid: ddm-1-0-0-op-s-is-011
 
         - operation-name: /v1/regard-controller_(in:controller-name, controller-template-name)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-015
         - operation-name: /v1/disregard-controller_(in:controller-name)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-016
         - operation-name: /v1/list-controllers_(in:controller-name)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-015
 
         - operation-name: /v1/regard-mediator-vm_(in:mediator-vm-name, mediator-vm-template-name, mediator-vm-ip-address, mediator-vm-port, mediator-user-name, mediator-user-password)
-          uuid: 
+          [Prathiba] : mediator-vm-release-number is also required as we have to create http-client in the configFile.
+          uuid: ddm-1-0-0-op-s-im-020
         - operation-name: /v1/disregard-mediator-vm_(in:mediator-vm-name)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-im-021
         - operation-name: /v1/list-mediator-vms_(in:mediator-vm-name)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-020
 
         - operation-name: /v1/establish-management-plane-transport_(in:controller-name, device-name, device-kind-name, device-ip-address, mediator-user-name, mediator-user-password)
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-025
         - operation-name: /v1/dismantle-management-plane-transport
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-026
         - operation-name: /v1/list-management-plane-transports
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-027
         - operation-name: /v1/inform-about-management-plane-transport
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-028
         - operation-name: /v1/provide-alarms-for-management-plane-transport
-          uuid: 
+          uuid: ddm-1-0-0-op-s-is-029
 
   http-server:
     own-application-name: DeviceDomainManager
     own-release-number: 1.0.0
-    uuid: mm-1-0-0-http-s-000
+    uuid: ddm-1-0-0-http-s-000
     application-purpose: Establishes and maintains the connections between controllers and devices
     owner-name: Thorsten Heinze
     owner-email-address: thorsten.heinze@telefonica.com
@@ -133,24 +134,24 @@ servers:
       local-protocol: http
       own-ip-address: 127.0.0.1
       own-tcp-port: 4006
-      uuid: mm-1-0-0-tcp-s-000
+      uuid: ddm-1-0-0-tcp-s-000
 
 clients:
 
   - http-client:
       application-name: OldRelease
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-or-1-0-0-000
+      uuid: ddm-1-0-0-http-c-or-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.6
       tcp-port: 3007
-      uuid: mm-1-0-0-tcp-c-or-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-or-1-0-0-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/bequeath-your-data-and-die
-            uuid: mm-1-0-0-op-c-bm-or-1-0-0-000
+            uuid: ddm-1-0-0-op-c-bm-or-1-0-0-000
         individual:
       service:
         basic:
@@ -159,44 +160,46 @@ clients:
   - http-client:
       application-name: NewRelease
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-nr-1-0-0-000
+      uuid: ddm-1-0-0-http-c-nr-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.4.6
       tcp-port: 4006
-      uuid: mm-1-0-0-tcp-c-nr-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-nr-1-0-0-000
     operation-clients:
       own-oam:
         basic:
         individual:
-          - operation-name: /v1/regard-mediator-instance-manager
-            uuid: mm-1-0-0-op-c-im-nr-1-0-0-000
+          - operation-name: /v1/create-controller-template
+            uuid: ddm-1-0-0-op-c-bm-nr-1-0-0-000
+          - operation-name: /v1/create-mediator-vm-template
+            uuid: ddm-1-0-0-op-c-bm-nr-1-0-0-001
+          - operation-name: /v1/create-device-template
+            uuid: ddm-1-0-0-op-c-bm-nr-1-0-0-002
       service:
         basic:
         individual:
-          - operation-name: /v1/create-mediator-vm-template
-            uuid: mm-1-0-0-op-c-is-nr-1-0-0-000
 
   - http-client:
       application-name: RegistryOffice
       release-number: 2.0.1
-      uuid: mm-1-0-0-http-c-ro-2-0-1-000
+      uuid: ddm-1-0-0-http-c-ro-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.8
       tcp-port: 3008
-      uuid: mm-1-0-0-tcp-c-ro-2-0-1-000
+      uuid: ddm-1-0-0-tcp-c-ro-2-0-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/register-application
-            uuid: mm-1-0-0-op-c-bm-ro-2-0-1-000
+            uuid: ddm-1-0-0-op-c-bm-ro-2-0-1-000
           - operation-name: /v1/relay-server-replacement
-            uuid: mm-1-0-0-op-c-bm-ro-2-0-1-001
+            uuid: ddm-1-0-0-op-c-bm-ro-2-0-1-001
           - operation-name: /v1/deregister-application
-            uuid: mm-1-0-0-op-c-bm-ro-2-0-1-002
+            uuid: ddm-1-0-0-op-c-bm-ro-2-0-1-002
           - operation-name: /v1/relay-operation-update
-            uuid: mm-1-0-0-op-c-bm-ro-2-0-1-003
+            uuid: ddm-1-0-0-op-c-bm-ro-2-0-1-003
         individual:
       service:
         basic:
@@ -205,17 +208,17 @@ clients:
   - http-client:
       application-name: ExecutionAndTraceLog
       release-number: 2.0.1
-      uuid: mm-1-0-0-http-c-eatl-2-0-1-000
+      uuid: ddm-1-0-0-http-c-eatl-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.10
       tcp-port: 3010
-      uuid: mm-1-0-0-tcp-c-eatl-2-0-1-000
+      uuid: ddm-1-0-0-tcp-c-eatl-2-0-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/record-service-request
-            uuid: mm-1-0-0-op-c-bs-eatl-2-0-1-000
+            uuid: ddm-1-0-0-op-c-bs-eatl-2-0-1-000
             detailed-logging-is-on: false
         individual:
       service:
@@ -225,17 +228,17 @@ clients:
   - http-client:
       application-name: OamLog
       release-number: 2.0.1
-      uuid: mm-1-0-0-http-c-ol-2-0-1-000
+      uuid: ddm-1-0-0-http-c-ol-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.11
       tcp-port: 3011
-      uuid: mm-1-0-0-tcp-c-ol-2-0-1-000
+      uuid: ddm-1-0-0-tcp-c-ol-2-0-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/record-oam-request
-            uuid: mm-1-0-0-op-c-bs-ol-2-0-1-000
+            uuid: ddm-1-0-0-op-c-bs-ol-2-0-1-000
         individual:
       service:
         basic:
@@ -244,17 +247,17 @@ clients:
   - http-client:
       application-name: AdministratorAdministration
       release-number: 2.0.1
-      uuid: mm-1-0-0-http-c-aa-2-0-1-000
+      uuid: ddm-1-0-0-http-c-aa-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.12
       tcp-port: 3012
-      uuid: mm-1-0-0-tcp-c-aa-2-0-1-000
+      uuid: ddm-1-0-0-tcp-c-aa-2-0-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/approve-oam-request
-            uuid: mm-1-0-0-op-c-bs-aa-2-0-1-000
+            uuid: ddm-1-0-0-op-c-bs-aa-2-0-1-000
         individual:
       service:
         basic:
@@ -263,27 +266,27 @@ clients:
   - http-client:
       application-name: ApplicationLayerTopology
       release-number: 2.0.1
-      uuid: mm-1-0-0-http-c-alt-2-0-1-000
+      uuid: ddm-1-0-0-http-c-alt-2-0-1-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.3.13
       tcp-port: 3013
-      uuid: mm-1-0-0-tcp-c-alt-2-0-1-000
+      uuid: ddm-1-0-0-tcp-c-alt-2-0-1-000
     operation-clients:
       own-oam:
         basic:
           - operation-name: /v1/update-all-ltps-and-fcs
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-000
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-000
           - operation-name: /v1/update-ltp
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-001
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-001
           - operation-name: /v1/delete-ltp-and-dependents
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-002
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-002
           - operation-name: /v1/update-fc
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-003
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-003
           - operation-name: /v1/update-fc-port
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-004
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-004
           - operation-name: /v1/delete-fc-port
-            uuid: mm-1-0-0-op-c-bm-alt-2-0-1-005
+            uuid: ddm-1-0-0-op-c-bm-alt-2-0-1-005
         individual:
       service:
         basic:
@@ -292,12 +295,12 @@ clients:
   - http-client:
       application-name: EricssonMediatorInstanceManager
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-emim-1-0-0-000
+      uuid: ddm-1-0-0-http-c-emim-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.2.2
       tcp-port: 2002
-      uuid: mm-1-0-0-tcp-c-emim-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-emim-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -306,21 +309,21 @@ clients:
         basic:
         individual:
           - operation-name: /v1/list-mediator-instances
-            uuid: mm-1-0-0-op-c-is-emim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-is-emim-1-0-0-000
           - operation-name: /v1/provide-mediator-instance
-            uuid: mm-1-0-0-op-c-im-emim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-im-emim-1-0-0-000
           - operation-name: /v1/dismantle-mediator-instance
-            uuid: mm-1-0-0-op-c-im-emim-1-0-0-001
+            uuid: ddm-1-0-0-op-c-im-emim-1-0-0-001
 
   - http-client:
       application-name: HuaweiMediatorInstanceManager
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-hmim-1-0-0-000
+      uuid: ddm-1-0-0-http-c-hmim-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.2.3
       tcp-port: 2003
-      uuid: mm-1-0-0-tcp-c-hmim-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-hmim-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -329,21 +332,21 @@ clients:
         basic:
         individual:
           - operation-name: /v1/list-mediator-instances
-            uuid: mm-1-0-0-op-c-is-hmim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-is-hmim-1-0-0-000
           - operation-name: /v1/provide-mediator-instance
-            uuid: mm-1-0-0-op-c-im-hmim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-im-hmim-1-0-0-000
           - operation-name: /v1/dismantle-mediator-instance
-            uuid: mm-1-0-0-op-c-im-hmim-1-0-0-001
+            uuid: ddm-1-0-0-op-c-im-hmim-1-0-0-001
 
   - http-client:
       application-name: SiaeMediatorInstanceManager
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-smim-1-0-0-000
+      uuid: ddm-1-0-0-http-c-smim-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 1.1.2.4
       tcp-port: 2004
-      uuid: mm-1-0-0-tcp-c-smim-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-smim-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -352,21 +355,21 @@ clients:
         basic:
         individual:
           - operation-name: /v1/list-mediator-instances
-            uuid: mm-1-0-0-op-c-is-smim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-is-smim-1-0-0-000
           - operation-name: /v1/provide-mediator-instance
-            uuid: mm-1-0-0-op-c-im-smim-1-0-0-000
+            uuid: ddm-1-0-0-op-c-im-smim-1-0-0-000
           - operation-name: /v1/dismantle-mediator-instance
-            uuid: mm-1-0-0-op-c-im-smim-1-0-0-001
+            uuid: ddm-1-0-0-op-c-im-smim-1-0-0-001
 
   - http-client:
       application-name: ConnectionPreparation
       release-number: 1.1.0
-      uuid: mm-1-0-0-http-c-cp-1-1-0-000
+      uuid: ddm-1-0-0-http-c-cp-1-1-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4022
-      uuid: mm-1-0-0-tcp-c-cp-1-1-0-000
+      uuid: ddm-1-0-0-tcp-c-cp-1-1-0-000
     operation-clients:
       own-oam:
         basic:
@@ -375,17 +378,17 @@ clients:
         basic:
         individual:
           - operation-name: /v1/prepare-connection
-            uuid: mm-1-0-0-op-c-is-cp-1-1-0-000
+            uuid: ddm-1-0-0-op-c-is-cp-1-1-0-000
 
   - http-client:
       application-name: MountingOrchestrator
       release-number: 1.0.0
-      uuid: mm-1-0-0-http-c-mo-1-0-0-000
+      uuid: ddm-1-0-0-http-c-mo-1-0-0-000
     tcp-client:
       remote-protocol: http
       ip-address: 127.0.0.1
       tcp-port: 4010
-      uuid: mm-1-0-0-tcp-c-mo-1-0-0-000
+      uuid: ddm-1-0-0-tcp-c-mo-1-0-0-000
     operation-clients:
       own-oam:
         basic:
@@ -394,9 +397,9 @@ clients:
         basic:
         individual:
           - operation-name: /v1/update-tcp-client
-            uuid: mm-1-0-0-op-c-is-mo-1-0-0-000
+            uuid: ddm-1-0-0-op-c-is-mo-1-0-0-000
           - operation-name: /v1/update-netconf-client
-            uuid: mm-1-0-0-op-c-is-mo-1-0-0-001
+            uuid: ddm-1-0-0-op-c-is-mo-1-0-0-001
 
         # Thorsten added
           - operation-name: /v1/list-controllers

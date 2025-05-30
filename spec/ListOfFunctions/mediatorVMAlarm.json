@@ -1,0 +1,59 @@
+{
+    "control-construct": [{
+        "element-name": "mediatorVMEricsson1",
+        "category": "mediatorVm",
+        "_template": "mediatorVMEricssonTemplate",
+        "logical-termination-point": [{
+            "local-id": "mediator-instance-manager",
+            "layer-protocol": [{
+                    "server-name": "mim-operation-server-create",
+                    "operation-name": "//from associated template"
+                },
+                {
+                    "server-name": "mim-operation-server-update",
+                    "operation-name": "//from associated template"
+                },
+                {
+                    "server-name": "mim-operation-server-delete",
+                    "operation-name": "//from associated template"
+                },
+                {
+                    "server-name": "mim-http-server",
+                    "mediator-user-name": "",
+                    "mediator-user-password": ""
+                },
+                {
+                    "server-name": "mim-tcp-server",
+                    "local-address": "",
+                    "local-port": ""
+                }
+            ]
+        }]
+    }],
+    "alarm": {
+        "affected-fc": [{
+            "_affected-fc": "mount-A",
+            "affected-link": [{
+                "_affected-link": "link local id",
+                "affected-cc": [{
+                    "_affected-cc": "element-name of a ControlConstruct",
+                    "error": 500,
+                    "affected-ltp": [{
+                        "_affected-ltp": "",
+                        "error": "",
+                        "affected-lp": [{
+                            "_affected-lp": "",
+                            "error": {
+                                "_error-code": "",
+                                "date-of-creation": "",
+                                "past-attempts-to-fix": "",
+                                "date-of-next-attempt-to-fix": ""
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        }]
+    }
+
+}

@@ -46,6 +46,7 @@ logical-termination-point:
                   description: >
                     'IP address of the mediatorProcess to which the mountPoint is connected to
                     candidate: initially empty; from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]
+                    [Prathiba] Whether in the interpretation module XMIM will be called to create a mediator instance ? or the implementation module will do it ?
                     running: from candidate
                     operational: from [CDM://v1/inform-about-mount-point$response.body#remote-ip-address]'
                 remote-port:

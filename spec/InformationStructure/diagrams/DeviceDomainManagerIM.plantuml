@@ -1,0 +1,364 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class DomainController {
+  + function: List<Function>
+  + validation-sequence: List<ValidationSequence>
+  + error-code: List<ErrorCode>
+  + alarm-pac: AlarmPac
+  + network-control-domain: List<NetworkControlDomain>
+}
+
+class Function {
+  + function-name: string
+  + function-description: string
+  + parameter: List<Parameter>
+}
+
+class Parameter {
+  + parameter-name: string
+  + parameter-value: string
+  + parameter-definition: string
+}
+
+class ValidationSequence {
+  + _trigger-function: string
+  + sequence: List<ValidationStep>
+}
+
+class ValidationStep {
+  + step-number: int
+  + _validation-function: string
+}
+
+class ErrorCode {
+  + error-code: int
+  + description: string
+  + _implementation-function: string
+}
+
+class AlarmPac {
+  + current-alarms: CurrentAlarms
+}
+
+class CurrentAlarms {
+  + affected-fc: List<AffectedFc>
+}
+
+class AffectedFc {
+  + _affected-fc: string
+  + affected-link: List<AffectedLink>
+}
+
+class AffectedLink {
+  + _affected-link: string
+  + affected-cc: List<AffectedCc>
+}
+
+class AffectedCc {
+  + _affected-cc: string
+  + error: List<ErrorDescription>
+  + affected-ltp: List<AffectedLtp>
+}
+
+class AffectedLtp {
+  + _affected-ltp: string
+  + error: List<ErrorDescription>
+  + affected-lp: List<AffectedLp>
+}
+
+class AffectedLp {
+  + _affected-lp: string
+  + error: List<ErrorDescription>
+}
+
+class ErrorDescription {
+  + _error-code: int
+  + date-of-creation: string
+  + past-attempts-to-fix: List<PastAttempt>
+  + date-of-next-attempt-to-fix: string
+}
+
+class PastAttempt {
+  + date-of-attempt: string
+  + response-code: int
+}
+
+class NetworkControlDomain {
+  + storage: string
+  + profile: List<Profile>
+  + control-construct: List<ControlConstruct>
+  + link: List<Link>
+  + forwarding-domain: List<ForwardingDomain>
+}
+
+interface Profile
+
+class ControllerProfile {
+  + template-name: string
+  + category: string
+}
+
+class MediatorVmProfile {
+  + template-name: string
+  + category: string
+  + default-mediator-user: List<User>
+  + vendor-name: string
+  + supported-device-kind-list: List<string>
+  + engineering-limit: int
+  + provide-mediator-instance-operation-name: string
+  + dismantle-mediator-instance-operation-name: string
+  + list-mediator-instances-operation-name: string
+  + admin-user-name: string
+  + admin-user-password: string
+  + tcp-port-range-list: List<PortRange>
+  + java-version: string
+}
+
+class DeviceProfile {
+  + template-name: string
+  + category: string
+  + default-mediator-user: List<User>
+}
+
+class User {
+  + default-mediator-user-name: string
+  + default-mediator-user-password: string
+}
+
+class PortRange {
+  + lowestTcpPort: int
+  + highestTcpPort: int
+}
+
+Profile <|.. ControllerProfile
+Profile <|.. MediatorVmProfile
+Profile <|.. DeviceProfile
+
+MediatorVmProfile --> "*" User
+MediatorVmProfile --> "*" PortRange
+DeviceProfile --> "*" User
+
+interface ControlConstruct
+
+class ControllerConstruct {
+  + element-name: string
+  + category: string
+  + _template: string
+  + logical-termination-point: List<CcLogicalTerminationPoint>
+}
+
+class MediatorVmConstruct {
+  + element-name: string
+  + category: string
+  + _template: string
+  + mvm-logical-termination-point: List<MvmLogicalTerminationPoint>
+}
+
+class DeviceConstruct {
+  + element-name: string
+  + category: string
+  + _template: string
+  + dc-logical-termination-point: List<DcLogicalTerminationPoint>
+}
+
+ControlConstruct <|.. ControllerConstruct
+ControlConstruct <|.. MediatorVmConstruct
+ControlConstruct <|.. DeviceConstruct
+
+class CcLogicalTerminationPoint {
+  + mount-name: string
+  + cc-layer-protocol: List<CcLayerProtocol>
+}
+
+class MvmLogicalTerminationPoint {
+  + local-id: string
+  + mvm-layer-protocol: List<MvmLayerProtocol>
+}
+
+class DcLogicalTerminationPoint {
+  + local-id: string
+  + dc-layer-protocol: List<DcLayerProtocol>
+}
+
+interface CcLayerProtocol
+
+class CcNetconfClient {
+  + interface-type: string
+}
+
+class CcTcpClient {
+  + interface-type: string
+  + remote-ip-address: string
+  + remote-port: int
+}
+
+interface MvmLayerProtocol
+
+class MvmOperationServer {
+  + server-name: string
+  + operation-name: string
+}
+
+class MvmHttpServer {
+  + server-name: string
+  + mediator-user-name: string
+  + mediator-user-password: string
+}
+
+class MvmTcpServer {
+  + server-name: string
+  + local-ip-address: string
+  + local-port: int
+}
+
+interface DcLayerProtocol
+
+class DcNetconfServer {
+  + interface-type: string
+}
+
+class DcTcpServer {
+  + interface-type: string
+  + local-ip-address: string
+  + local-port: int
+}
+
+class DcsnmpClient {
+  + interface-type: string
+  + mediator-user-name: string
+  + mediator-user-password: string
+}
+
+class DcTcpClient {
+  + interface-type: string
+  + remote-ip-address: string
+  + remote-port: int
+}
+
+CcLayerProtocol <|.. CcNetconfClient
+CcLayerProtocol <|.. CcTcpClient
+MvmLayerProtocol <|.. MvmOperationServer
+MvmLayerProtocol <|.. MvmHttpServer
+MvmLayerProtocol <|.. MvmTcpServer
+DcLayerProtocol <|.. DcNetconfServer
+DcLayerProtocol <|.. DcTcpServer
+DcLayerProtocol <|.. DcsnmpClient
+DcLayerProtocol <|.. DcTcpClient
+
+interface Link
+
+class NetconfConnection {
+  + local-id: string
+  + linktp: List<NetconfLinkTp>
+}
+
+class SnmpConnection {
+  + local-id: string
+  + linktp: List<SnmpLinkTp>
+}
+
+Link <|.. NetconfConnection
+Link <|.. SnmpConnection
+
+interface SnmpLinkTp
+
+class SnmpClient {
+  + interface-type: string
+  + _cc: string
+  + _ltp: string
+  + _lp: string
+}
+
+class SnmpServer {
+  + interface-type: string
+  + _cc: string
+  + _ltp: string
+  + _lp: string
+}
+
+SnmpLinkTp <|.. SnmpClient
+SnmpLinkTp <|.. SnmpServer
+
+interface NetconfLinkTp
+
+class NetconfClient {
+  + interface-type: string
+  + _cc: string
+  + _ltp: string
+  + _lp: string
+}
+
+class NetconfServer {
+  + interface-type: string
+  + _cc: string
+  + _ltp: string
+  + _lp: string
+}
+
+NetconfLinkTp <|.. NetconfClient
+NetconfLinkTp <|.. NetconfServer
+
+interface Fctp
+
+class MptClient {
+  + _cc: string
+}
+
+class MptServer {
+  + _cc: string
+}
+
+Fctp <|.. MptClient
+Fctp <|.. MptServer
+
+class ForwardingDomain {
+  + forwarding-domain-name: string
+  + forwarding-construct: List<ForwardingConstruct>
+}
+
+class ForwardingConstruct {
+  + mount-name: string
+  + fctp: List<Fctp>
+  + route: List<Route>
+}
+
+class Route {
+  + local-id: string
+  + _links: List<string>
+}
+
+DomainController --> "*" Function
+Function --> "*" Parameter
+DomainController --> "*" ValidationSequence
+ValidationSequence --> "*" ValidationStep
+DomainController --> "*" ErrorCode
+DomainController --> AlarmPac
+AlarmPac --> CurrentAlarms
+CurrentAlarms --> "*" AffectedFc
+AffectedFc --> "*" AffectedLink
+AffectedLink --> "*" AffectedCc
+AffectedCc --> "*" AffectedLtp
+AffectedCc --> "*" ErrorDescription
+AffectedLtp --> "*" AffectedLp
+AffectedLtp --> "*" ErrorDescription
+AffectedLp --> "*" ErrorDescription
+ErrorDescription --> "*" PastAttempt
+DomainController --> "*" NetworkControlDomain
+NetworkControlDomain --> "*" Profile
+NetworkControlDomain --> "*" ControlConstruct
+ControllerConstruct --> "*" CcLogicalTerminationPoint
+MediatorVmConstruct --> "*" MvmLogicalTerminationPoint
+DeviceConstruct --> "*" DcLogicalTerminationPoint
+CcLogicalTerminationPoint --> "*" CcLayerProtocol
+MvmLogicalTerminationPoint --> "*" MvmLayerProtocol
+DcLogicalTerminationPoint --> "*" DcLayerProtocol
+NetworkControlDomain --> "*" Link
+NetconfConnection --> "*" NetconfLinkTp
+SnmpConnection --> "*" SnmpLinkTp
+NetworkControlDomain --> "*" ForwardingDomain
+ForwardingDomain --> "*" ForwardingConstruct
+ForwardingConstruct --> "*" Fctp
+ForwardingConstruct --> "*" Route
+@enduml
+

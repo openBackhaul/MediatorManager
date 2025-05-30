@@ -1,0 +1,1119 @@
+domain-controller:
+  type: object
+  required:
+    - function
+    - validation-sequence
+    - error-code
+    - alarm-pac
+    - network-control-domain
+  properties:
+    function:
+      type: array
+      x-key: function-name
+      description: 'List of Functions incl. their parameter settings'
+      items:
+        type: object
+        required:
+          - function-name
+          - parameter
+        properties:
+          function-name:
+            type: string
+            pattern: '^(v[0-9]{1,2})((-[a-z]{1,}){1,})$'
+            description: 'In case of externally available services, the syntax of the path has to be translated to fit the pattern'
+            example: 'v1-establish-management-plane-transport'
+          function-description:
+            type: string
+            description: 'Description of the Function'
+          parameter:
+            type: array
+            x-key: parameter-name
+            description: 'List of Parameters of the Function'
+            items:
+              type: object
+              required:
+                - parameter-name
+                - parameter-value
+                - parameter-definition
+              properties:
+                parameter-name:
+                  type: string
+                  pattern: '^([a-z]{1,})((-[a-z]{1,}){0,})$'
+                  description: 'Invariant name of the parameter'
+                parameter-value:
+                  type: string
+                  description: 'Configurable value of the parameter. Datatype needs to be internally converted, if required'
+                parameter-definition:
+                  type: string
+                  description: 'Invariant description of the parameter'
+    validation-sequence:
+      type: array
+      x-key: _trigger-function
+      description: >
+        'List of the definitions of validation sequences
+        The defined sequences are input to the generic ValidationOrchestrator Function
+        ValidationOrchestrator is responding 204, if all Functions in the sequence responded 204, or any other response code that resulted during executing the sequence'
+      items:
+        type: object
+        required:
+          - _trigger-function
+          - sequence
+        properties:
+          _trigger-function:
+            type: string
+            description: >
+              'Reference towards an entry in the list of Functions (value must be unique and invariant)
+              Only Functions for changing the contents of the CandidateDS are allowed to be referenced'
+            example: 'v1-establish-management-plane-transport'
+          sequence:
+            type: array
+            x-key: step-number
+            description: 'Sequence of validation test Functions that shall be executed on the contents of the CandidateDS'
+            items:
+              type: object
+              required:
+                - step-number
+                - _validation-function
+              properties:
+                step-number:
+                  type: integer
+                  description: 'Sequential number of the validation test (value must be unique and invariant)'
+                _validation-function:
+                  type: string
+                  description: >
+                    'Reference towards an entry in the list of Functions
+                    Only Functions for executing a validation test on the contents of the CandidateDS are allowed to be referenced'
+    error-code:
+      type: array
+      x-key: error-code
+      description: 'List of ErrorCodes with descriptions and corresponding ImplementationFunction'
+      items:
+        type: object
+        required:
+          - error-code
+          - description
+        properties:
+          error-code:
+            type: integer
+            description: >
+              'Code for identifying the finding (value must be unique and invariant)
+              Values between 600 and 999 can be freely used and without harmonization 
+              for expressing findings by the MeasurementFunctions, respectively for triggering ImplementationFunctions'
+          description:
+            type: string
+            description: >
+              'Internal codes: Meaningful description of the finding needed for understanding the mechanics of the application
+              External codes: Also used as ErrorMessage for addressing humans'
+          _implementation-function:
+            type: string
+            description: >
+              'Only applicable for internal codes
+              Ideally, each internal code would be handled by a function'
+    alarm-pac:
+      type: object
+      required:
+        - current-alarms
+      properties:
+        current-alarms:
+          type: object
+          required:
+            - affected-fc
+          properties:
+            affected-fc:
+              type: array
+              x-key: _affected-fc
+              description: > 
+                'List of ForwardingConstructs that have problems
+                All references (_affected-fc, _affected-cc, _affected-ltp) relate to objects in RunningDS'
+              items:
+                type: object
+                required:
+                  - _affected-fc
+                  - affected-link
+                properties:
+                  _affected-fc:
+                    type: string
+                    description: 'mount-name of one of the ForwardingConstructs with problems'
+                  affected-link:
+                    type: array
+                    x-key: _affected-link
+                    minItems: 1
+                    description: >
+                      'List of Links that have problems
+                      As the ForwardingConstruct with problems is exclusively composed from Links, at least one Link must have a problem'
+                    items:
+                      type: object
+                      required:
+                        - _affected-link
+                        - affected-cc
+                      properties:
+                        _affected-link:
+                          type: string
+                          description: 'local-id of one of the Links with problems'
+                        affected-cc:
+                          type: array
+                          x-key: _affected-cc
+                          minItems: 1
+                          description: >
+                            'List of ControlConstructs that have problems
+                            As problems of a Link are always associated with one of its termination points, at least one ControlConstruct must have a problem'
+                          items:
+                            type: object
+                            minProperties: 2
+                            required:
+                              - _affected-cc
+                            properties:
+                              _affected-cc:
+                                type: string
+                                description: 'element-name of a ControlConstruct (Controller, MediatorVM or Device) that has problems (value must be unique and invariant)'
+                              error:
+                                type: array
+                                x-key: _error-code
+                                minItems: 1
+                                description: 'error attribute exclusively occurs, if there is at least one error directly associated with the ControlConstruct (Controller, MediatorVM or Device)'
+                                items:
+                                  $ref: "#/components/schemas/errorDescription"
+                              affected-ltp:
+                                type: array
+                                x-key: _affected-ltp
+                                minItems: 1
+                                description: >
+                                  'List of LogicalTerminationPoints that have problems
+                                  affected-ltp attribute exclusively occurs, if there is at least one LTP affected by an error'
+                                items:
+                                  type: object
+                                  minProperties: 2
+                                  required:
+                                    - _affected-ltp
+                                  properties:
+                                    _affected-ltp:
+                                      type: string
+                                      description: 'key of a LogicalTerminationPoint (MountPoint, MediatorProcess) that has problems (value must be unique and invariant)'
+                                    error:
+                                      type: array
+                                      x-key: _error-code
+                                      minItems: 1
+                                      description: 'error attribute exclusively occurs, if there is at least one error directly associated with the LogicalTerminationPoint (MountPoint, MediatorProcess)'
+                                      items:
+                                        $ref: "#/components/schemas/errorDescription"
+                                    affected-lp:
+                                      type: array
+                                      x-key: _affected-lp
+                                      minItems: 1
+                                      description: >
+                                        'List of LayerProtocols that have problems
+                                        affected-lp attribute exclusively occurs, if there is at least one LP affected by an error'
+                                      items:
+                                        type: object
+                                        required:
+                                          - _affected-lp
+                                          - error
+                                        properties:
+                                          _affected-lp:
+                                            type: string
+                                            description: 'key of a LayerProtocol (NetconfClient, NetconfServer, TcpClient, TcpServer, SnmpClient, SnmpServer) with problems'
+                                          error:
+                                            type: array
+                                            x-key: _error-code
+                                            minItems: 1
+                                            description: 'Error associated with the LayerProtocol (NetconfClient, NetconfServer, TcpClient, TcpServer, SnmpClient, SnmpServer) with problems'
+                                            items:
+                                              $ref: "#/components/schemas/errorDescription"
+    network-control-domain:
+      type: array
+      x-key: storage
+      items:
+        type: object
+        required:
+          - storage
+          - profile
+          - control-construct
+          - link
+          - forwarding-domain
+        properties:
+          storage:
+            type: string
+            enum:
+              - 'candidate'
+              - 'startup'
+              - 'running'
+              - 'operational'
+            description: 'NMDA like data storages that document the NetworkControlDomain'
+          profile:
+            type: array
+            x-key: template-name
+            items:
+              oneOf:
+                - description: 'Profile - see 10_ControllerTemplate.yaml'
+                  type: object
+                  required:
+                    - template-name
+                    - category
+                  properties:
+                    template-name:
+                      type: string
+                      description: >
+                        'controllerTemplateName
+                        candidate: from [DDM://v1/create-controller-template$request.body#controller-template-name]
+                        running: from candidate
+                        operational: ???
+                    category:
+                      type: string
+                      enum:
+                        - 'controller'
+                - description: 'Profile - see 20_MediatorVmTemplate.yaml'
+                  type: object
+                  required:
+                    - template-name
+                    - category
+                    - default-mediator-user
+                    - vendor-name
+                    - supported-device-kind-list
+                    - engineering-limit
+                    - provide-mediator-instance-operation-name
+                    - dismantle-mediator-instance-operation-name
+                    - list-mediator-instances-operation-name
+                  properties:
+                    template-name:
+                      type: string
+                      description: >
+                        'mediatorVmTemplateName
+                        candidate: from [DDM://v1/create-mediator-vm-template$request.body#mediator-vm-template-name]
+                        running: from candidate
+                        operational: ???
+                    category:
+                      type: string
+                      enum:
+                        - 'mediator-vm'
+                    default-mediator-user:
+                      type: array
+                      x-key: default-mediator-user-name
+                      minItems: 1
+                      items:
+                        type: object
+                        required:
+                          - default-mediator-user-name
+                          - default-mediator-user-password
+                        properties:
+                          default-mediator-user-name:
+                            type: string
+                            description: >
+                              'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device
+                              If several value pairs are listed, DDM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm'
+                          default-mediator-user-password:
+                            type: string
+                            description: 'Password that has to be applied in combination with the user name'
+                    vendor-name:
+                      type: string
+                      description: 'Name of the microwave vendor'
+                    supported-device-kind-list:
+                      type: array
+                      minItems: 1
+                      items:
+                        type: string
+                        description: >
+                          'Names of the device models for which the derived mediatorVms can be used
+                          Values must be identical with the values that are used in DDM://v1/establish-management-plane-transport$request.body#device-kind-name'
+                    engineering-limit:
+                      type: integer
+                      description: 'Maximum number of mediatorProcesses that shall be configured in mediatorVms derived from this mediatorVmTemplate'
+                    provide-mediator-instance-operation-name:
+                      type: string
+                      description: 'Name of the operation for creating a new mediatorProcess at the xMediatorInstanceManager'
+                    dismantle-mediator-instance-operation-name:
+                      type: string
+                      description: 'Name of the operation for dismantling an obsolete mediatorProcess at the xMediatorInstanceManager'
+                    list-mediator-instances-operation-name:
+                      type: string
+                      description: 'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm'
+                    admin-user-name:
+                      type: string
+                      description: 'User name for manual access to the mediatorVms derived from this mediatorVmTemplate'
+                    admin-user-password:
+                      type: string
+                      description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
+                    tcp-port-range-list:
+                      type: array
+                      minItems: 1
+                      description: >
+                        'The mediatorVms derived from this mediatorVmTemplate create NETCONF interfaces with TCP ports equal or between the lowestTcpPort and the highestTcpPort
+                        Defining several separated ranges is supported'
+                      items:
+                        type: object
+                        required:
+                          - lowestTcpPort
+                          - highestTcpPort
+                        properties:
+                          lowestTcpPort:
+                            type: integer
+                            description: 'lowest possible TCP port in this range definition'
+                          highestTcpPort:
+                            type: integer
+                            description: 'highest possible TCP port in this range definition'
+                    java-version:
+                      type: string
+                      description: 'Java Release applied for this mediator release'
+                - description: 'Profile - see 30_DeviceTemplate.yaml'
+                  type: object
+                  required:
+                    - template-name
+                    - category
+                    - default-mediator-user
+                  properties:
+                    template-name:
+                      type: string
+                      description: >
+                        'deviceTemplateName needs to cover all values potentially send in [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
+                        candidate: from [DDM://v1/create-device-template$request.body#device-template-name]
+                        running: from candidate
+                        operational: ???
+                    category:
+                      type: string
+                      enum:
+                        - 'device'
+                    default-mediator-user:
+                      type: array
+                      x-key: default-mediator-user-name
+                      minItems: 1
+                      items:
+                        type: object
+                        required:
+                          - default-mediator-user-name
+                          - default-mediator-user-password
+                        properties:
+                          default-mediator-user-name:
+                            type: string
+                          default-mediator-user-password:
+                            type: string
+          control-construct:
+            type: array
+            x-key: element-name
+            items:
+              oneOf:
+                - description: 'ControlConstruct - see 11_Controller.yaml'
+                  type: object
+                  required:
+                    - element-name
+                    - category
+                    - _template
+                    - logical-termination-point
+                  properties:
+                    element-name:
+                      type: string
+                      description: >
+                        'controllerName
+                        candidate: from [DDM://v1/regard-controller$request.body#controller-name]
+                        running: from candidate
+                        operational: from [CDM://v1/provide-list-of-controllers/controller-name], delete entire CC from list if not in response'
+                    category:
+                      type: string
+                      enum:
+                        - 'controller'
+                    _template:
+                      type: string
+                      description: >
+                        'controllerTemplateName (must match the template-name of a ControllerProfile definition)
+                        candidate: from [DDM://v1/regard-controller$request.body#controller-template-name]
+                        running: from candidate
+                        operational: ???we could add a service to CDM for reading this information???'
+                    logical-termination-point:
+                      type: array
+                      x-key: mount-name
+                      items:
+                        oneOf:
+                          - description: 'LogicalTerminationPoint - see 12_MountPoint.yaml'
+                            type: object
+                            required:
+                              - mount-name
+                              - layer-protocol
+                            properties:
+                              mount-name:
+                                type: string
+                                description: >
+                                  'MountName
+                                  candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                                  running: from candidate
+                                  operational: from [CDM://v1/provide-list-of-mount-points-at-controller$response.body#mount-names], delete entire LTP, if deviceName cannot be found in list'
+                              layer-protocol:
+                                type: array
+                                x-key: interface-type
+                                minItems: 2
+                                maxItems: 2
+                                items:
+                                  oneOf:
+                                    - description: 'netconfClient'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'netconf-client'
+                                    - description: 'tcpClient'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                        - remote-ip-address
+                                        - remote-port
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'tcp-client'
+                                        remote-ip-address:
+                                          type: string
+                                          description: >
+                                            'IP address of the mediatorProcess to which the mountPoint is connected to
+                                            candidate: initially empty; from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-ip-address]
+                                            running: from candidate
+                                            operational: from [CDM://v1/inform-about-mount-point$response.body#remote-ip-address]'
+                                        remote-port:
+                                          type: integer
+                                          description: >
+                                            'TCP port of the mediatorProcess to which the mountPoint is connected to
+                                            candidate: initially empty; from [xMIM://v1/provide-mediator-instance$response.body#mediator-instance-netconf-port]
+                                            running: from candidate
+                                            operational: from [CDM://v1/inform-about-mount-point$response.body#remote-port]'
+                - description: 'ControlConstruct - see 21_MediatorVm.yaml'
+                  type: object
+                  required:
+                    - element-name
+                    - category
+                    - _template
+                    - logical-termination-point
+                  properties:
+                    element-name:
+                      type: string
+                      description: >
+                        'mediatorVmName
+                        candidate: from [MM://v1/regard-mediator-vm$request.body#mediator-vm-name]
+                        running: from candidate
+                        operational: from running, but deleted entire CC from list if not responding on xMIM://v1/list-mediator-instances'
+                    category:
+                      type: string
+                      enum:
+                        - 'mediatorVm'
+                    _template:
+                      type: string
+                      description: >
+                        'mediatorVmTemplateName (must match the template-name of a MediatorVmProfile definition)
+                        candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-template-name]
+                        running: from candidate
+                        operational: from running (xMIM does not provide the information)'
+                    logical-termination-point:
+                      type: array
+                      x-key: local-id
+                      minItems: 1
+                      items:
+                        oneOf:
+                          - description: 'mediatorInstanceManager'
+                            type: object
+                            required:
+                              - local-id
+                              - layer-protocol
+                            properties:
+                              local-id:
+                                type: string
+                                enum:
+                                  - 'mediator-instance-manager'
+                              layer-protocol:
+                                type: array
+                                x-key: server-name
+                                minItems: 5
+                                maxItems: 5
+                                items:
+                                  oneOf:
+                                    - description: 'operationServer - provide-mediator-instance'
+                                      type: object
+                                      required:
+                                        - server-name
+                                        - operation-name
+                                      properties:
+                                        server-name:
+                                          type: string
+                                          enum:
+                                            - 'mim-operation-server-create'
+                                        operation-name:
+                                          type: string
+                                          description: >
+                                            'Name of the operation for creating a new mediatorProcess at the xMediatorInstanceManager
+                                            candidate: from [/network-control-domain=candidate/profile=[_template]/provide-mediator-instance-operation-name]
+                                            running: from candidate
+                                            operational: from running (xMIM does not provide the information)'
+                                    - description: 'operationServer - dismantle-mediator-instance'
+                                      type: object
+                                      required:
+                                        - server-name
+                                        - operation-name
+                                      properties:
+                                        server-name:
+                                          type: string
+                                          enum:
+                                            - 'mim-operation-server-dismantle'
+                                        operation-name:
+                                          type: string
+                                          description: >
+                                            'Name of the operation for dismantling an obsolete mediatorProcess at the xMediatorInstanceManager
+                                            candidate: from [/network-control-domain=candidate/profile=[_template]/dismantle-mediator-instance-operation-name]
+                                            running: from candidate
+                                            operational: from running (xMIM does not provide the information)'
+                                    - description: 'operationServer - list-mediator-instances'
+                                      type: object
+                                      required:
+                                        - server-name
+                                        - operation-name
+                                      properties:
+                                        server-name:
+                                          type: string
+                                          enum:
+                                            - 'mim-operation-server-list'
+                                        operation-name:
+                                          type: string
+                                          description: >
+                                            'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm
+                                            candidate: from [/network-control-domain=candidate/profile=[_template]/list-mediator-instances-operation-name]
+                                            running: from candidate
+                                            operational: from running (xMIM does not provide the information)'
+                                    - description: 'httpServer'
+                                      type: object
+                                      required:
+                                        - server-name
+                                      properties:
+                                        server-name:
+                                          type: string
+                                          enum:
+                                            - 'mim-http-server'
+                                        mediator-user-name:
+                                          type: string
+                                          description: >
+                                            'User name that is to be used by mediatorProcesses that will be created inside this mediatorVm
+                                            candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-user-name]
+                                                        or if not sent, mediator-user-name = one value from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]/default-mediator-user-name] is to be taken
+                                            running: from candidate
+                                            operational: from ???Huawei_specific_service_for_GET_PUT_defaultMediatorUserName???'
+                                        mediator-user-password:
+                                          type: string
+                                          description: >
+                                            'Password that is to be used by mediatorProcesses that will be created inside this mediatorVm
+                                            candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-user-password]
+                                                        or if not sent, from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediator-user-name]/default-mediator-user-password] is to be taken
+                                            running: from candidate
+                                            operational: from ???Huawei_specific_service_for_GET_PUT_defaultMediatorUserPassword???'
+                                    - description: 'tcpServer'
+                                      type: object
+                                      required:
+                                        - server-name
+                                        - local-ip-address
+                                        - local-port
+                                      properties:
+                                        server-name:
+                                          type: string
+                                          enum:
+                                            - 'mim-tcp-server'
+                                        local-ip-address:
+                                          type: string
+                                          description: >
+                                            'IP address of the mediatorVm
+                                            candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-ip-address]
+                                            running: from candidate
+                                            operational: from running, but entire ControlConstruct to be deleted if not responding on xMIM://v1/list-mediator-instances in module OperationalMediatorVmAndProcesses'
+                                        local-port:
+                                          type: integer
+                                          description: >
+                                            'TCP port of the management interface (xMediatorInstanceManager) of the mediatorVm
+                                            candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-port]
+                                            running: from candidate
+                                            operational: from running, but entire ControlConstruct to be deleted if not responding on xMIM://v1/list-mediator-instances in module OperationalMediatorVmAndProcesses'
+                          - description: 'mediatorProcess - see 22_MediatorProcess.yaml'
+                            type: object
+                            required:
+                              - local-id
+                              - layer-protocol
+                            properties:
+                              local-id:
+                                type: string
+                                description: >
+                                  'MountName
+                                  candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                                  running: from candidate
+                                  operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-name], delete entire LTP, if deviceName cannot be found in list'
+                              layer-protocol:
+                                type: array
+                                x-key: interface-type
+                                minItems: 4
+                                maxItems: 4
+                                items:
+                                  oneOf:
+                                    - description: 'netconfServer'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'netconf-server'
+                                    - description: 'tcpServer'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                        - local-ip-address
+                                        - local-port
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'tcp-server'
+                                        local-ip-address:
+                                          type: string
+                                          description: >
+                                            'IP address of the mediatorProcess
+                                            candidate: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]
+                                            running: from candidate
+                                            operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-ip-address]'
+                                        local-port:
+                                          type: integer
+                                          description: >
+                                            'TCP port of the mediatorProcess
+                                            candidate: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]
+                                            running: from candidate
+                                            operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]'
+                                    - description: 'snmpClient'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                        - mediator-user-name
+                                        - mediator-user-password
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'snmp-client'
+                                        mediator-user-name:
+                                          type: string
+                                          description: >
+                                            'User name that is used by this mediatorProcess
+                                            candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-name] when mediatorProcess got created
+                                            running: from candidate
+                                            operational: from running (not included in xMIM://v1/list-mediator-instances)'
+                                        mediator-user-password:
+                                          type: string
+                                          description: >
+                                            'Password that is used by this mediatorProcess
+                                            candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-password] when mediatorProcess got created
+                                            running: from candidate
+                                            operational: from running (not included in xMIM://v1/list-mediator-instances)'
+                                    - description: 'tcpClient'
+                                      type: object
+                                      required:
+                                        - interface-type
+                                        - remote-ip-address
+                                        - remote-port
+                                      properties:
+                                        interface-type:
+                                          type: string
+                                          enum:
+                                            - 'tcp-client'
+                                        remote-ip-address:
+                                          type: string
+                                          description: >
+                                            'IP address of the device to which the mediatorProcess is connected to
+                                            candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-ip-address]
+                                            running: from candidate
+                                            operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-ip-address]'
+                                        remote-port:
+                                          type: integer
+                                          minimum: 161
+                                          maximum: 161
+                                          description: 'TCP port of the device to which the mediatorProcess is connected to'
+                - description: 'ControlConstruct - see 31_Device.yaml'
+                  type: object
+                  required:
+                    - element-name
+                    - category
+                    - _template
+                    - logical-termination-point
+                  properties:
+                    element-name:
+                      type: string
+                      description: >
+                        'MountName
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                        running: from candidate
+                        operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
+                    category:
+                      type: string
+                      enum:
+                        - 'device'
+                    _template:
+                      type: string
+                      description: >
+                        'deviceTemplateName (must match the template-name of a DeviceProfile definition)
+                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
+                        running: from candidate
+                        operational: ???from reading the control-construct/deviceModelName from documented devices???'
+                    logical-termination-point:
+                      type: array
+                      x-key: local-id
+                      minItems: 1
+                      maxItems: 1
+                      items:
+                        type: object
+                        required:
+                          - local-id
+                          - layer-protocol
+                        properties:
+                          local-id:
+                            type: string
+                            enum:
+                              - 'management'
+                          layer-protocol:
+                            type: array
+                            x-key: local-id
+                            minItems: 2
+                            items:
+                              oneOf:
+                                - description: 'snmpServer'
+                                  type: object
+                                  required:
+                                    - local-id
+                                    - mediator-user-name
+                                    - mediator-user-password
+                                  properties:
+                                    local-id:
+                                      type: string
+                                      description: >
+                                        'mediatorUserName, an instance of snmpServer is to be created for every defaultMediatorUserName in [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]]
+                                        candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                                        running: from candidate
+                                        operational: ???Expanding CP by some service for reading the configured users???'
+                                    mediator-user-name:
+                                      type: string
+                                      description: >
+                                        'mediatorUserName that might potentially be used for managing this device
+                                        candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                                        running: from candidate
+                                        operational: ???Expanding CP by some service for reading the configured users???'
+                                    mediator-user-password:
+                                      type: string
+                                      description: >
+                                        'Password that is expected together with some mediatorUserName that might potentially be used for managing this device
+                                        candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-password]
+                                        running: from candidate
+                                        operational: ???Expanding CP by some service for reading the configured users???'
+                                - description: 'tcpServer'
+                                  type: object
+                                  required:
+                                    - local-id
+                                    - local-ip-address
+                                    - local-port
+                                  properties:
+                                    local-id:
+                                      type: string
+                                      enum:
+                                        - 'tcp-server'
+                                    local-ip-address:
+                                      type: string
+                                      description: >
+                                        'IP address of the device
+                                        candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-ip-address]
+                                        running: from candidate
+                                        operational: from running, ???if device could not be reached while attempting to read the control-construct/externalLabel, the entire ControlConstruct to be deleted from network-control-domain=operational???'
+                                    local-port:
+                                      type: integer
+                                      minimum: 161
+                                      maximum: 161
+                                      description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'
+          link:
+            type: array
+            x-key: local-id
+            items:
+              oneOf:
+                - description: 'Link - see 81_NetconfConnection.yaml'
+                  type: object
+                  required:
+                    - local-id
+                    - linktp
+                  properties:
+                    local-id:
+                      type: string
+                      description: 'Identifier that is unique within the list of Links'
+                    linktp:
+                      type: array
+                      x-key: interface-type
+                      minItems: 2
+                      maxItems: 2
+                      items:
+                        oneOf:
+                          - description: netconfClient
+                            type: object
+                            required:
+                              - interface-type
+                              - _cc
+                              - _ltp
+                              - _lp
+                            properties:
+                              interface-type:
+                                type: string
+                                enum:
+                                  - netconf-client
+                              _cc:
+                                type: string
+                                description: >
+                                  'ControllerName
+                                  candidate: from [/network-control-domain=candidate/forwarding-domain=management-plane-transport/forwarding-construct=[deviceName]/fctp=management-plane-transport-client/_cc]
+                                  running: from candidate
+                                  operational: from ???
+                              _ltp:
+                                type: string
+                                description: >
+                                  'MountName of Device
+                                  candidate: from ???
+                                  running: from candidate
+                                  operational: from ???
+                              _lp:
+                                type: string
+                                enum:
+                                  - netconf-client
+                          - description: netconfServer
+                            type: object
+                            required:
+                              - interface-type
+                              - _cc
+                              - _ltp
+                              - _lp
+                            properties:
+                              interface-type:
+                                type: string
+                                enum:
+                                  - netconf-server
+                              _cc:
+                                type: string
+                                description: >
+                                  'mediatorVmName
+                                  candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
+                                  running: from candidate
+                                  operational: from ???
+                              _ltp:
+                                type: string
+                                description: >
+                                  'deviceName
+                                  candidate: from ???
+                                  running: from candidate
+                                  operational: from ???
+                              _lp:
+                                type: string
+                                enum:
+                                  - netconf-server
+                - description: 'Link - see 82_SnmpConnection.yaml'
+                  type: object
+                  required:
+                    - local-id
+                    - linktp
+                  properties:
+                    local-id:
+                      type: string
+                      description: 'Identifier that is unique within the list of Links'
+                    linktp:
+                      type: array
+                      x-key: interface-type
+                      minItems: 2
+                      maxItems: 2
+                      items:
+                        oneOf:
+                          - description: snmpClient
+                            type: object
+                            required:
+                              - interface-type
+                              - _cc
+                              - _ltp
+                              - _lp
+                            properties:
+                              interface-type:
+                                type: string
+                                enum:
+                                  - snmp-client
+                              _cc:
+                                type: string
+                                description: >
+                                  'mediatorVmName
+                                  candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
+                                  running: from candidate
+                                  operational: from ???
+                              _ltp:
+                                type: string
+                                description: >
+                                  'deviceName
+                                  candidate: from ???
+                                  running: from candidate
+                                  operational: from ???
+                              _lp:
+                                type: string
+                                enum:
+                                  - snmp-client
+                          - description: snmpServer
+                            type: object
+                            required:
+                              - interface-type
+                              - _cc
+                              - _ltp
+                              - _lp
+                            properties:
+                              interface-type:
+                                type: string
+                                enum:
+                                  - snmp-server
+                              _cc:
+                                type: string
+                                description: >
+                                  'deviceName
+                                  candidate: from ???
+                                  running: from candidate
+                                  operational: from ???
+                              _ltp:
+                                type: string
+                                enum:
+                                  - management
+                              _lp:
+                                type: string
+                                description: >
+                                  'mediatorUserName
+                                  candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name]
+                                  running: from candidate
+                                  operational: from ???
+          forwarding-domain:
+            type: array
+            x-key: forwarding-domain-name
+            minItems: 1
+            maxItems: 1
+            items:
+              type: object
+              description: 'managementPlaneTransport'
+              required:
+                - forwarding-domain-name
+                - forwarding-construct
+              properties:
+                forwarding-domain-name:
+                  type: string
+                  enum:
+                    - 'management-plane-transport'
+                forwarding-construct:
+                  type: array
+                  x-key: mount-name
+                  items:
+                    type: object
+                    description: 'ForwardingConstruct - see 88_ManagementPlaneTransportConnection.yaml'
+                    required:
+                      - mount-name
+                      - fctp
+                      - route
+                    properties:
+                      mount-name:
+                        type: string
+                        description: >
+                          'MountName
+                          candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                          running: from candidate
+                          operational: from [module OperationalManagementPlaneTransportList]'
+                      fctp:
+                        type: array
+                        x-key: _cc
+                        minItems: 2
+                        maxItems: 2
+                        items:
+                          oneOf:
+                            - description: managementPlaneTransportClient
+                              type: object
+                              required:
+                                - _cc
+                              properties:
+                                _cc:
+                                  type: string
+                                  description: >
+                                    'ControllerName
+                                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
+                                    running: from candidate
+                                    operational: from ???
+                            - description: managementPlaneTransportServer
+                              type: object
+                              required:
+                                - _cc
+                              properties:
+                                _cc:
+                                  type: string
+                                  description: >
+                                    'MountName of Device
+                                    candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
+                                    running: from candidate
+                                    operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
+                      route:
+                        type: array
+                        x-key: local-id
+                        items:
+                          type: object
+                          required:
+                            - local-id
+                            - _link
+                          properties:
+                            local-id:
+                              type: string
+                              description: >
+                                'Identifier that is unique within the list of Routes
+                                candidate: created while/after module ??? created a new mediatorProcess
+                                running: from candidate
+                                operational: from ???
+                            _links:
+                              type: array
+                              minItems: 2
+                              maxItems: 2
+                              items:
+                                type: string
+                                description: >
+                                  'Pair of the two localIds of the netconfLink and the snmpLink on the transport path of the managementPlaneTransport
+                                  netconfLink:
+                                    candidate: from ???
+                                    running: from ???
+                                    operational: from ???
+                                  snmpLink:
+                                    candidate: from ???
+                                    running: from ???
+                                    operational: from ???'
+components:
+  schemas:
+    errorDescription:
+      type: object
+      required:
+        - _error-code
+        - date-of-creation
+        - past-attempts-to-fix
+        - date-of-next-attempt-to-fix
+      properties:
+        _error-code:
+          type: integer
+          description: 'error-code of the definition of the problem in context of this application (value must be unique and invariant)'
+        date-of-creation:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+          description: 'Date and time when this problem has been detected'
+        past-attempts-to-fix:
+          type: array
+          x-key: date-of-attempt
+          description: 'List of past attempts to fix the problem'
+          items:
+            type: object
+            required:
+              - date-of-attempt
+              - response-code
+            properties:
+              date-of-attempt:
+                type: string
+                pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+                description: 'Date and time when it was attempted to fix the problem'
+              response-code:
+                type: integer
+                description: 'Code that resulted from the attempt to fix the problem'
+        date-of-next-attempt-to-fix:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})$'
+          description: 'Next attempt to fix this problem shall not be made before this date'

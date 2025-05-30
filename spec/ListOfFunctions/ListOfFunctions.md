@@ -84,15 +84,24 @@
 _(See the following entries as examples. List of ValidationTestFunctions is to be defined by ApplicationOwner:)_  
 
 - p1-ensure-unique-template-names  
-  Ensures that all Profile definitions have unique template-names  
+  Ensures that all Profile definitions have unique template-names 
 - p1-ensure-all-elements-referencing-an-existing-template  
-  Ensures that all Profile definitions have unique template-names  
+  Ensures that all element refers an existing template-name
 - p1-ensure-all-existing-controllers-complying-with-template-definition  
   Ensures that updated template is not in conflict with existing controllers  
 - p1-ensure-all-existing-mediator-vms-complying-with-template-definition  
   Ensures that updated template is not in conflict with existing mediatorVms  
 - p1-ensure-all-existing-devices-complying-with-template-definition  
   Ensures that updated template is not in conflict with existing devices  
+- p1-ensure-existing-template-is-not-in-service
+  Ensures that an existing template is being used by an object and not available for deletion.
+- p1-check-instance-reachability
+  Ensures that a controller/mediator vm is reachable from the DDM environment
+  - PING controller/mediator vm ip-address
+  - IF ip-address is not reachable
+    - return 500
+  - ELSE
+    - return 204
 - p1-ensure-unique-element-names  
   Ensures that all CC definitions have unique element-names  
 - p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate  
@@ -179,7 +188,24 @@ _List of MeasurementFunctions is to be defined by ApplicationOwner:)_
     - Deletes LTP object (MountPoint) from OperationalDS (might not have existed)  
     - Creates an entry with ErrorCode [might depend on the exact measurement result] at the missing LTP object in the CurrentAlarms (might have already existed)  
     - Returns false  
-
+- p1-measure-existing-mediator-vms-complying-with-template-definition
+  - Requests all associated mediator's MIM://v1/list-mediator-instances
+   - If number of mediator instances are greater than engineering-limit
+     - Creates an entry with ErrorCode 643
+     - Returns false
+   - ELSE
+     - Deletes all entries related to the Link in the CurrentAlarms
+     - Returns true
+- P1-measure-mediator-availability
+  - Request MIM://v1/list-mediator-instances
+  - IF no response received
+    - Deletes CC object(mediatorVM) from OperationalDS (might not have existed)  
+    - Creates an entry with ErrorCode ([Prathiba]how this object will look like ? please refer )
+    - Returns false
+  - ELSE
+    - Creates CC object (mediatorVM) similar to RunningDS in OperationalDS (might already exist)  
+    - Deletes all entries related to the CC in the CurrentAlarms (there might be no entry)  
+    - Returns true  
 ### Monitoring  
 - ./. (cyclic operation)  
 
@@ -190,7 +216,23 @@ _List of MeasurementFunctions is to be defined by ApplicationOwner:)_
     - IF currentDate > dateOfNextAttemptToFix  
       - Requests ImplementationFunction according definitions in ErrorCode table  
       - Receives Response  
-  - Start over with next FC  
+  - Start over with next FC
+- p1-implementation-copies-templates-to-operational  
+   - Find mismatch in the templates
+   - If there is a mismatch
+     - update the template instance to the OperationalDS
+     - Returns true
+   - ELSE
+     - Returns true 
+- p1-implementation-existing-mediator-vms-complying-with-template-definition  
+   - Requests all associated mediator's MIM://v1/list-mediator-instances
+   - If number of mediator instances are greater than engineering-limit
+     - calculate the differences between expected and actual number of instances
+     - selects random LTP objects (MountPoint) from the OperationalDS associated with that mediatorVm
+     - Deletes all selected random LTP objects
+     - Returns true
+   - ELSE
+     - Returns true
 
 _(List of ImplementationFunctions is to be defined by ApplicationOwner:)_  
 

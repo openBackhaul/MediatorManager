@@ -30,6 +30,15 @@ profile:
 
           # Please add, remove and change the parameters that need to be managed by template here
 
+          # [Prathiba] -----------------------  
+          # UNDERSTANDING : [This is for future migration usecase.]
+          # Huawei can have only a single session per user. 
+          # So for a in-service migration process, a new mediator VM will be configured with a credential that is not used by the old mediator.
+          # To facilitate this, a list of mediator-user should be available and from that an unused user will be configured to the new mediator.
+          # QUERIES :
+          # 1. How DDM will find which mediator-user is in use or not ?
+          # 2. How DDM will configure this mediator-user to the mediatorVm ? We need to find a harmonized way to do this.
+          # ----------------------------------
           default-mediator-user:
             type: array
             x-key: default-mediator-user-name
@@ -73,7 +82,9 @@ profile:
             description: 'Name of the operation for listing the mediatorProcesses that exist at some mediatorVm'
 
           # Is this username/password required to request for create/delete/list processes?
-
+          # [Prathiba] -----------------------  
+          # SUGGESTION : DDM will interact with MIM to create/delete/list the processes and not with mediatorVM.  So, this shall be removed.
+          # ----------------------------------
           admin-user-name:
             type: string
             description: 'User name for manual access to the mediatorVms derived from this mediatorVmTemplate'
@@ -82,7 +93,14 @@ profile:
             description: 'Password for manual access to the mediatorVms derived from this mediatorVmTemplate'
 
           # What shall be done with the following parameters inside the DDM?
-
+          # [Prathiba] ----------------------- 
+          # SUGGESTION : Attribute shall be deleted
+          # REASON : MIM will create a mediator process and make it available in a port(which should be within a range that is configured inside the MIM or the mediatorVM)
+          # Neither DDM will use this port-range to configure the same into the mediator VM nor use it as a reference to perform any other activities.
+          # ADDITIONAL INFO : For Ericsson , the port configuration is in the file application-properties.yaml
+          # For SIAE, the port range should be configured in the file /conf/md.cfg
+          # For Huawei, looks like it will be created automatically(as per my understanding from the dot portal)
+          # ----------------------------------
           tcp-port-range-list:
             type: array
             minItems: 1
@@ -101,6 +119,8 @@ profile:
                 highestTcpPort:
                   type: integer
                   description: 'highest possible TCP port in this range definition'
+          # [Prathiba] ----------------------- 
+          # QUERY : We need to check whether all vendors have this java-version. Storing this is only for documentation ? what will be the benefit?
           java-version:
             type: string
             description: 'Java Release applied for this mediator release'
