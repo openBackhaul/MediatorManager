@@ -670,6 +670,7 @@ domain-controller:
                                           description: >
                                             'IP address of the mediatorProcess
                                             candidate: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-netconf-port]
+                                            [Prathiba] : should be mediator-instance-ip-address
                                             running: from candidate
                                             operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/mediator-instance-ip-address]'
                                         local-port:
@@ -727,6 +728,7 @@ domain-controller:
                                           minimum: 161
                                           maximum: 161
                                           description: 'TCP port of the device to which the mediatorProcess is connected to'
+                                          [Prathiba] : not sure whether it is same for all the vendors ?
                 - description: 'ControlConstruct - see 31_Device.yaml'
                   type: object
                   required:
@@ -788,6 +790,7 @@ domain-controller:
                                         candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
                                         running: from candidate
                                         operational: ???Expanding CP by some service for reading the configured users???'
+                                        [Prathiba] : Should be 'snmp-server'
                                     mediator-user-name:
                                       type: string
                                       description: >
@@ -864,14 +867,14 @@ domain-controller:
                                   'ControllerName
                                   candidate: from [/network-control-domain=candidate/forwarding-domain=management-plane-transport/forwarding-construct=[deviceName]/fctp=management-plane-transport-client/_cc]
                                   running: from candidate
-                                  operational: from ???
+                                  operational: from ??? [Prathiba] : to be done
                               _ltp:
                                 type: string
                                 description: >
                                   'MountName of Device
-                                  candidate: from ???
-                                  running: from candidate
-                                  operational: from ???
+                                  candidate: from ??? [Prathiba] : to be done
+                                  running: from candidate 
+                                  operational: from ??? [Prathiba] : to be done
                               _lp:
                                 type: string
                                 enum:
@@ -894,14 +897,14 @@ domain-controller:
                                   'mediatorVmName
                                   candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
                                   running: from candidate
-                                  operational: from ???
+                                  operational: from ??? [Prathiba] : to be done
                               _ltp:
                                 type: string
                                 description: >
                                   'deviceName
-                                  candidate: from ???
+                                  candidate: from ??? [Prathiba] : to be done
                                   running: from candidate
-                                  operational: from ???
+                                  operational: from ??? [Prathiba] : to be done
                               _lp:
                                 type: string
                                 enum:
@@ -1027,6 +1030,8 @@ domain-controller:
                               type: object
                               required:
                                 - _cc
+                              # [Prathiba] : Identifier local-id shall be added with value 'managementPlaneTransportClient'.
+                                - local-id
                               properties:
                                 _cc:
                                   type: string
@@ -1035,10 +1040,15 @@ domain-controller:
                                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                                     running: from candidate
                                     operational: from ???
+                                local-id: 
+                                  type: string
+                                  enum:
+                                    - 'managementPlaneTransportClient'
                             - description: managementPlaneTransportServer
                               type: object
                               required:
                                 - _cc
+                                - local-id
                               properties:
                                 _cc:
                                   type: string
@@ -1047,6 +1057,10 @@ domain-controller:
                                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                                     running: from candidate
                                     operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
+                                local-id: 
+                                  type: string
+                                  enum:
+                                    - 'managementPlaneTransportServer'
                       route:
                         type: array
                         x-key: local-id
@@ -1079,6 +1093,7 @@ domain-controller:
                                     candidate: from ???
                                     running: from ???
                                     operational: from ???'
+                                  [Prathiba] : The schema needs to be updated and pointers needs to be included.
 components:
   schemas:
     errorDescription:
