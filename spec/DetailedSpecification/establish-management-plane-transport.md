@@ -40,13 +40,15 @@ For the following Request body
 Following control-construct object shall be created, 
 
 ```json
-control-construct : [
+{
+"control-construct" : [
 {
 	"element-name" : "MountA",
 	"category" : "device", 
 	"_template" : "ML6352",
-	"logical-termination-point" : [
-	{
+	"logical-termination-point" :
+	[
+		{
 		"local-id" : "management",
 		"layer-protocol" : [
 			{
@@ -55,16 +57,16 @@ control-construct : [
 			"mediator-password" : "openbackhaul@123", //refer the schema to know the source
 			},
 			{
-            "local-id" : "tcp-server",
+           		"local-id" : "tcp-server",
 			"local-ip-address" : "1.2.3.4" ,
 			"local-port": 161 // static
-            } 
-			]
-	}
+                        } 
+                ]
+		}
 	]
 }
 ]
-
+}
 ```
 
 #### LogicalTerminationPoint(LTP) Object(MediatorProcess) :
@@ -85,21 +87,23 @@ For the following Request body
 Following logical-termination-point object shall be created and added to the corresponding mediatorVM's CC object, 
 
 ```json
-"logical-termination-point" : [
-	{
-		"local-id" : "MountA",
-		"layer-protocol" : [
-			{
-			"local-id" : "netconf-server"
-			},
-			{
-            "local-id" : "tcp-server",
-			"local-ip-address" : "1.1.3.1" ,
-			"local-port": 8001
-            } 
-			]
-	}
-]
+{
+  "logical-termination-point": [
+    {
+      "local-id": "MountA",
+      "layer-protocol": [
+        {
+          "local-id": "netconf-server"
+        },
+        {
+          "local-id": "tcp-server",
+          "local-ip-address": "1.1.3.1",
+          "local-port": "8001"
+        }
+      ]
+    }
+  ]
+}
 
 ```
 
@@ -123,21 +127,23 @@ For the following Request body
 Following logical-termination-point object shall be created and added to the corresponding mediatorVM's CC object, 
 
 ```json
-"logical-termination-point" : [
-	{
-		"local-id" : "MountA",
-		"layer-protocol" : [
-			{
-			"local-id" : "netconf-client"
-			},
-			{
-            "local-id" : "tcp-client",
-			"remote-ip-address" : "1.1.3.1" ,
-			"remote-port": 8001
-            } 
-			]
-	}
-]
+{
+  "logical-termination-point": [
+    {
+      "local-id": "MountA",
+      "layer-protocol": [
+        {
+          "local-id": "netconf-client"
+        },
+        {
+          "local-id": "tcp-client",
+          "remote-ip-address": "1.1.3.1",
+          "remote-port": 8001
+        }
+      ]
+    }
+  ]
+}
 
 ```
 
@@ -159,42 +165,44 @@ For the following Request body
 Following logical-termination-point object shall be created and added to the corresponding mediatorVM's CC object, 
 
 ```json
-"link" : [
-	{
-		"local-id" : "0",
-		"linktp" : [
-			{
-			"interface-type" : "netconf-client",
-			"_cc": "ODLPrimaryController",
-			"_ltp" : "MountA",
-			"lp" : "netconf-client"
-			},
-			{
-			"interface-type" : "netconf-server",
-			"_cc": "EricssonMediatorManager", //See schema for source
-			"_ltp" : "MountA",
-			"lp" : "netconf-server"
-			}
-			]
-	},
-	{
-		"local-id" : "1",
-		"linktp" : [
-			{
-			"interface-type" : "snmp-client",
-			"_cc": "EricssonMediatorManager", //See schema for source
-			"_ltp" : "MountA",
-			"lp" : "snmp-client"
-			},
-			{
-			"interface-type" : "snmp-server",
-			"_cc": "MountA",
-			"_ltp" : "management" , //See schema for source
-			"lp" : "openbackhaul" //See schema for source [Prathiba] Why this alone is different ?
-			}
-			]
-	}
-]
+{
+  "link": [
+    {
+      "local-id": "0",
+      "linktp": [
+        {
+          "interface-type": "netconf-client",
+          "_cc": "ODLPrimaryController",
+          "_ltp": "MountA",
+          "lp": "netconf-client"
+        },
+        {
+          "interface-type": "netconf-server",
+          "_cc": "EricssonMediatorManager", //See schema for source
+          "_ltp": "MountA",
+          "lp": "netconf-server"
+        }
+      ]
+    },
+    {
+      "local-id": "1",
+      "linktp": [
+        {
+          "interface-type": "snmp-client",
+          "_cc": "EricssonMediatorManager", //See schema for source
+          "_ltp": "MountA",
+          "lp": "snmp-client"
+        },
+        {
+          "interface-type": "snmp-server",
+          "_cc": "MountA",
+          "_ltp": "management", //See schema for source
+          "lp": "openbackhaul" //See schema for source [Prathiba] Why this alone is different ?
+        }
+      ]
+    }
+  ]
+}
 
 ```
 
@@ -216,7 +224,10 @@ For the following Request body
 Following logical-termination-point object shall be created and added to the corresponding mediatorVM's CC object, 
 
 ```json
-"forwarding-domain" : [
+
+{
+  "forwarding-domain" : [
+  {
 	"forwarding-domain-name" : "management-plane-transport",
 	"forwarding-construct" : [
 		{
@@ -242,14 +253,13 @@ Following logical-termination-point object shall be created and added to the cor
 							"snmp-link" : "1"
 						}
 					]
-				},
-				{
-
 				}
 			]
 		}
-	]
+		]
+  }
 ]
+}
 
 ```
 
@@ -263,103 +273,125 @@ from candidate
 Identifies that there is no such instance exists in the operational DS and creates an alarm 
 
 ```json
-"alarm": {
-        "affected-fc": [
-			{
-            "_affected-fc": "MountA", //the missing forwarding construct in the OperationalDS
-            "affected-link": [{
-                "_affected-link": "0", //netconf link
-                "affected-cc": [
-				{
-                    "_affected-cc": "ODLPrimaryController", //_cc in the netconfLink
-                    "error": 500, // If controller is not reachable, then error
-                    "affected-ltp": [{
-                        "_affected-ltp": "MountA", //_ltp
-                        "error": "500", // If mountpoint is not available in the ODL , then error
-                        "affected-lp": [
-						{
-                            "_affected-lp": "netconf-client", //_lp
-                            "error": {
-                                "_error-code": "",
-                                "date-of-creation": "",
-                                "past-attempts-to-fix": "",
-                                "date-of-next-attempt-to-fix": ""
-                            }
+{
+  "alarm": {
+    "affected-fc": [
+      {
+        "_affected-fc": "MountA", // Missing forwarding construct in the OperationalDS
+        "affected-link": [
+          {
+            "_affected-link": "0", // NETCONF link
+            "affected-cc": [
+              {
+                "_affected-cc": "ODLPrimaryController", // Controller in the NETCONF link
+                "error": 500, // Controller is not reachable
+                "affected-ltp": [
+                  {
+                    "_affected-ltp": "MountA", // Logical Termination Point
+                    "error": "500", // Mountpoint is not available in ODL
+                    "affected-lp": [
+                      {
+                        "_affected-lp": "netconf-client", // Logical Port
+                        "error": {
+                          "_error-code": "",
+                          "date-of-creation": "",
+                          "past-attempts-to-fix": "",
+                          "date-of-next-attempt-to-fix": ""
                         }
-						]
-                    }]
-                },
-				{
-                    "_affected-cc": "EricssonMediatorManager", //_cc in the netconfLink
-                    "error": 500, // If mediator vm is not reachable, then error
-                    "affected-ltp": [{
-                        "_affected-ltp": "MountA", //_ltp
-                        "error": "500", // If no mediator process is available or the netconf server is not reachable, then error
-                        "affected-lp": [
-						{
-                            "_affected-lp": "netconf-server", //_lp
-                            "error": {
-                                "_error-code": "",
-                                "date-of-creation": "",
-                                "past-attempts-to-fix": "",
-                                "date-of-next-attempt-to-fix": ""
-                            }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "_affected-cc": "EricssonMediatorManager", // Mediator in the NETCONF link
+                "error": 500, // Mediator VM is not reachable
+                "affected-ltp": [
+                  {
+                    "_affected-ltp": "MountA",
+                    "error": "500", // Mediator process or NETCONF server not reachable
+                    "affected-lp": [
+                      {
+                        "_affected-lp": "netconf-server",
+                        "error": {
+                          "_error-code": "",
+                          "date-of-creation": "",
+                          "past-attempts-to-fix": "",
+                          "date-of-next-attempt-to-fix": ""
                         }
-						]
-                    }]
-                }
-				]
-            }]
-        },
-		{
-            "_affected-fc": "MountA", //the missing forwarding construct in the OperationalDS
-            "affected-link": [{
-                "_affected-link": "0", //snmp link
-                "affected-cc": [
-				{
-                    "_affected-cc": "EricssonMediatorManager", //_cc in the snmpclient
-                    "error": 500, // If mediator is not reachable, then error
-                    "affected-ltp": [{
-                        "_affected-ltp": "MountA", //_ltp
-                        "error": "500", // If mountpoint is not available in the ODL , then error
-                        "affected-lp": [
-						{
-                            "_affected-lp": "snmp-client", //_lp
-                            "error": {
-                                "_error-code": "",
-                                "date-of-creation": "",
-                                "past-attempts-to-fix": "",
-                                "date-of-next-attempt-to-fix": ""
-                            }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "_affected-fc": "MountA", // Missing forwarding construct in the OperationalDS
+        "affected-link": [
+          {
+            "_affected-link": "0", // SNMP link
+            "affected-cc": [
+              {
+                "_affected-cc": "EricssonMediatorManager", // Mediator in the SNMP client
+                "error": 500, // Mediator is not reachable
+                "affected-ltp": [
+                  {
+                    "_affected-ltp": "MountA",
+                    "error": "500", // Mountpoint is not available in ODL
+                    "affected-lp": [
+                      {
+                        "_affected-lp": "snmp-client",
+                        "error": {
+                          "_error-code": "",
+                          "date-of-creation": "",
+                          "past-attempts-to-fix": "",
+                          "date-of-next-attempt-to-fix": ""
                         }
-						]
-                    }]
-                },
-				{
-                    "_affected-cc": "MountA", //_cc in the snmpserver
-                    "error": 500, // If device-ip is not reachable , then error
-                    "affected-ltp": [{
-                        "_affected-ltp": "MountA", //_ltp
-                        "error": "500", // If snmp interface is not accessible or reachable , then error
-                        "affected-lp": [
-						{
-                            "_affected-lp": "snmp-server", //_lp
-                            "error": {
-                                "_error-code": "",
-                                "date-of-creation": "",
-                                "past-attempts-to-fix": "",
-                                "date-of-next-attempt-to-fix": ""
-                            }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "_affected-cc": "MountA", // SNMP server (device)
+                "error": 500, // Device IP is not reachable
+                "affected-ltp": [
+                  {
+                    "_affected-ltp": "MountA",
+                    "error": "500", // SNMP interface not accessible or reachable
+                    "affected-lp": [
+                      {
+                        "_affected-lp": "snmp-server",
+                        "error": {
+                          "_error-code": "",
+                          "date-of-creation": "",
+                          "past-attempts-to-fix": "",
+                          "date-of-next-attempt-to-fix": ""
                         }
-						]
-                    }]
-                }
-				]
-            }]
-        }
-		]
-    }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
+| Affected FC | Link Type | Component (CC)            | CC Error | LTP    | LTP Error | LP             | LP Error Code | Date Created | Fix Attempts | Next Fix Date |
+|-------------|-----------|---------------------------|----------|--------|-----------|----------------|---------------|---------------|--------------|----------------|
+| MountA      | netconf   | ODLPrimaryController      | 500      | MountA | 500       | netconf-client |               |               |              |                |
+| MountA      | netconf   | EricssonMediatorManager   | 500      | MountA | 500       | netconf-server |               |               |              |                |
+| MountA      | snmp      | EricssonMediatorManager   | 500      | MountA | 500       | snmp-client    |               |               |              |                |
+| MountA      | snmp      | MountA                    | 500      | MountA | 500       | snmp-server    |               |               |              |                |
+
+
 
 ### Operational DataStore :
 
