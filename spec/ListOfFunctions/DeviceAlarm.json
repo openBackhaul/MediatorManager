@@ -1,0 +1,128 @@
+{
+        "control-construct": [
+            {
+            "element-name": "PrimaryController",
+            "category": "controller",
+            "logical-termination-point": [{
+                "mount-name": "Mount-A",
+                "layer-protocol": [{
+                        "interface-type": "netconf-client"
+                    },
+                    {
+                        "interface-type": "tcp-client",
+                        "remote-ip-address": "1.1.1.1",
+                        "remote-port": 8080
+                    }
+                ]
+            }]
+        },
+        {
+            "element-name": "mediatorEricsson",
+            "category": "mediator",
+            "logical-termination-point": [{
+                    "local-id": "mediator-instance-manager",
+                    "layer-protocol": [{
+                            "server-name": "mim-operation-server-create",
+                            "operation-name": "from template"
+                        },
+                        {
+                            "server-name": "mim-operation-server-dismantle",
+                            "operation-name": "from template"
+                        },
+                        {
+                            "server-name": "mim-operation-server-list",
+                            "operation-name": "from template"
+                        },
+                        {
+                            "server-name": "mim-http-server",
+                            "mediator-user-name": "username",
+                            "mediator-user-password": "password"
+                        },
+                        {
+                            "server-name": "mim-tcp-server",
+                            "local-ip-address": "2.2.2.2",
+                            "local-port": 8080
+                        }
+                    ]
+                },
+                {
+                    "local-id": "Mount-A",
+                    "layer-protocol": [{
+                            "interface-type": "netconf-server"
+                        },
+                        {
+                            "interface-type": "tcp-server",
+                            "local-ip-address": "3.3.3.3", // mediator process ip
+                            "local-port": 8090
+                        },
+                        {
+                            "interface-type": "snmp-client",
+                            "mediator-user-name": "username",
+                            "mediator-user-password": "password"
+                        },
+                        {
+                            "interface-type": "tcp-client",
+                            "remote-ip-address": "4.4.4.4", //device-ip
+                            "remote-port": 161
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "element-name": "Mount-A",
+            "category": "device",
+            "logical-termination-point": [{
+                "local-id": "management",
+                "layer-protocol": [{
+                        "local-id": "snmp-server",
+                        "mediator-user-name": "username",
+                        "mediator-user-password": "password"
+                    },
+                    {
+                        "local-id": "tcp-server",
+                        "local-ip-address": "4.4.4.4", //device-ip
+                        "local-port": 161
+                    }
+                ]
+            }]
+        }
+    ],
+    "forwarding-domain": [{
+        "forwarding-domain-name": "management-plane-transport",
+        "forwarding-construct": [{
+            "mount-name": "mount-A",
+            "fctp": [{
+                    "local-id": "managementPlaneTransportClient",
+                    "_cc": "PrimaryController"
+                },
+                {
+                    "local-id": "managementPlaneTransportServer",
+                    "_cc": "Mount-A"
+                }
+            ],
+            "route": [{
+                    "local-id": 101,
+                    "_links": [{
+                            "netconfLink": "from links ???"
+                        },
+                        {
+                            "snmpLink": "from links ???"
+                        }
+                    ]
+                    }
+                ]
+            }
+        ]
+        }],
+    "link": [{
+            "local-id": 123,
+            "linktp": [{
+                "interface-type": "netconf-client",
+                "_cc": "",
+                "_ltp": "",
+                "_lp":
+            }]
+    }
+    ]
+}

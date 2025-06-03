@@ -2363,9 +2363,9 @@ paths:
                   pattern: '^([A-Z][a-z0-9]+){2,}$'
                   description: >
                     'configFile : Name of a mediatorVm find, but not at OldRelease or NewRelease, or create [/core-model-1-4:control-construct/logical-termination-point=ddm-1-0-0-http-c-*/layer-protocol=0/http-client-interface-1-0:http-client-interface-pac/http-client-interface-configuration/application-name]
-                    candidateDS : creates CC object DomainController/NetworkControlDomain=candidate/ControlConstruct/element-name for the category=controller
-                    runningDS : from candidate
-                    operationalDS : from running'
+                     candidateDS : creates CC object DomainController/NetworkControlDomain=candidate/ControlConstruct/element-name for the category=controller
+                     runningDS : from candidate
+                     operationalDS : from running'
                 mediator-vm-name-release-number:
                   type: string
                   pattern: '^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$'
@@ -2384,8 +2384,7 @@ paths:
                      candidateDS : 
                      create DomainController/NetworkControlDomain=candidate/ControlConstruct={$mediator-vm-name}/logical-termination-point=mediator-instance-manager/server-name=mim-operation-server-create/operation-name
                      create DomainController/NetworkControlDomain=candidate/ControlConstruct={$mediator-vm-name}/logical-termination-point=mediator-instance-manager/server-name=mim-operation-server-update/operation-name
-                     create DomainController/NetworkControlDomain=candidate/ControlConstruct={$mediator-vm-name}/logical-termination-point=mediator-instance-manager/server-name=mim-operation-server-delete/operation-name
-                     '
+                     create DomainController/NetworkControlDomain=candidate/ControlConstruct={$mediator-vm-name}/logical-termination-point=mediator-instance-manager/server-name=mim-operation-server-delete/operation-name'
                 mediator-vm-protocol:
                   type: string
                   enum:

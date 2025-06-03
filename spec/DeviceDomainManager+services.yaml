@@ -108,6 +108,7 @@ servers:
           uuid: ddm-1-0-0-op-s-is-020
 
         - operation-name: /v1/establish-management-plane-transport_(in:controller-name, device-name, device-kind-name, device-ip-address, mediator-user-name, mediator-user-password)
+          [Prathiba] : As per my understanding mediator-user-name, mediator-user-password shall be encapsulated within the DDM application and hence will not be required.
           uuid: ddm-1-0-0-op-s-is-025
         - operation-name: /v1/dismantle-management-plane-transport
           uuid: ddm-1-0-0-op-s-is-026

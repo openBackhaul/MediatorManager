@@ -753,6 +753,7 @@ domain-controller:
                       description: >
                         'deviceTemplateName (must match the template-name of a DeviceProfile definition)
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
+                        [Prathiba] Whether there will be 1 template per device-kind-name ?
                         running: from candidate
                         operational: ???from reading the control-construct/deviceModelName from documented devices???'
                     logical-termination-point:
@@ -796,6 +797,7 @@ domain-controller:
                                       description: >
                                         'mediatorUserName that might potentially be used for managing this device
                                         candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                                        [Prathiba] It shall not be from the template. It should be from [/network-control-domain=candidate/control-construct=[$selected-mediator-vm]/logical-termination-point=mediator-instance-manager/mediator-user-name]
                                         running: from candidate
                                         operational: ???Expanding CP by some service for reading the configured users???'
                                     mediator-user-password:
@@ -803,6 +805,7 @@ domain-controller:
                                       description: >
                                         'Password that is expected together with some mediatorUserName that might potentially be used for managing this device
                                         candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-password]
+                                        [Prathiba] It shall not be from the template. It should be from [/network-control-domain=candidate/control-construct=[$selected-mediator-vm]/logical-termination-point=mediator-instance-manager/mediator-password]
                                         running: from candidate
                                         operational: ???Expanding CP by some service for reading the configured users???'
                                 - description: 'tcpServer'
@@ -828,6 +831,7 @@ domain-controller:
                                       minimum: 161
                                       maximum: 161
                                       description: 'Using 161 as a default is abstracting that Huawei is not using SNMP, but Qx.'
+                                      [Prathiba] : As per googling, Huawei exposes Qx protocol in the port 5432. Yet to be confirmed by Zia.
           link:
             type: array
             x-key: local-id
@@ -872,7 +876,7 @@ domain-controller:
                                 type: string
                                 description: >
                                   'MountName of Device
-                                  candidate: from ??? [Prathiba] : to be done
+                                  candidate: from ??? [Prathiba] : request.body#device-name
                                   running: from candidate 
                                   operational: from ??? [Prathiba] : to be done
                               _lp:
@@ -902,7 +906,7 @@ domain-controller:
                                 type: string
                                 description: >
                                   'deviceName
-                                  candidate: from ??? [Prathiba] : to be done
+                                  candidate: from ??? [Prathiba] : request.body#device-name
                                   running: from candidate
                                   operational: from ??? [Prathiba] : to be done
                               _lp:
@@ -948,7 +952,7 @@ domain-controller:
                                 type: string
                                 description: >
                                   'deviceName
-                                  candidate: from ???
+                                  candidate: from ??? [Prathiba] request.body#device-name
                                   running: from candidate
                                   operational: from ???
                               _lp:
@@ -971,7 +975,7 @@ domain-controller:
                                 type: string
                                 description: >
                                   'deviceName
-                                  candidate: from ???
+                                  candidate: from ??? [Prathiba] request.body#device-name
                                   running: from candidate
                                   operational: from ???
                               _ltp:
