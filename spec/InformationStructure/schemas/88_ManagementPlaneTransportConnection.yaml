@@ -1,14 +1,14 @@
 forwarding-construct:
   type: array
-  x-key: mount-name
+  x-key: forwarding-construct-name
   items:
     type: object
     required:
-      - mount-name
+      - forwarding-construct-name
       - fctp
       - route
     properties:
-      mount-name:
+      forwarding-construct-name:
         type: string
         description: >
           'MountName
