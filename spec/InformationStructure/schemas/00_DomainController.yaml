@@ -49,4 +49,4 @@ domain-controller:
         type: object
         description: >
           'NetworkControlDomain for CandidateDS, RunningDS, OperationalDS or StartupDS - see 09_NetworkControlDomain.yaml
-          Four identical information structures describing candidate, startup, running and operational data store according to NMDA concept'
+          Up to four identical information structures describing candidate, running, operational and potentially startup data store according to NMDA concept'
