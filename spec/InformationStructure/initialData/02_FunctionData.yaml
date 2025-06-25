@@ -1,0 +1,302 @@
+function:
+  - function-name: 'v1-create-controller-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-controller-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-controller-templates'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-controller-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-controller-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-create-mediator-vm-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-mediator-vm-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-mediator-vm-templates'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-mediator-vm-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-mediator-vm-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-create-device-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-delete-device-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-device-templates'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-device-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-update-device-template'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-regard-controller'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-disregard-controller'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-controllers'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-regard-mediator-vm'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-disregard-mediator-vm'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-mediator-vms'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'v1-establish-management-plane-transport'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-dismantle-management-plane-transport'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-list-management-plane-transports'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-inform-about-management-plane-transport'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'v1-provide-alarms-for-management-plane-transport'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name: 'p1-measure-management-plane-transport-availability'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'p1-measure-snmp-link-availability'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'p1-measure-device-availability'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'p1-measure-mediator-process-availability'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name: 'p1-measure-netconf-link-availability'
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
+  - function-name:
+    function-description:
+    parameter:
+      - parameter-name:
+        parameter-value:
+        parameter-definition:
