@@ -31,7 +31,7 @@ control-construct:
               operational: ???we could add a service to CDM for reading this information???'
           logical-termination-point:
             type: array
-            x-key: mount-name
+            x-key: local-id
             items:
               oneOf:
                 - description: 'LogicalTerminationPoint - see 12_MountPoint.yaml'

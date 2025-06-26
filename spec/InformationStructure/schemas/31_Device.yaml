@@ -14,7 +14,7 @@ control-construct:
           element-name:
             type: string
             description: >
-              'MountName
+              'deviceName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
               operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
