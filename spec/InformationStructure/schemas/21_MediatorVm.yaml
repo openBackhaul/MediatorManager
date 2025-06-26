@@ -15,9 +15,9 @@ control-construct:
             type: string
             description: >
               'mediatorVmName
-              candidate: from [MM://v1/regard-mediator-vm$request.body#mediator-vm-name]
+              candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-name]
               running: from candidate
-              operational: from running, but deleted entire CC from list if not responding on xMIM://v1/list-mediator-instances'
+              operational: from running; entire CC to be deleted, if addressing xMIM://v1/list-mediator-instances fails'
           category:
             type: string
             enum:
@@ -25,10 +25,12 @@ control-construct:
           _template:
             type: string
             description: >
-              'mediatorVmTemplateName (must match the template-name of a MediatorVmProfile definition)
+              'mediatorVmTemplateName
+              Reference towards an entry in the list of Profiles
+              Both instances of ControlConstruct and Profile must have an identical value in their category attributes
               candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-template-name]
               running: from candidate
-              operational: from running (xMIM does not provide the information)'
+              operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
           logical-termination-point:
             type: array
             x-key: local-id

@@ -11,7 +11,9 @@ link:
         properties:
           local-id:
             type: string
-            description: 'Identifier that is unique within the list of Links'
+            description: >
+              'Identifier that is unique within the list of Links
+              operational: from running; entire Link to be deleted, if one of the referenced CC, LTP or LP does not exist in operationalDS'
           linktp:
             type: array
             x-key: interface-type
@@ -19,7 +21,7 @@ link:
             maxItems: 2
             items:
               oneOf:
-                - description: netconfClient
+                - description: 'netconfClient'
                   type: object
                   required:
                     - interface-type
@@ -37,19 +39,19 @@ link:
                         'ControllerName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _ltp:
                       type: string
                       description: >
                         'MountName of Device
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _lp:
                       type: string
                       enum:
                         - 'netconf-client'
-                - description: netconfServer
+                - description: 'netconfServer'
                   type: object
                   required:
                     - interface-type
@@ -67,14 +69,14 @@ link:
                         'mediatorVmName
                         candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _ltp:
                       type: string
                       description: >
                         'deviceName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _lp:
                       type: string
                       enum:
