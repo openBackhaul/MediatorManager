@@ -76,6 +76,6 @@ link:
                       type: string
                       description: >
                         'mediatorUserName
-                        candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name] ???
+                        candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=http-server/mediator-user-name] ???
                         running: from candidate
                         operational: from ???
