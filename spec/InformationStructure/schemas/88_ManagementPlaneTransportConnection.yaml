@@ -1,17 +1,17 @@
 forwarding-construct:
   type: array
-  x-key: mount-name
+  x-key: forwarding-construct-name
   items:
     type: object
     required:
-      - mount-name
+      - forwarding-construct-name
       - fctp
       - route
     properties:
-      mount-name:
+      forwarding-construct-name:
         type: string
         description: >
-          'MountName
+          'deviceName
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
           operational: from [module OperationalManagementPlaneTransportList]'
@@ -63,12 +63,15 @@ forwarding-construct:
           type: object
           required:
             - local-id
-            - _link
+            - _links
           properties:
             local-id:
               type: string
               description: >
-                'Identifier that is unique within the list of Routes'
+                'Identifier that is unique within the list of Routes
+                candidate:
+                running: from candidate
+                operational: from running; entire Route to be deleted, if one of the referenced Links does not exist in operationalDS'
             _links:
               type: array
               minItems: 2

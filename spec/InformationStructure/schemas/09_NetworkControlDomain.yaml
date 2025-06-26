@@ -67,7 +67,7 @@ network-control-domain:
                 - 'management-plane-transport'
             forwarding-construct:
               type: array
-              x-key: mount-name
+              x-key: forwarding-construct-name
               items:
                 type: object
                 description: 'ForwardingConstruct - see 88_ManagementPlaneTransportConnection.yaml'
