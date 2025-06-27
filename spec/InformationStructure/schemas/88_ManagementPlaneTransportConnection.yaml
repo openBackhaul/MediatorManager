@@ -17,7 +17,7 @@ forwarding-construct:
           operational: from [module OperationalManagementPlaneTransportList]'
       fctp:
         type: array
-        x-key: _cc
+        x-key: fctp-type
         minItems: 2
         maxItems: 2
         items:
@@ -25,8 +25,13 @@ forwarding-construct:
             - description: managementPlaneTransportClient
               type: object
               required:
+                - fctp-type
                 - _cc
               properties:
+                fctp-type:
+                  type: string
+                  enum:
+                    - 'management-plane-transport-client'
                 _cc:
                   type: string
                   description: >
@@ -37,8 +42,13 @@ forwarding-construct:
             - description: managementPlaneTransportServer
               type: object
               required:
+                - fctp-type
                 - _cc
               properties:
+                fctp-type:
+                  type: string
+                  enum:
+                    - 'management-plane-transport-server'
                 _cc:
                   type: string
                   description: >
