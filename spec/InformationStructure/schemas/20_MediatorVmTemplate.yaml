@@ -39,6 +39,22 @@ profile:
           # 1. How DDM will find which mediator-user is in use or not ?
           # 2. How DDM will configure this mediator-user to the mediatorVm ? We need to find a harmonized way to do this.
           # ----------------------------------
+          # [Thorsten] -----------------------  
+          # In regards with understanding:
+          # - I would propose to use different mediator-user for every Huawei MediatorVm
+          #   This would allow shifting devices between existing MediatorVms
+          # - If this would make sense, it should be implemented as a part of the regardMediatorVm interpretation service
+          #   E.g. regardMediatorVm service shall NOT have mediator-user as an input,
+          #   but the interpretation service shall pick a mediator-user, which is not yet used, from the list in the template
+          # - The interpretation service might be supported by a template::needs-a-unique-mediator-user : boolean attribute to achieve a vendor agnostic algorithm
+          # Query 1:
+          # - Content of [./default-mediator-user=[n]/default-mediator-user-name] must be compared with 
+          #   [/network-control-domain=candidate/control-construct=[*]/logical-termination-point=mediator-instance-manager/layer-protocol=http-server/mediator-user-name]
+          # Query 2:
+          # - Currently there is no harmonized way for that.
+          #   The Huawei way from their API description has to be used.
+          # ----------------------------------
+          
           default-mediator-user:
             type: array
             x-key: default-mediator-user-name
@@ -85,6 +101,10 @@ profile:
           # [Prathiba] -----------------------  
           # SUGGESTION : DDM will interact with MIM to create/delete/list the processes and not with mediatorVM.  So, this shall be removed.
           # ----------------------------------
+          # [Thorsten] -----------------------  
+          # I am lacking the exact technical background. Everything not needed, shall be deleted.
+          # ----------------------------------
+
           admin-user-name:
             type: string
             description: 'User name for manual access to the mediatorVms derived from this mediatorVmTemplate'
@@ -101,6 +121,10 @@ profile:
           # For SIAE, the port range should be configured in the file /conf/md.cfg
           # For Huawei, looks like it will be created automatically(as per my understanding from the dot portal)
           # ----------------------------------
+          # [Thorsten] -----------------------  
+          # I am lacking the exact technical background. Everything not needed, shall be deleted.
+          # ----------------------------------
+
           tcp-port-range-list:
             type: array
             minItems: 1
@@ -119,8 +143,13 @@ profile:
                 highestTcpPort:
                   type: integer
                   description: 'highest possible TCP port in this range definition'
+
           # [Prathiba] ----------------------- 
           # QUERY : We need to check whether all vendors have this java-version. Storing this is only for documentation ? what will be the benefit?
+          # [Thorsten] -----------------------  
+          # I am lacking the exact technical background. Everything not needed, shall be deleted.
+          # ----------------------------------
+
           java-version:
             type: string
             description: 'Java Release applied for this mediator release'
