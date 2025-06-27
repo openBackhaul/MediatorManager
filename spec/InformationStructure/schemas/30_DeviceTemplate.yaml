@@ -24,17 +24,3 @@ profile:
 
           # Please add, remove and change the parameters that need to be managed by template here
 
-          default-mediator-user:
-            type: array
-            x-key: default-mediator-user-name
-            minItems: 1
-            items:
-              type: object
-              required:
-                - default-mediator-user-name
-                - default-mediator-user-password
-              properties:
-                default-mediator-user-name:
-                  type: string
-                default-mediator-user-password:
-                  type: string

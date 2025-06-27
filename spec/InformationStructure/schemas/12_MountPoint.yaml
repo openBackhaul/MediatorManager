@@ -25,11 +25,29 @@ logical-termination-point:
               type: object
               required:
                 - local-id
+                - netconf-user-name
+                - netconf-user-password
               properties:
                 local-id:
                   type: string
                   enum:
                     - 'netconf-client'
+                netconf-user-name:
+                  type: string
+                  description: >
+                    'The NETCONF user name is used by the MountPoint for addressing the MediatorProcess
+                    It shall be configured by the CDM after receiving the value from DDM
+                    candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=[deviceName]/layer-protocol=netconf-server/netconf-user-name]
+                    running: from candidate
+                    operational: from [CDM://v1/inform-about-mount-point$response.body#netconf-user-name]'
+                netconf-user-password:
+                  type: string
+                  description: >
+                    'The NETCONF user password is used by the MountPoint for addressing the MediatorProcess
+                    It shall be configured by the CDM after receiving the value from DDM
+                    candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=[deviceName]/layer-protocol=netconf-server/netconf-user-password]
+                    running: from candidate
+                    operational: from [CDM://v1/inform-about-mount-point$response.body#netconf-user-password]'
             - description: 'tcpClient'
               type: object
               required:

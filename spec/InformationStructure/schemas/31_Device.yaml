@@ -56,30 +56,32 @@ control-construct:
                         type: object
                         required:
                           - local-id
-                          - mediator-user-name
-                          - mediator-user-password
+                          - snmp-user-name
+                          - snmp-user-password
                         properties:
                           local-id:
                             type: string
                             description: >
-                              'mediatorUserName, an instance of snmpServer is to be created for every defaultMediatorUserName in [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]]
-                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                              'snmpUserName, an instance of snmpServer is to be created for every MediatorProcess that shall address the Device
+                              candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=[deviceName]/layer-protocol=snmp-client/snmp-user-name]
                               running: from candidate
-                              operational: ???Expanding CP by some service for reading the configured users???'
-                          mediator-user-name:
+                              operational: [Thorsten - preliminary proposal] from running, but entire LP to be deleted if not included in [CP://v1/provide-connection-data$response.body#user-list/user-name]'
+                          snmp-user-name:
                             type: string
                             description: >
-                              'mediatorUserName that might potentially be used for managing this device
-                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-name]
+                              'The SNMP user name is expected by the device while being addressed by the MediatorProcess
+                              It shall be configured by the ConnectionPreparation after receiving the value from DDM
+                              candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=[deviceName]/layer-protocol=snmp-client/snmp-user-name]
                               running: from candidate
-                              operational: ???Expanding CP by some service for reading the configured users???'
-                          mediator-user-password:
+                              operational: ./.
+                          snmp-user-password:
                             type: string
                             description: >
-                              'Password that is expected together with some mediatorUserName that might potentially be used for managing this device
-                              candidate: from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[mediatorUserName]/default-mediator-user-password]
+                              'The SNMP user password is expected by the device while being addressed by the MediatorProcess
+                              It shall be configured by the ConnectionPreparation after receiving the value from DDM
+                              candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=[deviceName]/layer-protocol=snmp-client/snmp-user-password]
                               running: from candidate
-                              operational: ???Expanding CP by some service for reading the configured users???'
+                              operational: ./.
                       - description: 'tcpServer'
                         type: object
                         required:
