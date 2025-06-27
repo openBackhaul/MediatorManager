@@ -1,22 +1,22 @@
 logical-termination-point:
   type: array
-  x-key: mount-name
+  x-key: local-id
   items:
     type: object
     required:
-      - mount-name
+      - local-id
       - layer-protocol
     properties:
-      mount-name:
+      local-id:
         type: string
         description: >
-          'MountName
+          'deviceName
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
           operational: from running; entire LTP to be deleted, if deviceName not included in [CDM://v1/provide-list-of-mount-points-at-controller$response.body#mount-names]'
       layer-protocol:
         type: array
-        x-key: interface-type
+        x-key: local-id
         minItems: 2
         maxItems: 2
         items:
@@ -24,20 +24,20 @@ logical-termination-point:
             - description: 'netconfClient'
               type: object
               required:
-                - interface-type
+                - local-id
               properties:
-                interface-type:
+                local-id:
                   type: string
                   enum:
                     - 'netconf-client'
             - description: 'tcpClient'
               type: object
               required:
-                - interface-type
+                - local-id
                 - remote-ip-address
                 - remote-port
               properties:
-                interface-type:
+                local-id:
                   type: string
                   enum:
                     - 'tcp-client'

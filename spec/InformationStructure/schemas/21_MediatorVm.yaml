@@ -49,7 +49,7 @@ control-construct:
                         - 'mediator-instance-manager'
                     layer-protocol:
                       type: array
-                      x-key: server-name
+                      x-key: local-id
                       minItems: 5
                       maxItems: 5
                       items:
@@ -57,10 +57,10 @@ control-construct:
                           - description: 'operationServer - provide-mediator-instance'
                             type: object
                             required:
-                              - server-name
+                              - local-id
                               - operation-name
                             properties:
-                              server-name:
+                              local-id:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-create'
@@ -74,10 +74,10 @@ control-construct:
                           - description: 'operationServer - dismantle-mediator-instance'
                             type: object
                             required:
-                              - server-name
+                              - local-id
                               - operation-name
                             properties:
-                              server-name:
+                              local-id:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-dismantle'
@@ -91,10 +91,10 @@ control-construct:
                           - description: 'operationServer - list-mediator-instances'
                             type: object
                             required:
-                              - server-name
+                              - local-id
                               - operation-name
                             properties:
-                              server-name:
+                              local-id:
                                 type: string
                                 enum:
                                   - 'mim-operation-server-list'
@@ -108,12 +108,12 @@ control-construct:
                           - description: 'httpServer'
                             type: object
                             required:
-                              - server-name
+                              - local-id
                             properties:
-                              server-name:
+                              local-id:
                                 type: string
                                 enum:
-                                  - 'mim-http-server'
+                                  - 'http-server'
                               mediator-user-name:
                                 type: string
                                 description: >
@@ -145,14 +145,14 @@ control-construct:
                           - description: 'tcpServer'
                             type: object
                             required:
-                              - server-name
+                              - local-id
                               - local-ip-address
                               - local-port
                             properties:
-                              server-name:
+                              local-id:
                                 type: string
                                 enum:
-                                  - 'mim-tcp-server'
+                                  - 'tcp-server'
                               local-ip-address:
                                 type: string
                                 description: >

@@ -14,7 +14,7 @@ control-construct:
           element-name:
             type: string
             description: >
-              'DeviceName
+              'deviceName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
               operational: from running; entire CC to be deleted, if addressing the Device (e.g. Ping, or Live path in MWDI) fails'

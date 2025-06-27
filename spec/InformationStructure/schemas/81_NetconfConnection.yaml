@@ -36,14 +36,14 @@ link:
                     _cc:
                       type: string
                       description: >
-                        'ControllerName
+                        'controllerName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                         running: from candidate
                         operational: from running - must exist in OperationalDS for expressing operational state'
                     _ltp:
                       type: string
                       description: >
-                        'MountName of Device
+                        'deviceName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
                         operational: from running - must exist in OperationalDS for expressing operational state'

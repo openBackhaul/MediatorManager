@@ -33,7 +33,7 @@ control-construct:
               operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
           logical-termination-point:
             type: array
-            x-key: mount-name
+            x-key: local-id
             items:
               oneOf:
                 - description: 'LogicalTerminationPoint - see 12_MountPoint.yaml'
