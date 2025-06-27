@@ -16,7 +16,7 @@ profile:
               'deviceTemplateName needs to cover all values potentially send in [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
               candidate: from [DDM://v1/create-device-template$request.body#device-template-name]
               running: from candidate
-              operational: ???
+              operational: ./. - does not exist in OperationalDS as it cannot be measured'
           category:
             type: string
             enum:

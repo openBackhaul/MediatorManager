@@ -14,7 +14,7 @@ forwarding-construct:
           'deviceName
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
-          operational: from [module OperationalManagementPlaneTransportList]'
+          operational: from running; entire FC to be deleted, if no entry exists in route in operationalDS'
       fctp:
         type: array
         x-key: fctp-type
@@ -38,7 +38,7 @@ forwarding-construct:
                     'controllerName
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#controller-name]
                     running: from candidate
-                    operational: from running'
+                    operational: from running - must exist in OperationalDS for expressing operational state'
             - description: managementPlaneTransportServer
               type: object
               required:
@@ -55,7 +55,7 @@ forwarding-construct:
                     'deviceName
                     candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                     running: from candidate
-                    operational: from running'
+                    operational: from running - must exist in OperationalDS for expressing operational state'
       route:
         type: array
         x-key: local-id
@@ -83,8 +83,8 @@ forwarding-construct:
                   netconfLink:
                     candidate: from [DDM://v1/establish-management-plane-transport interpreting the incoming request, creating a netconfLink in CandidateDS and inventing a local-id for that Link object]
                     running: from candidate
-                    operational: from running'
+                    operational: from running - must exist in OperationalDS for expressing operational state'
                   snmpLink:
                     candidate: from [DDM://v1/establish-management-plane-transport interpreting the incoming request, creating an snmpLink in CandidateDS and inventing a local-id for that Link object]
                     running: from candidate
-                    operational: from running'
+                    operational: from running - must exist in OperationalDS for expressing operational state'

@@ -15,7 +15,7 @@ logical-termination-point:
               'deviceName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
-              operational: from [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-name], delete entire LTP, if deviceName cannot be found in list'
+              operational: from running; entire LTP to be deleted, if managementDomain not included in [xMIM://v1/list-mediator-instances$response.body#device-name=[deviceName]/device-name]'
           layer-protocol:
             type: array
             x-key: local-id

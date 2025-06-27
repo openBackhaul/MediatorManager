@@ -15,9 +15,9 @@ control-construct:
             type: string
             description: >
               'mediatorVmName
-              candidate: from [MM://v1/regard-mediator-vm$request.body#mediator-vm-name]
+              candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-name]
               running: from candidate
-              operational: from running, but deleted entire CC from list if not responding on xMIM://v1/list-mediator-instances'
+              operational: from running; entire CC to be deleted, if addressing xMIM://v1/list-mediator-instances fails'
           category:
             type: string
             enum:
@@ -25,10 +25,12 @@ control-construct:
           _template:
             type: string
             description: >
-              'mediatorVmTemplateName (must match the template-name of a MediatorVmProfile definition)
+              'mediatorVmTemplateName
+              Reference towards an entry in the list of Profiles
+              Both instances of ControlConstruct and Profile must have an identical value in their category attributes
               candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-vm-template-name]
               running: from candidate
-              operational: from running (xMIM does not provide the information)'
+              operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
           logical-termination-point:
             type: array
             x-key: local-id
@@ -116,13 +118,22 @@ control-construct:
                                 type: string
                                 description: >
                                   'User name that is to be used by mediatorProcesses that will be created inside this mediatorVm
-                                  candidate: from [DDM://v1/regard-mediator-vm$request.body#mediator-user-name]
-                                              or if not sent, mediator-user-name = one value from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]/default-mediator-user-name] is to be taken
+                                  candidate: a value, which is not yet used by any other MediatorVm, shall be taken from [/network-control-domain=candidate/profile=[_template]/default-mediator-user=[*]/default-mediator-user-name]
+
                                   [Prathiba] : Refer the QUERY#1 mentioned in 20_MedistorVMTemplate.yaml for default-mediator-user. So, to find out whether a user-name is in use or not, this attribute shall be refered.
+                                  [Thorsten] : Changed the candidate: in such a way that mediator-user-name is NOT taken from requestBody of DDM://v1/regard-mediator-vm, but alway chosen from the values in the template definition.
+                                                Yes, this attribute shall be used to find out, whether some value from the list is already in use.
+
                                   running: from candidate
                                   operational: from ???Huawei_specific_service_for_GET_PUT_defaultMediatorUserName???'
+
                                   [Prathiba] : For creation, from the candidate content shall be copied.
-                                  For updation, As of now DDM dont tunes the configuration in a mediator VM. So, further need to check with Huawei and all the vendors.
+                                                For updation, As of now DDM dont tunes the configuration in a mediator VM. So, further need to check with Huawei and all the vendors.
+                                  [Thorsten] : In the actual mediator implementation the configured mediator-user-name is used for FUTURE MediatorProcess; 
+                                                Means that a single MediatorVm could have MediatorProcesses addressing different mediator-user-name.
+                                                I would like to avoid this additional complexity.
+                                                The DDM shall configure the mediator-user-name once, but it shall be invariant afterwards.
+
                               mediator-user-password:
                                 type: string
                                 description: >
