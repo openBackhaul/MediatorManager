@@ -1,0 +1,221 @@
+validation-sequence:
+# See the following entries as examples
+# Exact validations sequences are to be defined by ApplicationOwner
+# (Please, delete this comment after reading)
+
+  - _trigger-function: 'v1-create-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-unique-template-names'
+  - _trigger-function: 'v1-delete-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-existing-template-is-not-in-service'
+  - _trigger-function: 'v1-update-controller-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-existing-controllers-complying-with-updated-template-definition'
+        [[Prathiba] : shall be deleted. refer mediator-vm-template comment]
+  - _trigger-function: 'v1-create-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-unique-template-names'
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-delete-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-existing-template-is-not-in-service'
+  - _trigger-function: 'v1-update-mediator-vm-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-existing-mediator-vms-complying-with-updated-template-definition'
+        [[Prathiba] : 
+        PROPOSAL : This function shall be removed from here.
+        REASON : Templates dont have to comply with the mediatorVms. MediatorVms should comply with the template.
+        As per the issue https://github.com/openBackhaul/MediatorManager/issues/26 , we decided to tune the mediatorVM as per the mediator-vm-template’s engineering-limit. 
+        Means, if engineering-limit is lowered for example from 1000 to 500, then all the paired mediatorVM needs to reduce their mediator process count to 500. 
+        So, in the validation module, if we wait for the all the mediatorVMs to comply with the new change, then we cannot able to respond to the requestor within a reasonable timeframe.
+        ---------------
+        SUGGESTION : 
+        Datastores >
+          RunningDS  : updated template shall be copied to RunningDS without any validation(ofcourse if the template exist). 
+          OperationDS: value of the engineering-limit shall be updated once all the mediatorVms are compliant.
+        Functions >
+          Monitoring : creates an alarm for the mismatch in the element
+          Implementation : Action that needs to resolve the mismatch. For example , deleting nodes when engineering limit are lowered. 
+          QUERY : we also have to think about how other attributes like operation-names will be modified if those are modified in the template?
+          Measurement : For engineering-limit , number of mediatorProcess shall be measured. If all mediator VMs are complied, then the template value shall be updated.
+        ]
+  - _trigger-function: 'v1-create-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-unique-template-names'
+  - _trigger-function: 'v1-delete-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-existing-template-is-not-in-service'
+  - _trigger-function: 'v1-update-device-template'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-elements-referencing-an-existing-template'
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-existing-devices-complying-with-updated-template-definition'
+        [[Prathiba] : shall be deleted. refer mediator-vm-template comment]
+
+  - _trigger-function: 'v1-regard-controller'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-unique-element-names'
+      - step-number: 1
+        _validation-function:
+  - _trigger-function: 'v1-disregard-controller'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate'
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate '
+
+  - _trigger-function: 'v1-regard-mediator-vm'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-unique-element-names'
+      - step-number: 1
+        _validation-function: 'p1-check-instance-reachability'
+  - _trigger-function: 'v1-disregard-mediator-vm'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate'
+      - step-number: 1
+        _validation-function:
+
+  - _trigger-function: 'v1-establish-management-plane-transport'
+    sequence:
+      - step-number: 0
+        _validation-function: p1-ensure-all-elements-referencing-an-existing-template
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-existing-controllers-complying-with-template-definition'
+      - step-number: 2
+        _validation-function: 'p1-ensure-all-existing-mediator-vms-complying-with-template-definition'
+      - step-number: 3
+        _validation-function: 'p1-ensure-all-existing-devices-complying-with-template-definition'
+      - step-number: 4
+        _validation-function: 'p1-ensure-unique-element-names'
+      - step-number: 5
+        _validation-function: 'p1-ensure-unique-local-ids-at-links'
+      - step-number: 6
+        _validation-function: 'p1-ensure-unique-mount-names-at-fcs'
+      - step-number: 7
+        _validation-function: 'p1-ensure-every-fc-having-at-least-one-route'
+      - step-number: 8
+        _validation-function: 'p1-ensure-every-route-connecting-end-to-end'
+      - step-number: 9
+        _validation-function:
+      - step-number: 10
+        _validation-function:
+
+  - _trigger-function: 'v1-dismantle-management-plane-transport'
+    sequence:
+      - step-number: 0
+        _validation-function: 'p1-ensure-all-cc-referenced-by-fc-in-operational-exist-in-candidate'
+      - step-number: 1
+        _validation-function: 'p1-ensure-all-lp-referenced-by-link-in-operational-exist-in-candidate '
+      - step-number: 2
+        _validation-function:
+      - step-number: 3
+        _validation-function:
+
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
+  - _trigger-function:
+    sequence:
+      - step-number: 0
+        _validation-function:
+      - step-number: 1
+        _validation-function:
