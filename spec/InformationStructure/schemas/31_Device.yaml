@@ -14,10 +14,10 @@ control-construct:
           element-name:
             type: string
             description: >
-              'MountName
+              'DeviceName
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
               running: from candidate
-              operational: from [MWDI://core-model-1-4:network-control-domain=cache/control-construct={MountName}?fields=control-construct-pac(external-label)]
+              operational: from running; entire CC to be deleted, if addressing the Device (e.g. Ping, or Live path in MWDI) fails'
           category:
             type: string
             enum:
@@ -25,10 +25,12 @@ control-construct:
           _template:
             type: string
             description: >
-              'deviceTemplateName (must match the template-name of a DeviceProfile definition)
+              'deviceTemplateName
+              Reference towards an entry in the list of Profiles
+              Both instances of ControlConstruct and Profile must have an identical value in their category attributes
               candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-kind-name]
               running: from candidate
-              operational: ???from reading the control-construct/deviceModelName from documented devices???'
+              operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
           logical-termination-point:
             type: array
             x-key: local-id

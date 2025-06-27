@@ -22,10 +22,7 @@ profile:
               'mediatorVmTemplateName
               candidate: from [DDM://v1/create-mediator-vm-template$request.body#mediator-vm-template-name]
               running: from candidate
-              operational: ???
-              # [Prathiba] ----------------------- 
-              from runningDS
-              ------------------------------------
+              operational: ./. - does not exist in OperationalDS as it cannot be measured'
           category:
             type: string
             enum:

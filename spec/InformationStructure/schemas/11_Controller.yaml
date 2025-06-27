@@ -17,7 +17,7 @@ control-construct:
               'controllerName
               candidate: from [DDM://v1/regard-controller$request.body#controller-name]
               running: from candidate
-              operational: from [CDM://v1/provide-list-of-controllers/controller-name], delete entire CC from list if not in response'
+              operational: from running; entire CC to be deleted, if applicationName not included in [CDM://v1/provide-list-of-controllers$response.body#list-of-controller-names]'
           category:
             type: string
             enum:
@@ -25,10 +25,12 @@ control-construct:
           _template:
             type: string
             description: >
-              'controllerTemplateName (must match the template-name of a ControllerProfile definition)
+              'controllerTemplateName
+              Reference towards an entry in the list of Profiles
+              Both instances of ControlConstruct and Profile must have an identical value in their category attributes
               candidate: from [DDM://v1/regard-controller$request.body#controller-template-name]
               running: from candidate
-              operational: ???we could add a service to CDM for reading this information???'
+              operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
           logical-termination-point:
             type: array
             x-key: mount-name

@@ -15,7 +15,7 @@ profile:
               'controllerTemplateName
               candidate: from [DDM://v1/create-controller-template$request.body#controller-template-name]
               running: from candidate
-              operational: ???
+              operational: ./. - does not exist in OperationalDS as it cannot be measured'
           category:
             type: string
             enum:

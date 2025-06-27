@@ -11,7 +11,9 @@ link:
         properties:
           local-id:
             type: string
-            description: 'Identifier that is unique within the list of Links'
+            description: >
+              'Identifier that is unique within the list of Links
+              operational: from running; entire Link to be deleted, if one of the referenced CC, LTP or LP does not exist in operationalDS'
           linktp:
             type: array
             x-key: interface-type
@@ -19,7 +21,7 @@ link:
             maxItems: 2
             items:
               oneOf:
-                - description: snmpClient
+                - description: 'snmpClient'
                   type: object
                   required:
                     - interface-type
@@ -37,19 +39,19 @@ link:
                         'mediatorVmName
                         candidate: from [mediatorVm that is addressed by the module that sends the request to xMIM://v1/provide-mediator-instance]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _ltp:
                       type: string
                       description: >
                         'deviceName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _lp:
                       type: string
                       enum:
                         - 'snmp-client'
-                - description: snmpServer
+                - description: 'snmpServer'
                   type: object
                   required:
                     - interface-type
@@ -67,7 +69,7 @@ link:
                         'deviceName
                         candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'
                     _ltp:
                       type: string
                       enum:
@@ -78,4 +80,4 @@ link:
                         'mediatorUserName
                         candidate: from [/network-control-domain=candidate/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=mim-http-server/mediator-user-name] ???
                         running: from candidate
-                        operational: from ???
+                        operational: from running - must exist in OperationalDS for expressing operational state'

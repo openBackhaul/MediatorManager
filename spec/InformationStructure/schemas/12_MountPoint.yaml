@@ -13,7 +13,7 @@ logical-termination-point:
           'MountName
           candidate: from [DDM://v1/establish-management-plane-transport$request.body#device-name]
           running: from candidate
-          operational: from [CDM://v1/provide-list-of-mount-points-at-controller$response.body#mount-names], delete entire LTP, if deviceName cannot be found in list'
+          operational: from running; entire LTP to be deleted, if deviceName not included in [CDM://v1/provide-list-of-mount-points-at-controller$response.body#mount-names]'
       layer-protocol:
         type: array
         x-key: interface-type
