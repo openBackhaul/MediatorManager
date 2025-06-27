@@ -17,7 +17,7 @@ control-construct:
               'controllerName
               candidate: from [DDM://v1/regard-controller$request.body#controller-name]
               running: from candidate
-              operational: from running; entire CC to be deleted, if applicationName not included in [[CDM://v1/provide-list-of-controllers/controller-name]$response.body#list-of-controller-names]'
+              operational: from running; entire CC to be deleted, if applicationName not included in [CDM://v1/provide-list-of-controllers$response.body#list-of-controller-names]'
           category:
             type: string
             enum:
