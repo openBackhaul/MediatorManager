@@ -27,11 +27,27 @@ logical-termination-point:
                   type: object
                   required:
                     - local-id
+                    - netconf-user-name
+                    - netconf-user-password
                   properties:
                     local-id:
                       type: string
                       enum:
                         - 'netconf-server'
+                    netconf-user-name:
+                      type: string
+                      description: >
+                        'The NETCONF user name is expected by the MediatorProcess when addressed by the Controller
+                        candidate: from [/control-construct=[mediatorVmName]/default-netconf-user-name]
+                        running: from candidate
+                        operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
+                    netconf-user-password:
+                      type: string
+                      description: >
+                        'The NETCONF user password is expected by the MediatorProcess when addressed by the Controller
+                        candidate: rom [/control-construct=[mediatorVmName]/default-netconf-user-password]
+                        running: from candidate
+                        operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
                 - description: 'tcpServer'
                   type: object
                   required:
@@ -61,27 +77,27 @@ logical-termination-point:
                   type: object
                   required:
                     - local-id
-                    - mediator-user-name
-                    - mediator-user-password
+                    - snmp-user-name
+                    - snmp-user-password
                   properties:
                     local-id:
                       type: string
                       enum:
                         - 'snmp-client'
-                    mediator-user-name:
+                    snmp-user-name:
                       type: string
                       description: >
-                        'User name that is used by this mediatorProcess
-                        candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-name] when mediatorProcess got created
+                        'The SNMP user name is used by the MediatorProcess for addressing the device
+                        candidate: from [/control-construct=[mediatorVmName]/default-snmp-user-name]
                         running: from candidate
-                        operational: from running (not included in xMIM://v1/list-mediator-instances)'
-                    mediator-user-password:
+                        operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
+                    snmp-user-password:
                       type: string
                       description: >
-                        'Password that is used by this mediatorProcess
-                        candidate: from [/control-construct=[mediatorVmName]/logical-termination-point=mediator-instance-manager/layer-protocol=httpServer/mediator-user-password] when mediatorProcess got created
+                        'The SNMP user password is used by the MediatorProcess for addressing the device
+                        candidate: from [/control-construct=[mediatorVmName]/default-snmp-user-password]
                         running: from candidate
-                        operational: from running (not included in xMIM://v1/list-mediator-instances)'
+                        operational: ./. - does not exist in OperationalDS as it cannot be read from the real element'
                 - description: 'tcpClient'
                   type: object
                   required:

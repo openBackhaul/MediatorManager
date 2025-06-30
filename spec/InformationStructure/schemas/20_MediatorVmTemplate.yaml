@@ -8,7 +8,8 @@ profile:
         required:
           - template-name
           - category
-          - default-mediator-user
+          - default-snmp-user-list
+          - unique-snmp-users-required
           - vendor-name
           - supported-device-kind-list
           - engineering-limit
@@ -55,24 +56,27 @@ profile:
           #   The Huawei way from their API description has to be used.
           # ----------------------------------
           
-          default-mediator-user:
+          default-snmp-user-list:
+            description: >
+              'The SNMP user is used by the MediatorProcess for addressing the device.
+              This default-snmp-user-list attribute is defining a set of username/password combinations.
+              During the interpretation of the regardMediatorVm request, one username/password combination has to be chosen from this list and to be copied into [/control-construct=[newMediatorVm]/default-snmp-user-name and default-snmp-user-password].
+              If unique-snmp-users-required==true, DDM to chose a unique username (username not used in any other MediatorVm at the same time) or reject the regardMediatorVm request (if no unused username would be available).'
             type: array
-            x-key: default-mediator-user-name
             minItems: 1
             items:
               type: object
               required:
-                - default-mediator-user-name
-                - default-mediator-user-password
+                - default-snmp-user-name
+                - default-snmp-user-password
               properties:
-                default-mediator-user-name:
+                default-snmp-user-name:
                   type: string
-                  description: >
-                    'User name that might be used by the mediatorProcesses inside the mediatorVms, which get created from this mediatorVmTemplate, while connecting to the management interface of the device
-                    If several value pairs are listed, DDM has to select a unique (not used in another mediatorVm at the same time) value during instantiation of the mediatorVm'
-                default-mediator-user-password:
+                default-snmp-user-password:
                   type: string
-                  description: 'Password that has to be applied in combination with the user name'
+          unique-snmp-users-required:
+            type: boolean
+            description: 'Required to be true, if the device needs unique usernames for connecting more than one mediatorProcess in parallel'
           vendor-name:
             type: string
             description: 'Name of the microwave vendor'
