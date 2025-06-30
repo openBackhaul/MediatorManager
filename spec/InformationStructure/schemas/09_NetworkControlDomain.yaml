@@ -52,19 +52,19 @@ network-control-domain:
       forwarding-domain:
         type: array
         x-key: forwarding-domain-name
-        minItems: 1
-        maxItems: 1
         items:
           type: object
-          description: 'managementPlaneTransport'
           required:
             - forwarding-domain-name
             - forwarding-construct
           properties:
             forwarding-domain-name:
               type: string
-              enum:
-                - 'management-plane-transport'
+              description: >
+                'managementDomain
+                candidate: from [DDM://v1/regard-controller$request.body#management-domain]
+                running: from candidate
+                operational: from running; must exist/vanish in parallel to CC with elementName==managementDomain'
             forwarding-construct:
               type: array
               x-key: forwarding-construct-name
