@@ -14,8 +14,8 @@ control-construct:
           element-name:
             type: string
             description: >
-              'controllerName
-              candidate: from [DDM://v1/regard-controller$request.body#controller-name]
+              'managementDomain
+              candidate: from [DDM://v1/regard-controller$request.body#management-domain]
               running: from candidate
               operational: from running; entire CC to be deleted, if applicationName not included in [CDM://v1/list-controllers$response.body#controllers/controller-name]'
           category:

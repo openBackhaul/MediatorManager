@@ -1,16 +1,16 @@
-affected-fc:
+affected-management-plane-transport:
   type: array
-  x-key: _affected-fc
+  x-key: _affected-management-plane-transport
   description: > 
     'List of ForwardingConstructs that have problems
-    All references (_affected-fc, _affected-cc, _affected-ltp) relate to objects in RunningDS'
+    All references (_affected-management-plane-transport, _affected-cc, _affected-ltp) relate to objects in RunningDS'
   items:
     type: object
     required:
-      - _affected-fc
+      - _affected-management-plane-transport
       - affected-link
     properties:
-      _affected-fc:
+      _affected-management-plane-transport:
         type: string
         description: 'Reference towards a ForwardingConstruct with problems (value must be unique and invariant)'
       affected-link:

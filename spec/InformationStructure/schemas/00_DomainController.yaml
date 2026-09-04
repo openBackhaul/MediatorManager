@@ -33,15 +33,28 @@ domain-controller:
         current-alarms:
           type: object
           required:
-            - affected-fc
+            - affected-management-domain
           properties:
-            affected-fc:
+            affected-management-domain:
               type: array
-              x-key: _affected-fc
-              description: 'List of ForwardingConstructs that have problems'
+              x-key: _affected-management-domain
+              description: 'List of ManagementDomains (LogicalControllers) that exist'
               items:
                 type: object
-                description: 'AffectedFc - see 06_CurrentAlarm.yaml'
+                required:
+                  - _affected-management-domain
+                  - affected-management-plane-transport
+                properties:
+                  _affected-management-domain:
+                    type: string
+                    description: 'Reference towards an existing (not necessarily having problems) ManagementDomain (LogicalController)(value must be unique and invariant)'
+                  affected-management-plane-transport:
+                    type: array
+                    x-key: _affected-management-plane-transport
+                    description: 'List of ForwardingConstructs that have problems'
+                    items:
+                      type: object
+                      description: 'AffectedFc - see 06_CurrentAlarm.yaml'
     network-control-domain:
       type: array
       x-key: storage
